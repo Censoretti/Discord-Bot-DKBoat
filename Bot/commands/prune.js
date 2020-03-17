@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'prune',
-	description: 'Delete 1~100 messages, with less than 2 weeks.',
+    description: 'Delete 1~100 messages, with less than 2 weeks.',
+    args: true,
 	execute(message, args) {
 		const amount = parseInt(args[0]) + 1;
          if (isNaN(amount)) {

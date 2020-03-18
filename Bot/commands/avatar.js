@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'avatar',
-	description: 'See the avatar photo of you or other person or people',
+    description: 'See the avatar photo of you or other person or people',
+    aliases: ['icon', 'pfp'],
 	execute(message) {
             if (!message.mentions.users.size) {
                 // eslint-disable-next-line quotes

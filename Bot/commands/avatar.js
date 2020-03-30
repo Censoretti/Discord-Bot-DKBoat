@@ -11,6 +11,7 @@ module.exports = {
 			return `${user.username}'s avatar: <${user.displayAvatarURL({ dynamic: true })}>`;
 		});
 
-		message.channel.send(avatarList);
+    message.channel.send(avatarList);
+    console.log('avatar')
 	},
 };

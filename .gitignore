@@ -1,4 +1,5 @@
 node_modules
 .eslintrc.json
-Bot/config.json
+.env
+/.env
 Bot/docs/messages/*

@@ -24,5 +24,6 @@ module.exports = {
             .setFooter('Some footer text here', 'https://i.imgur.com/wSTFkRM.png');
 
         message.channel.send(exampleEmbed);
+        console.log('author')
     },
 }

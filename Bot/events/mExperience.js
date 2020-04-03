@@ -22,7 +22,7 @@ module.exports = {
       const data = JSON.stringify(document)
 
       await fs.writeFile(`Bot/docs/messages/${autorId}.json`, data)
-        .then(console.log(`re-writed a .json file in messages to ${message.author.username} from ${message.guild.name}`))
+        .then(console.log(`re-writed a .json file in messages to ${message.author.username}`))
         .catch(err => console.log(err))
 
       // message.guild.channels.cache.get('693231596681035776')

@@ -5,7 +5,7 @@
   "author": "Censoretti",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon Bot/index.js"
+    "start": "nodemon Bot/index.js"
   },
   "nodemonConfig": {
     "ignore": [

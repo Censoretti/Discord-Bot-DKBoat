@@ -14,7 +14,8 @@ const cooldowns = new Discord.Collection();
 	async function requires() {
 	try{
 		const commandFiles = await fs.readdir('bot/commands')
-			.catch(err => console.log('[#commandFiles]', err))
+      .catch(err => console.log('[#commandFiles]', err))
+    console.log(commandFiles)
 		const eventFiles = await fs.readdir('bot/events')
 			.catch(err => console.log('[#eventFiles]', err))
 
@@ -41,7 +42,7 @@ client.on('message', message => {
 
 	try {
 		const event = client.events.get('mExperience')
-		event.execute(message)
+    event.execute(message)
 	} catch (error) {
 		console.log(error)
 		message.reply('supposed to say hi')
@@ -93,7 +94,8 @@ client.on('message', message => {
 	setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
 	try {
-		command.execute(message, args)
+    command.execute(message, args)
+    console.log('[TENTANDO EXECUTAR O COMANDO:', command.name.toUpperCase(), ']')
 	} catch (error) {
 		console.error(error);
 		message.reply('There was an error trying to execute that command!')

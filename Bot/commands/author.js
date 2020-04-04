@@ -19,9 +19,9 @@ module.exports = {
                 { name: 'Inline field title', value: 'Some value here', inline: true },
             )
             .addField('Inline field title', 'Some value here', true)
-            .setImage('https://i.imgur.com/wSTFkRM.png')
+            .setImage('https://pbs.twimg.com/media/EUfiZIMX0AAFAeH?format=jpg&name=small')
             .setTimestamp()
-            .setFooter('Some footer text here', 'https://i.imgur.com/wSTFkRM.png');
+            .setFooter('[Bot feito por Censoretti]', 'https://i.imgur.com/wSTFkRM.png')
 
         message.channel.send(exampleEmbed);
         console.log('author')

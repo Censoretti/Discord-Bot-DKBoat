@@ -7,10 +7,10 @@ module.exports = {
   usage: 'send message and gain experience',
   execute: async (message) => {
 
-    const docsFiles = await fs.readdir('bot/docs/messages')
+    const docsFiles = await fs.readdir('bot/docs/sheets')
     for (const file of docsFiles) {
-        const document = require(`../docs/messages/${file}`);
-        docs.set(document.id, document);
+        const document = require(`../docs/sheets/${file}`);
+        docs.set(document.server.id, document);
     }
 
     const autorId = message.author.id
@@ -18,10 +18,10 @@ module.exports = {
     if (docs.get(autorId)) {
 
       const document = docs.get(autorId)
-      document.amount += 1
+      document.server.messages.amount += 1
       const data = JSON.stringify(document)
 
-      await fs.writeFile(`Bot/docs/messages/${autorId}.json`, data)
+      await fs.writeFile(`Bot/docs/sheets/${autorId}.json`, data)
         .then(console.log(`re-writed a .json file in messages to ${message.author.username}`))
         .catch(err => console.log(err))
 
@@ -32,11 +32,13 @@ module.exports = {
 
       try {
         const document = docs.get('template')
-        document.id = autorId
-        document.amount = 1
+        console.log('end here')
+        console.log(document)
+        document.server.id = autorId
+        document.server.messages.amount = 1
         const data = JSON.stringify(document)
 
-        await fs.writeFile(`Bot/docs/messages/${autorId}.json`, data)
+        await fs.writeFile(`Bot/docs/sheets/${autorId}.json`, data)
             .then(console.log(`created a .json file in messages to ${message.author.username} from ${message.guild.name}`))
             .catch(err => console.log(err))
 

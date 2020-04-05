@@ -3,25 +3,29 @@ console.log('--------------- INDEX FILE IGNITE ---------------')
 
 const fs = require('fs').promises;
 const Discord = require('discord.js');
+// const roles = require ('./docs/assets/roles.json')
 
 require('dotenv').config()
 
 const client = new Discord.Client({ forceFetchUsers: true });
-client.commands = new Discord.Collection();
-client.events = new Discord.Collection();
-const cooldowns = new Discord.Collection();
+const playerCommands = new Map()
+// const admCommands = new Map()
+// const managerCommands = new Map()
+client.events = new Map()
+const cooldowns = new Map()
 
 	async function requires() {
 	try{
-		const commandFiles = await fs.readdir('bot/commands')
+		const commandFiles = await fs.readdir('bot/commands/player')
       .catch(err => console.log('[#commandFiles]', err))
     console.log(commandFiles)
+
 		const eventFiles = await fs.readdir('bot/events')
 			.catch(err => console.log('[#eventFiles]', err))
 
 		for (const file of commandFiles) {
-      const command = require(`./commands/${file}`)
-      client.commands.set(command.name, command);
+      const command = require(`./commands/player/${file}`)
+      playerCommands.set(command.name, command);
       console.log(`Loading comand from: ${file} as ${command.name}`)
 		}
 
@@ -38,7 +42,8 @@ requires()
 
 
 client.on('message', message => {
-	if (message.author.bot) return
+  if (message.author.bot) return
+  console.log(playerCommands)
 
 	try {
 		const event = client.events.get('mExperience')
@@ -54,8 +59,8 @@ client.on('message', message => {
 
 	const commandName = args.shift().toLowerCase();
 
-	const command = client.commands.get(commandName)
-		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
+	const command = playerCommands.get(commandName)
+		|| playerCommands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
 
 	if (!command) return;
 

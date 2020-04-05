@@ -1,5 +1,6 @@
 const Discord = require('discord.js')
 const fs = require('fs').promises
+const { rp } = require('../../docs/assets/roles.json')
 
 let truth = true
 
@@ -33,44 +34,12 @@ const check = '✔️'
 const cross = '❌'
 
 const rolesF = [
-  '646821665379975201', '674402631304609793', '646821646270988288', '646821696199720970',
-  '695671528217509989', '695671531522621470', '695671534764818483', '695671537591910490',
-  '695671540825456700', '695671543891624002', '695671546630635651', '695671549058875413',
-  '695671552087294013', '695671554876506232', '695671557451939850', '695671559662338079',
-  '695675031019061378', '646821874352783380', '646821906678284299', '646821921136050176',
-  '646821940866318349', '646821959740424192', '646821977511952384', '646822000798597140']
-
-/* roles:
-rumo
-  marinha: 646821665379975201, 674402631304609793
-  pirata 646821646270988288
-  justiceiro 646821696199720970
-
-raça
-  Gigante 695671528217509989
-  Humano 695671531522621470
-  Longlimb Human 695671534764818483
-  Mink 695671537591910490
-  Sereia 695671540825456700
-  Skypeans 695671543891624002
-  Three-Eye 695671546630635651
-  Tonttata 695671549058875413
-  Long Arm 695671552087294013
-  Long Leg 695671554876506232
-  Snake Neck 695671557451939850
-  Tritão 695671559662338079
-  Wotan 695675031019061378
-
-oficio
-  capitão 646821874352783380
-  navegador 646821906678284299
-  arqueólogo 646821921136050176
-  cozinheiro 646821940866318349
-  engenheiro 646821959740424192
-  médico 646821977511952384
-  músico 646822000798597140
-
-*/
+  rp.course.marine.marine, rp.course.marine.apprentice, rp.course.pirate, rp.course.punisher,
+  rp.race.giant, rp.race.human, rp.race.longLimb, rp.race.mink,
+  rp.race.mermaid, rp.race.skypeans, rp.race.eyes, rp.race.tonttata,
+  rp.race.arm, rp.race.leg, rp.race.snake, rp.race.fishMan,
+  rp.race.wotan, rp.clas.capitan, rp.clas.navigator, rp.clas.arch,
+  rp.clas.chef, rp.clas.engineer, rp.clas.doctor, rp.clas.musician]
 
 // eslint-disable-next-line no-unused-vars
 async function nope(message, author) {
@@ -215,19 +184,19 @@ async function rumo(message, author) {
   if (counter === 1) {
     switch(whatis) {
       case one:
-        role = '646821665379975201' // marinheiro
+        role = rp.course.marine.marine // marinheiro
         await message.member.roles.add(role)
-        role = '674402631304609793' // marinheiro aprendiz
+        role = rp.course.marine.apprentice // marinheiro aprendiz
         await message.member.roles.add(role)
         course = 'marinha'
         break;
       case two:
-        role = '646821646270988288' // pirata
+        role = rp.course.pirate // pirata
         await message.member.roles.add(role)
         course = 'pirata'
         break;
       case three:
-        role = '646821696199720970' // justiceiro
+        role = rp.course.punisher // justiceiro
         await message.member.roles.add(role)
         course = 'justiceiro'
         break;
@@ -298,69 +267,69 @@ async function raca(message, author) {
   if (counter === 1) {
     switch(whatis) {
       case one:
-        role = '695671528217509989' // gigante
+        role = rp.race.giant // gigante
         await message.member.roles.add(role)
         race = 'gigante'
         break;
       case two:
-        role = '695671531522621470' // humano
+        role = rp.race.human // humano
         await message.member.roles.add(role)
         message.author.send('done')
         race = 'humano'
         break;
       case three:
-        role = '695671534764818483' // longlimb human
+        role = rp.race.longLimb // longlimb human
         await message.member.roles.add(role)
         message.author.send('done')
         race = 'longlimb human'
         break;
       case four:
-        role = '695671537591910490' // mink
+        role = rp.race.mink // mink
         await message.member.roles.add(role)
         race = 'mink'
         break;
       case five:
-        role = '695671540825456700' // sereia
+        role = rp.race.mermaid // sereia
         await message.member.roles.add(role)
         race = 'sereia'
         break;
       case six:
-        role = '695671543891624002' // skypeans
+        role = rp.race.sypeans // skypeans
         await message.member.roles.add(role)
         race = 'skypean'
         break;
       case seven:
-        role = '695671546630635651' // three-eye
+        role = rp.race.eyes // three-eye
         await message.member.roles.add(role)
         race = 'three-eye'
         break;
       case eight:
-        role = '695671549058875413' // tonttata
+        role = rp.race.tonttata // tonttata
         await message.member.roles.add(role)
         race = 'tonttata'
         break;
       case nine:
-        role = '695671552087294013' // long arm
+        role = rp.race.arm // long arm
         await message.member.roles.add(role)
         race = 'long arm'
         break;
       case ten:
-        role = '695671554876506232' // long leg
+        role = rp.race.leg // long leg
         await message.member.roles.add(role)
         race = 'long leg'
         break;
       case poop:
-        role = '695671557451939850' // snake neck
+        role = rp.race.snake // snake neck
         await message.member.roles.add(role)
         race = 'snake neck'
         break;
       case snake:
-        role = '695671559662338079' // tritão
+        role = rp.race.fishMan // tritão
         await message.member.roles.add(role)
         race = 'tritão'
         break;
       case wolf:
-        role = '695675031019061378' // wotan
+        role = rp.race.wotan // wotan
         await message.member.roles.add(role)
         race = 'wotan'
         break;
@@ -419,39 +388,39 @@ async function oficio(message, author) {
   if (counter === 1) {
     switch(whatis) {
       case one:
-        role = '646821874352783380' // capitão
+        role = rp.clas.capitan // capitão
         await message.member.roles.add(role)
         clas = 'capitão'
         break;
       case two:
-        role = '646821906678284299' // navegador
+        role = rp.clas.navigator // navegador
         await message.member.roles.add(role)
         message.author.send('done')
         clas = 'navegador'
         break;
       case three:
-        role = '646821921136050176' // arqueólogo
+        role = rp.clas.arch // arqueólogo
         await message.member.roles.add(role)
         message.author.send('done')
         clas = 'arquólogo'
         break;
       case four:
-        role = '646821940866318349' // cozinheiro
+        role = rp.clas.chef // cozinheiro
         await message.member.roles.add(role)
         clas = 'cozinheiro'
         break;
       case five:
-        role = '646821959740424192' // engenheiro
+        role = rp.clas.engineer // engenheiro
         await message.member.roles.add(role)
         clas = 'engenheiro'
         break;
       case six:
-        role = '646821977511952384' // médico
+        role = rp.clas.doctor // médico
         await message.member.roles.add(role)
         clas = 'médico'
         break;
       case seven:
-        role = '646822000798597140' // musico
+        role = rp.clas.musician // musico
         await message.member.roles.add(role)
         clas = 'musico'
         break;
@@ -479,31 +448,37 @@ async function checks(message, author) {
 
 async function recordCreation(message, author) {
   if(!truth) return
-  const docsFiles = await fs.readdir('bot/docs/messages')
+  const docsFiles = await fs.readdir('bot/docs/sheets')
   for (const file of docsFiles) {
       const document = require(`../docs/messages/${file}`);
       docs.set(document.id, document);
   }
 
-  const document = docs.get('template')
-  document.id = author
-  document.name = name
-  document.gender = gender
-  document.appearance = appearance
-  document.course = course
-  document.race = race
-  document.clas = clas
+  let document
+
+  if(docs.get(author)) {
+    document = docs.get(author)
+  } else {
+    document = docs.get('template')
+    document.server.id = author
+  }
+  document.rp.name = name
+  document.rp.gender = gender
+  document.rp.appearance = appearance
+  document.rp.course = course
+  document.rp.race = race
+  document.rp.clas = clas
 
   const embed4 = new Discord.MessageEmbed()
     .setColor('#00ff00')
-    .setTitle(`Ficha de: ${document.name}`)
-    .setDescription(`do gênero: ${document.gender}`)
+    .setTitle(`Ficha de: ${document.rp.name}`)
+    .setDescription(`do gênero: ${document.rp.gender}`)
     .addFields(
-      { name: 'Rumo: ', value: `${document.course}`, inline: true },
-      { name: 'Raça: ', value: `${document.race}`, inline: true },
-      { name: 'Ofício: ', value: `${document.clas}`, inline: true },
+      { name: 'Rumo: ', value: `${document.rp.course}`, inline: true },
+      { name: 'Raça: ', value: `${document.rp.race}`, inline: true },
+      { name: 'Ofício: ', value: `${document.rp.clas}`, inline: true },
     )
-    .setImage(`${document.appearance}`)
+    .setImage(`${document.rp.appearance}`)
     .setFooter('[Bot feito por Censoretti]', 'https://i.imgur.com/wSTFkRM.png')
     .setTimestamp()
 
@@ -514,7 +489,7 @@ async function recordCreation(message, author) {
   try{
     const reactions = await mRecord.awaitReactions(reaction =>
       reaction.emoji.name === check
-      || reaction.emoji.name === cross, { max: 3, time: 10000 })
+      || reaction.emoji.name === cross, { max: 2, time: 10000 })
       if(reactions.get(check) != undefined) {
         if(reactions.get(check).count == 2) {
           console.log('foi check')
@@ -524,7 +499,7 @@ async function recordCreation(message, author) {
           await message.member.roles.add('646821612292931585')
 
           const data = JSON.stringify(document)
-          await fs.writeFile(`Bot/docs/messages/${author}.json`, data)
+          await fs.writeFile(`Bot/docs/sheets/${author}.json`, data)
             .then(console.log(`Created record to ${message.author.username}`))
             .catch(err => console.log(err))
         }
@@ -577,7 +552,7 @@ module.exports = {
 	execute(message) {
     if(!message.member.roles.cache.has('646821612292931585')) {
       console.log('has a role')
-      message.channel.send('Você não tem a permissão para utilizar o comando')
+      message.channel.send('Você ja tem ficha feita')
       return
     }
     const author = message.author.id

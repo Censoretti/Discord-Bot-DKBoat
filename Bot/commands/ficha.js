@@ -521,6 +521,8 @@ async function recordCreation(message, author) {
           await message.guild.channels.cache.get('630296008018100224') // fichas aprovadas
             .send(embed4)
 
+          await message.member.roles.add('646821612292931585')
+
           const data = JSON.stringify(document)
           await fs.writeFile(`Bot/docs/messages/${author}.json`, data)
             .then(console.log(`Created record to ${message.author.username}`))

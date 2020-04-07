@@ -14,10 +14,10 @@ const cooldowns = new Discord.Collection();
 
 	async function requires() {
 	try{
-		const commandFiles = await fs.readdir('bot/commands')
+		const commandFiles = await fs.readdir('src/commands')
       .catch(err => console.log('[#commandFiles]', err))
     console.log(commandFiles)
-		const eventFiles = await fs.readdir('bot/events')
+		const eventFiles = await fs.readdir('src/events')
 			.catch(err => console.log('[#eventFiles]', err))
 
 		for (const file of commandFiles) {

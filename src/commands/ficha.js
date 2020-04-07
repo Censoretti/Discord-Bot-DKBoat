@@ -29,6 +29,7 @@ let gender = ''
 let course = ''
 let race = ''
 let clas = ''
+let raceSheet = ''
 
 const check = '✔️'
 const cross = '❌'
@@ -270,68 +271,81 @@ async function raca(message, author) {
         role = rp.race.giant // gigante
         await message.member.roles.add(role)
         race = 'gigante'
+        raceSheet = 'giant'
         break;
       case two:
         role = rp.race.human // humano
         await message.member.roles.add(role)
         message.author.send('done')
         race = 'humano'
+        raceSheet = 'human'
         break;
       case three:
         role = rp.race.longLimb // longlimb human
         await message.member.roles.add(role)
         message.author.send('done')
         race = 'longlimb human'
+        raceSheet = 'longLimb'
         break;
       case four:
         role = rp.race.mink // mink
         await message.member.roles.add(role)
         race = 'mink'
+        raceSheet = 'mink'
         break;
       case five:
         role = rp.race.mermaid // sereia
         await message.member.roles.add(role)
         race = 'sereia'
+        raceSheet = 'mermaid'
         break;
       case six:
         role = rp.race.sypeans // skypeans
         await message.member.roles.add(role)
         race = 'skypean'
+        raceSheet = 'skypeans'
         break;
       case seven:
         role = rp.race.eyes // three-eye
         await message.member.roles.add(role)
         race = 'three-eye'
+        raceSheet = 'eyes'
         break;
       case eight:
         role = rp.race.tonttata // tonttata
         await message.member.roles.add(role)
         race = 'tonttata'
+        raceSheet = 'tonttata'
         break;
       case nine:
         role = rp.race.arm // long arm
         await message.member.roles.add(role)
         race = 'long arm'
+        raceSheet = 'arm'
         break;
       case ten:
         role = rp.race.leg // long leg
         await message.member.roles.add(role)
         race = 'long leg'
+        raceSheet = 'leg'
         break;
       case poop:
         role = rp.race.snake // snake neck
         await message.member.roles.add(role)
         race = 'snake neck'
+        raceSheet = 'snake'
         break;
       case snake:
         role = rp.race.fishMan // tritão
         await message.member.roles.add(role)
         race = 'tritão'
+        raceSheet = 'fishMan'
         break;
       case wolf:
         role = rp.race.wotan // wotan
         await message.member.roles.add(role)
         race = 'wotan'
+        raceSheet = 'wotan'
         break;
       default:
         nope(message, author)
@@ -448,7 +462,7 @@ async function checks(message, author) {
 
 async function recordCreation(message, author) {
   if(!truth) return
-  const docsFiles = await fs.readdir('bot/docs/sheets')
+  const docsFiles = await fs.readdir('src/docs/sheets')
   for (const file of docsFiles) {
       const document = require(`../docs/messages/${file}`);
       docs.set(document.id, document);
@@ -492,16 +506,26 @@ async function recordCreation(message, author) {
       || reaction.emoji.name === cross, { max: 2, time: 10000 })
       if(reactions.get(check) != undefined) {
         if(reactions.get(check).count == 2) {
-          console.log('foi check')
           await message.guild.channels.cache.get('630296008018100224') // fichas aprovadas
             .send(embed4)
 
-          await message.member.roles.add('646821612292931585')
+          await message.member.roles.remove(server.noSheet)
+
+          const baseData = require(`../docs/sheets/templates/${raceSheet}.json`)
+
+          document.rp.stats.forca = baseData.rp.stats.forca
+          document.rp.stats.destreza = baseData.rp.stats.destreza
+          document.rp.stats.resistencia = baseData.rp.stats.resistencia
+          document.rp.stats.velocidade = baseData.rp.stats.velocidade
+          document.rp.stats.total = baseData.rp.stats.total
+          document.rp.stats.race = baseData.rp.stats.race
 
           const data = JSON.stringify(document)
-          await fs.writeFile(`Bot/docs/sheets/${author}.json`, data)
+          await fs.writeFile(`src/docs/sheets/${author}.json`, data)
             .then(console.log(`Created record to ${message.author.username}`))
             .catch(err => console.log(err))
+
+          console.log(`Create a new sheet to ${message.author.username} as ${document.rp.name}`)
         }
       } else if(reactions.get(cross) != undefined) {
         if(reactions.get(cross).count == 2) {

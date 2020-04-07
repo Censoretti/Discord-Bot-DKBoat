@@ -7,7 +7,7 @@ module.exports = {
   usage: 'send message and gain experience',
   execute: async (message) => {
 
-    const docsFiles = await fs.readdir('bot/docs/sheets')
+    const docsFiles = await fs.readdir('src/docs/sheets')
     for (const file of docsFiles) {
         const document = require(`../docs/sheets/${file}`);
         docs.set(document.server.id, document);
@@ -21,7 +21,7 @@ module.exports = {
       document.server.messages.amount += 1
       const data = JSON.stringify(document)
 
-      await fs.writeFile(`Bot/docs/sheets/${autorId}.json`, data)
+      await fs.writeFile(`src/docs/sheets/${autorId}.json`, data)
         .then(console.log(`re-writed a .json file in messages to ${message.author.username}`))
         .catch(err => console.log(err))
 
@@ -38,7 +38,7 @@ module.exports = {
         document.server.messages.amount = 1
         const data = JSON.stringify(document)
 
-        await fs.writeFile(`Bot/docs/sheets/${autorId}.json`, data)
+        await fs.writeFile(`src/docs/sheets/${autorId}.json`, data)
             .then(console.log(`created a .json file in messages to ${message.author.username} from ${message.guild.name}`))
             .catch(err => console.log(err))
 

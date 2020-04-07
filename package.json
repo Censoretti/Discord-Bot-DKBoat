@@ -5,11 +5,11 @@
   "author": "Censoretti",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon Bot/index.js"
+    "start": "nodemon src/index.js"
   },
   "nodemonConfig": {
     "ignore": [
-      "Bot/docs/"
+      "src/docs/"
     ]
   },
   "dependencies": {

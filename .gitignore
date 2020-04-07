@@ -2,5 +2,5 @@ node_modules
 .eslintrc.json
 .env
 /.env
-Bot/docs/sheets/*
-Bot/docs/assets/*
+src/docs/sheets/*
+src/docs/assets/*

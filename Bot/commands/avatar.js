@@ -12,6 +12,5 @@ module.exports = {
 		});
 
     message.channel.send(avatarList);
-    console.log('avatar')
 	},
 };

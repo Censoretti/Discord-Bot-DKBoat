@@ -1,8 +1,9 @@
 const Discord = require('discord.js');
 
 module.exports = {
-    name: 'embed',
-    aliases: ['autor', 'desenvolvedor'],
+    name: 'author',
+    role: 'manager',
+    aliases: ['embed', 'dev'],
     description: 'embed some text',
     execute(message) {
         const exampleEmbed = new Discord.MessageEmbed()
@@ -24,6 +25,5 @@ module.exports = {
             .setFooter('[Bot feito por Censoretti]', 'https://i.imgur.com/wSTFkRM.png')
 
         message.channel.send(exampleEmbed);
-        console.log('author')
     },
 }

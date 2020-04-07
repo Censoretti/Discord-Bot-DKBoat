@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
 const fs = require('fs').promises
-const { rp } = require('../../docs/assets/roles.json')
+const { rp, server } = require('../docs/assets/roles.json')
 
 let truth = true
 
@@ -550,13 +550,12 @@ module.exports = {
 	aliases: '',
 	// args: true,
 	execute(message) {
-    if(!message.member.roles.cache.has('646821612292931585')) {
+    if(!message.member.roles.cache.has(server.noSheet)) {
       console.log('has a role')
       message.channel.send('Você ja tem ficha feita')
       return
     }
     const author = message.author.id
     creation(message, author)
-    console.log('ficha')
 	},
 }

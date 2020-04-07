@@ -7,11 +7,30 @@ module.exports = {
 	execute(message, args) {
 		const data = [];
         const { commands } = message.client;
+        const roles = require('../docs/assets/roles.json')
 
         if (!args.length) {
             data.push('Here\'s a list of all my commands:');
-            // eslint-disable-next-line no-shadow
-            data.push(commands.map(command => command.name).join(';\n'));
+            data.push(commands.map(command => command.name).join('\n'));
+            console.log(commands.map(command => {
+              if(command.role) {
+                if (command.role.includes('adm') && (
+                message.member.roles.cache.has(roles.server.recruit)
+                || message.member.roles.cache.has(roles.server.moderator)
+                || message.member.roles.cache.has(roles.server.administrator)
+                || message.member.roles.cache.has(roles.server.owners)
+                || message.member.roles.cache.has(roles.server.bot_manager))) {
+                  return command.name
+                }
+                if (command.role.includes('manager') &&
+                message.member.roles.cache.has(roles.server.bot_manager)) {
+                  return command.name
+                }
+              } else {
+                return command.name
+              }
+            }).join('\n'))
+
             data.push(`\nYou can send \`${process.env.PREFIX}help [command name]\` to get info on a specific command!`);
 
             return message.author.send(data, { split: true })
@@ -41,6 +60,5 @@ module.exports = {
 
             message.channel.send(data, { split: true });
         }
-        console.log('help')
 	},
 };

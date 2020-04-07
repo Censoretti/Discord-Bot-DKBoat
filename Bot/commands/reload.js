@@ -1,5 +1,6 @@
 module.exports = {
-	name: 'reload',
+  name: 'reload',
+  role: 'manager',
 	description: 'Reloads a command',
 	args: true,
 	execute(message, args) {
@@ -22,6 +23,5 @@ module.exports = {
         }
 
     message.channel.send(`Command \`${commandName}\` was reloaded!`);
-    console.log('reload, but why?')
 	},
 };

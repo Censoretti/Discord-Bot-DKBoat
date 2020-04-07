@@ -1,5 +1,6 @@
 module.exports = {
-	name: 'prune',
+  name: 'prune',
+  role: 'adm',
 		description: 'Delete 1~100 messages, with less than 2 weeks.',
 		args: true,
 	execute(message, args) {
@@ -13,6 +14,5 @@ module.exports = {
 				console.error(err);
 				message.channel.send('there was an error trying to prune messages in this channel!');
       });
-      console.log('prune')
 	},
 };

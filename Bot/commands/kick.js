@@ -1,5 +1,6 @@
 module.exports = {
-	name: 'kick',
+  name: 'kick',
+  role: 'adm',
 	description: 'Test for a kick',
 	execute(message) {
         if (!message.mentions.users.size) {
@@ -7,6 +8,5 @@ module.exports = {
         }
         const taggedUser = message.mentions.users.first()
         message.channel.send(`You wanted to kick: ${taggedUser.username}`)
-        console.log('kick')
 	},
 };

@@ -1,7 +1,8 @@
 module.exports = {
 	name: 'args',
 	description: 'See information about argumments in commands, just for curiosity',
-	args: true,
+  args: true,
+  role: 'manager',
 	usage: '<text>',
 	guildOnly: true,
 	execute(message, args) {
@@ -10,6 +11,5 @@ module.exports = {
 		}
 
     message.channel.send(`Arguments: ${args}\nArguments length: ${args.length}`);
-    console.log('args')
 	},
 };

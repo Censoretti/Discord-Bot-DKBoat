@@ -25,6 +25,8 @@ module.exports = {
         .then(console.log(`re-writed a .json file in messages to ${message.author.username}`))
         .catch(err => console.log(err))
 
+        console.log(document.server.id)
+
       // message.guild.channels.cache.get('693231596681035776')
       //   .send(`${message.author.username} quantidade de mensagens: ${document.amount}`)
 
@@ -32,8 +34,6 @@ module.exports = {
 
       try {
         const document = docs.get('template')
-        console.log('end here')
-        console.log(document)
         document.server.id = autorId
         document.server.messages.amount = 1
         const data = JSON.stringify(document)

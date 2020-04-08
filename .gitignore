@@ -2,5 +2,4 @@ node_modules
 .eslintrc.json
 .env
 /.env
-src/docs/sheets/*
-src/docs/assets/*
+*.json

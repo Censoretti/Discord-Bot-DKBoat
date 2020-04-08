@@ -165,7 +165,7 @@ async function rumo(message, author) {
     const reactions = await mRumo.awaitReactions(reaction =>
       reaction.emoji.name === one
       || reaction.emoji.name === two
-      || reaction.emoji.name === three, { max: 2, time: 10000 })
+      || reaction.emoji.name === three, { max: 2, min: 2, time: 10000 })
     for (const reacts of reactionName) {
       if (reactions.get(reacts) != undefined) {
         if(reactions.get(reacts).count == 2) {
@@ -248,7 +248,7 @@ async function raca(message, author) {
       || reaction.emoji.name === ten
       || reaction.emoji.name === poop
       || reaction.emoji.name === snake
-      || reaction.emoji.name === wolf, { max: 2, time: 10000 })
+      || reaction.emoji.name === wolf, { max: 2, min: 2, time: 10000 })
     for (const reacts of reactionName) {
       if (reactions.get(reacts) != undefined) {
         if(reactions.get(reacts).count == 2) {
@@ -382,7 +382,7 @@ async function oficio(message, author) {
       || reaction.emoji.name === four
       || reaction.emoji.name === five
       || reaction.emoji.name === six
-      || reaction.emoji.name === seven, { max: 2, time: 10000 })
+      || reaction.emoji.name === seven, { max: 2, min: 2, time: 10000 })
     for (const reacts of reactionName) {
       if (reactions.get(reacts) != undefined) {
         if(reactions.get(reacts).count == 2) {
@@ -464,8 +464,8 @@ async function recordCreation(message, author) {
   if(!truth) return
   const docsFiles = await fs.readdir('src/docs/sheets')
   for (const file of docsFiles) {
-      const document = require(`../docs/messages/${file}`);
-      docs.set(document.id, document);
+      const document = require(`../docs/sheets/${file}`);
+      docs.set(document.server.id, document);
   }
 
   let document
@@ -503,7 +503,7 @@ async function recordCreation(message, author) {
   try{
     const reactions = await mRecord.awaitReactions(reaction =>
       reaction.emoji.name === check
-      || reaction.emoji.name === cross, { max: 2, time: 10000 })
+      || reaction.emoji.name === cross, { max: 2, min: 2, time: 10000 })
       if(reactions.get(check) != undefined) {
         if(reactions.get(check).count == 2) {
           await message.guild.channels.cache.get('630296008018100224') // fichas aprovadas
@@ -511,7 +511,7 @@ async function recordCreation(message, author) {
 
           await message.member.roles.remove(server.noSheet)
 
-          const baseData = require(`../docs/sheets/templates/${raceSheet}.json`)
+          const baseData = require(`../docs/assets/templates/${raceSheet}.json`)
 
           document.rp.stats.forca = baseData.rp.stats.forca
           document.rp.stats.destreza = baseData.rp.stats.destreza
@@ -572,7 +572,6 @@ module.exports = {
 	guildOnly: true,
 	usage: '',
 	aliases: '',
-	// args: true,
 	execute(message) {
     if(!message.member.roles.cache.has(server.noSheet)) {
       console.log('has a role')

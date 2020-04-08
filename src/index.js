@@ -4,8 +4,26 @@ console.log('--------------- INDEX FILE IGNITE ---------------')
 const fs = require('fs').promises;
 const Discord = require('discord.js');
 const roles = require('./docs/assets/roles.json')
-
+const cron = require('node-cron');
 require('dotenv').config()
+
+const task = cron.schedule('* * * * *', async () => {
+  try {
+    const docsFiles = await fs.readdir('src/docs/sheets')
+    for (const file of docsFiles) {
+        const document = require(`./docs/sheets/${file}`);
+        document.rp.training.daily = 0
+        const data = JSON.stringify(document)
+
+        await fs.writeFile(`src/docs/sheets/${file}`, data)
+          .then(console.log(`reseted daily training to: ${document.rp.name}`))
+          .catch(err => console.log(err))
+    }
+  } catch(err) {
+    console.log(err)
+  }
+});
+task.start()
 
 const client = new Discord.Client({ forceFetchUsers: true });
 client.commands = new Discord.Collection();
@@ -130,11 +148,10 @@ client.on('guildDelete', guild => {
 	client.user.setActivity(`Serving ${client.guilds.size} servers`);
 });
 
-client.once('ready', () => {
+client.on('ready', () => {
 	console.log('< ONLIIIIIIIINEEEEEEEEEEEEEEEEEEEEEEEEEEE >')
 	console.log(`Bot has started, with ${client.users.cache.size} users, in ${client.channels.cache.size} channels of ${client.guilds.cache.size} guilds.`);
-	client.user.setActivity(`Serving ${client.guilds.cache.size} servers`);
-// 	console.log(client.guilds.cache)
+  client.user.setActivity(`Serving ${client.guilds.cache.size} servers`);
 });
 
 client.login(process.env.AUTH_TOKEN);

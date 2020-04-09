@@ -13,52 +13,59 @@ module.exports = {
 	name: 'treino',
   description: 'Ping!',
   aliases: ['train'],
-  cooldown: 1,
+  cooldown: 60,
   guildOnly: true,
   args: true,
+  usage: 'força',
 	execute: async (message, args) => {
     if(message.member.roles.cache.has(role.server.noSheet)) return
+    let whatis = ''
+    const argh = args[0].toLowerCase()
     const sheet = require(`../docs/sheets/${message.author.id}.json`)
     let truth = true
     console.log(args)
     if(sheet.rp.training.daily < 3) {
-      if(args[0] == 'forca'
-      || args[0] == 'força'
-      || args[0] == 'for'
-      || args[0] == 'strength'
-      || args[0] == 'str'
-      || args[0] == 'f') {
+      if(argh == 'forca'
+      || argh == 'força'
+      || argh == 'for'
+      || argh == 'strength'
+      || argh == 'str'
+      || argh == 'f') {
+        whatis = 'força'
         sheet.rp.stats.forca += 10
         sheet.rp.stats.total += 10
         await message.member.roles.add(role.rp.train)
         wait(10000)
         await message.member.roles.remove(role.rp.train)
-      } else if(args[0] == 'destreza'
-      || args[0] == 'dex'
-      || args[0] == 'dexterity'
-      || args[0] == 'des'
-      || args[0] == 'd') {
+      } else if(argh == 'destreza'
+      || argh == 'dex'
+      || argh == 'dexterity'
+      || argh == 'des'
+      || argh == 'd') {
+        whatis = 'destreza'
         sheet.rp.stats.destreza += 10
         sheet.rp.stats.total += 10
         await message.member.roles.add(role.rp.train)
         wait(10000)
         await message.member.roles.remove(role.rp.train)
-      } else if(args[0] == 'resistencia'
-      || args[0] == 'res'
-      || args[0] == 'resistence'
-      || args[0] == 'resistência'
-      || args[0] == 'r') {
+      } else if(argh == 'resistencia'
+      || argh == 'res'
+      || argh == 'resistence'
+      || argh == 'resistência'
+      || argh == 'r') {
+        whatis = 'resistencia'
         sheet.rp.stats.resistencia += 10
         sheet.rp.stats.total += 10
         await message.member.roles.add(role.rp.train)
         wait(10000)
         await message.member.roles.remove(role.rp.train)
-      } else if(args[0] == 'velocidade'
-      || args[0] == 'vel'
-      || args[0] == 'speed'
-      || args[0] == 'spd'
-      || args[0] == 'v'
-      || args[0] == 's') {
+      } else if(argh == 'velocidade'
+      || argh == 'vel'
+      || argh == 'speed'
+      || argh == 'spd'
+      || argh == 'v'
+      || argh == 's') {
+        whatis = 'velocidade'
         sheet.rp.stats.velocidade += 10
         sheet.rp.stats.total += 10
         await message.member.roles.add(role.rp.train)
@@ -75,7 +82,8 @@ module.exports = {
         const data = JSON.stringify(sheet)
 
         await fs.writeFile(`src/docs/sheets/${message.author.id}.json`, data)
-          .then(console.log(`train ${args[0]} ${message.author.username}`))
+          .then(console.log(`train ${argh} ${message.author.username}`))
+          .then(message.channel.send(`treinamento de ${whatis}`))
           .catch(err => console.log(err))
       }
     } else {

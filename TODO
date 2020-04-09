@@ -1,0 +1,50 @@
+
+Todo:
+  ☐ message level/xp @started(20-04-09 15:14)
+    -> falta fazer o level
+    -> caso precise de roles, criar as roles e colocar as roles
+  ☐ economy
+    -> todo o sistema de compra e venda de itens
+    -> salario para os marines
+  ☐ inventary
+    -> sistema de inventario para os itens comprados na economia
+  ☐ rank message
+    -> desnecessário no momento
+  ☐ invites
+    -> contar invites para cada pessoa
+    -> colocar no template.server os invites
+    -> colocar no template.server.invites a quantidade e o ranking
+  ☐ level
+    -> sistema de level, dentro do sistema de treinamento
+  ☐ buffs
+    -> oficios terão buffs
+    -> pensar nos buffs para todos os oficios
+  ☐ giveway
+    -> sistema de giveway integrado a toda a economia do bot
+  ☐ rank invite
+    -> integrado ao sistema de invites
+  ☐ rank rp
+    -> sistema de level
+    -> de cada stat
+    -> de haki
+  ☐ log
+    -> ficar a par das coisas q os outros fazem sem permissão, pra dar bronca
+  ☐ treasure chest
+    -> sistema de random para baus
+      -> 3 tipos de baus, falar com o ziron
+  ☐ akuma no mi
+    -> sistema de random pras akumas
+      -> falar com o ziron para pegar os ranks das akumas
+  ☐ timer
+    -> só um contador de tempo, como um despertador
+  ☐ skill
+    -> criação de skills, para colocar na ficha
+    -> somente adm+ pode usar o comando
+  ☐ reset training
+    -> alguem pode ter feito merda ou o comando ficou zuado, então eu preciso resetar
+
+Archive:
+  ✔ refresh @done(20-04-09 17:00) @project(Todo)
+    -> resetar o cd de alguem, pra algum comando, caso seja necessário
+  ✔ training @done(20-04-09 15:13) @project(Todo)
+  ✔ sheet creation @done(20-04-09 15:13) @project(Todo)

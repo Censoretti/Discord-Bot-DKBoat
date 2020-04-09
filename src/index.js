@@ -16,7 +16,7 @@ const task = cron.schedule('0 0 * * *', async () => {
 				const data = JSON.stringify(document)
 
 				await fs.writeFile(`src/docs/sheets/${file}`, data)
-					.then(console.log(`reseted daily training to: ${document.rp.name}`))
+					.then(console.log(`reseted daily training to: ${document.server.username}`))
 					.catch(err => console.log(err))
 		}
 	} catch(err) {
@@ -34,7 +34,6 @@ const cooldowns = new Discord.Collection();
 	try{
 		const commandFiles = await fs.readdir('src/commands')
 			.catch(err => console.log('[#commandFiles]', err))
-		console.log(commandFiles)
 		const eventFiles = await fs.readdir('src/events')
 			.catch(err => console.log('[#eventFiles]', err))
 
@@ -46,7 +45,7 @@ const cooldowns = new Discord.Collection();
 
 		for (const file of eventFiles) {
 			const event = require(`./events/${file}`)
-			console.log(`Loading event from: ${file} file`)
+			console.log(`Loading event ${file} file`)
 			client.events.set(event.name, event);
 		}
 	} catch(err) {
@@ -99,10 +98,10 @@ client.on('message', message => {
 	}
 
 	if (command.args && !args.length) {
-		let reply = `You didn't provide any arguments, ${message.author}`
+		let reply = `E o que eu faço só com isso? ${message.author}`
 
 		if (command.usage) {
-			reply += `\nThe proper usage would be: ${process.env.PREFIX}${command.name} ${command.usage}`;
+			reply += `\nTem que ser assim ó: ${process.env.PREFIX}${command.name} ${command.usage}`;
 		}
 
 		return message.channel.send(reply);
@@ -111,6 +110,7 @@ client.on('message', message => {
 	if (!cooldowns.has(command.name)) {
 		cooldowns.set(command.name, new Discord.Collection());
 	}
+	console.log(cooldowns)
 
 	const now = Date.now();
 	const timestamps = cooldowns.get(command.name);
@@ -121,7 +121,7 @@ client.on('message', message => {
 
 		if (now < expirationTime) {
 			const timeLeft = (expirationTime - now) / 1000;
-			return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
+			return message.reply(`Espera ai mais uns ${timeLeft.toFixed(1)} segundos pra isso`);
 		}
 	}
 
@@ -129,8 +129,8 @@ client.on('message', message => {
 	setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
 	try {
-		command.execute(message, args)
-		console.log('[TENTANDO EXECUTAR O COMANDO:', command.name.toUpperCase(), ']')
+		command.execute(message, args, cooldowns, timestamps)
+		console.log('[EXECUTANDO O COMANDO:', command.name.toUpperCase(), ' PARA ]' + message.author.username)
 	} catch (error) {
 		console.error(error);
 		message.reply('There was an error trying to execute that command!')

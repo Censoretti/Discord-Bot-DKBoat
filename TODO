@@ -1,6 +1,6 @@
 
 Todo:
-  ☐ message level/xp @started(20-04-09 15:14)
+  ☐ message level/xp
     -> falta fazer o level
     -> caso precise de roles, criar as roles e colocar as roles
   ☐ economy
@@ -40,10 +40,8 @@ Todo:
   ☐ skill
     -> criação de skills, para colocar na ficha
     -> somente adm+ pode usar o comando
-  ☐ reset training
+  ✔ reset training @started(20-04-09 17:27) @done(20-04-10 02:10) @lasted(8h43m59s) @project(Todo)
     -> alguem pode ter feito merda ou o comando ficou zuado, então eu preciso resetar
-
-Archive:
   ✔ refresh @done(20-04-09 17:00) @project(Todo)
     -> resetar o cd de alguem, pra algum comando, caso seja necessário
   ✔ training @done(20-04-09 15:13) @project(Todo)

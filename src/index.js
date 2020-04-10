@@ -110,7 +110,6 @@ client.on('message', message => {
 	if (!cooldowns.has(command.name)) {
 		cooldowns.set(command.name, new Discord.Collection());
 	}
-	console.log(cooldowns)
 
 	const now = Date.now();
 	const timestamps = cooldowns.get(command.name);
@@ -130,7 +129,7 @@ client.on('message', message => {
 
 	try {
 		command.execute(message, args, cooldowns, timestamps)
-		console.log('[EXECUTANDO O COMANDO:', command.name.toUpperCase(), ' PARA ]' + message.author.username)
+		console.log('[EXECUTANDO O COMANDO:', command.name.toUpperCase(), ' PARA ' + message.author.username + ' ]')
 	} catch (error) {
 		console.error(error);
 		message.reply('There was an error trying to execute that command!')

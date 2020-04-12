@@ -12,7 +12,46 @@ const task = cron.schedule('0 0 * * *', async () => {
 		const docsFiles = await fs.readdir('src/docs/sheets')
 		for (const file of docsFiles) {
 				const document = require(`./docs/sheets/${file}`);
-				document.rp.training.daily = 0
+        document.rp.training.daily = 0
+        if(document.rp.course == 'marinha') {
+          switch(document.rp.course) {
+            case('apprentice'):
+              document.rp.money += 10
+              break
+            case('chief'):
+              document.rp.money += 1000
+              break
+            case('lieutenant'):
+              document.rp.money += 2000
+              break
+            case('lieutenantBoss'):
+              document.rp.money += 3000
+              break
+            case('comander'):
+              document.rp.money += 5000
+              break
+            case('capitain'):
+              document.rp.money += 8000
+              break
+            case('comodore'):
+              document.rp.money += 16000
+              break
+            case('notAdmiral'):
+              document.rp.money += 38000
+              break
+            case('almostAdmiral'):
+              document.rp.money += 50000
+              break
+            case('admiral'):
+              document.rp.money += 83000
+              break
+            case('fullAdmiral'):
+              document.rp.money += 166000
+              break
+            default:
+              return
+          }
+        }
 				const data = JSON.stringify(document)
 
 				await fs.writeFile(`src/docs/sheets/${file}`, data)
@@ -56,7 +95,7 @@ requires()
 
 
 client.on('message', message => {
-	if (message.author.bot) return
+  if (message.author.bot) return
 
 	try {
 		const event = client.events.get('mExperience')
@@ -128,11 +167,11 @@ client.on('message', message => {
 	setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
 	try {
-		command.execute(message, args, cooldowns, timestamps)
 		console.log('[EXECUTANDO O COMANDO:', command.name.toUpperCase(), ' PARA ' + message.author.username + ' ]')
+		command.execute(message, args, cooldowns, timestamps)
 	} catch (error) {
 		console.error(error);
-		message.reply('There was an error trying to execute that command!')
+		message.reply('IIIIIIHHHH deu erro ai em alguma coisa :T')
 	}
 });
 

@@ -9,45 +9,46 @@ module.exports = {
 
     const docsFiles = await fs.readdir('src/docs/sheets')
     for (const file of docsFiles) {
-        const document = require(`../docs/sheets/${file}`);
-        docs.set(document.server.id, document);
+        const document2 = require(`../docs/sheets/${file}`);
+        docs.set(document2.server.id, document2);
     }
 
     const autorId = message.author.id
-
+    let document
     if (docs.get(autorId)) {
 
-      const document = docs.get(autorId)
-      document.server.messages.amount += 1
-      const data = JSON.stringify(document)
-
-      await fs.writeFile(`src/docs/sheets/${autorId}.json`, data)
-        .then(console.log(`re-writed a .json file in messages to ${message.author.username}`))
-        .catch(err => console.log(err))
-
-      // message.guild.channels.cache.get('693231596681035776')
-      //   .send(`${message.author.username} quantidade de mensagens: ${document.amount}`)
+      document = docs.get(autorId)
+      document.server.messages.amount++
 
     } else {
-
       try {
-        const document = docs.get('template')
+        document = docs.get('template')
         document.server.id = autorId
         document.server.username = message.author.username
         document.server.discriminator = message.author.discriminator
         document.server.messages.amount = 1
-        const data = JSON.stringify(document)
-
-        await fs.writeFile(`src/docs/sheets/${autorId}.json`, data)
-            .then(console.log(`created a .json file in messages to ${message.author.username} from ${message.guild.name}`))
-            .catch(err => console.log(err))
-
-        // message.guild.channels.cache.get('693231596681035776')
-        //     .send(`${message.author.username} quantidade de mensagens: ${document.amount}`)
       } catch (err) {
           console.log(err)
       }
     }
+    const level = document.server.messages.level
+    const need = (level * (15 + level))
+    if(document.server.messages.amount >= need) {
+      document.server.messages.level++
+      document.server.messages.amount = 0
+
+      try {
+        message.guild.channels.cache.get('698941586377277453')
+          .send(`<@${message.author.id}> novo level: ${level + 1}`)
+      } catch(err) {
+        console.log(err)
+      }
+    }
+
+    const data = JSON.stringify(document)
+    await fs.writeFile(`src/docs/sheets/${autorId}.json`, data)
+        .then(console.log(`writed messege settings to ${message.author.username}`))
+        .catch(err => console.log(err))
 
   },
 }

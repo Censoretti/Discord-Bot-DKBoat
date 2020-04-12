@@ -3,7 +3,7 @@ const fs = require('fs').promises
 module.exports = {
 	name: 'reset',
   description: 'reset training of a person',
-  roles: 'manager',
+  role: 'manager',
 	execute: async (message, args) => {
     const document = require(`../docs/sheets/${args[0]}`)
     const arr = []

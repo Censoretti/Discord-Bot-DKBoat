@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'reload',
   description: 'reset the cd of a command',
-  roles: 'manager',
+  role: 'manager',
 	guildOnly: true,
 	execute(message, args, cooldowns, timestamps) {
     const helped = args[0]

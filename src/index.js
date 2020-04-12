@@ -122,17 +122,17 @@ client.on('message', message => {
 
 	if(command.role) {
 		if (command.role.includes('adm') && (
-		!message.member.roles.cache.has(roles.server.recruit)
-		|| !message.member.roles.cache.has(roles.server.moderator)
-		|| !message.member.roles.cache.has(roles.server.administrator)
-		|| !message.member.roles.cache.has(roles.server.owners)
-		|| !message.member.roles.cache.has(roles.server.bot_manager))) {
+		message.member.roles.cache.has(roles.server.recruit)
+		|| message.member.roles.cache.has(roles.server.moderator)
+		|| message.member.roles.cache.has(roles.server.administrator)
+		|| message.member.roles.cache.has(roles.server.owners)
+		|| message.member.roles.cache.has(roles.server.manager))) {
 			return message.channel.send('Sem permissão irmão')
 		}
 
 		if (command.role.includes('manager') &&
-		!message.member.roles.cache.has(roles.server.bot_manager)) {
-			return message.channel.send('Sem permissão irmão')
+    message.member.roles.cache.has(roles.server.manager)) {
+			return message.channel.send('Como?')
 		}
 	}
 

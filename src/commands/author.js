@@ -8,11 +8,11 @@ module.exports = {
     execute(message) {
         const exampleEmbed = new Discord.MessageEmbed()
             .setColor('#00ff00')
-            .setAuthor('DKBoat', 'https://i.imgur.com/wSTFkRM.png', 'https://discord.js.org')
+            .setAuthor('DKBoat', 'https://media.discordapp.net/attachments/630288097740980224/698993062533398587/Popcorn.png', 'https://discord.js.org')
             .setTitle('Sobre o bot')
             .setURL('https://discord.js.org/')
             .setDescription('[GitHub](https://github.com/dagashy "optional hovertext")')
-            .setThumbnail('https://i.imgur.com/wSTFkRM.png')
+            .setThumbnail('https://media.discordapp.net/attachments/630288097740980224/698993062533398587/Popcorn.png')
             .addFields(
                 { name: 'Regular field title', value: 'Some value here' },
                 { name: '\u200B', value: '\u200B' },
@@ -20,9 +20,9 @@ module.exports = {
                 { name: 'Inline field title', value: 'Some value here', inline: true },
             )
             .addField('Inline field title', 'Some value here', true)
-            .setImage('https://pbs.twimg.com/media/EUfiZIMX0AAFAeH?format=jpg&name=small')
+            .setImage('https://media.discordapp.net/attachments/630288097740980224/698993062533398587/Popcorn.png')
             .setTimestamp()
-            .setFooter('[Bot feito por Censoretti]', 'https://i.imgur.com/wSTFkRM.png')
+            .setFooter('[Bot feito por Censoretti]', 'https://media.discordapp.net/attachments/630288097740980224/698993062533398587/Popcorn.png')
 
         message.channel.send(exampleEmbed);
     },

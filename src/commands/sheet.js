@@ -493,7 +493,7 @@ async function recordCreation(message, author) {
       { name: 'Ofício: ', value: `${document.rp.clas}`, inline: true },
     )
     .setImage(`${document.rp.appearance}`)
-    .setFooter('[Bot feito por Censoretti]', 'https://i.imgur.com/wSTFkRM.png')
+    .setFooter('[Bot feito por Censoretti]', 'https://media.discordapp.net/attachments/630288097740980224/698993062533398587/Popcorn.png')
     .setTimestamp()
 
   const mRecord = await message.author.send(embed4)
@@ -511,7 +511,7 @@ async function recordCreation(message, author) {
 
           await message.member.roles.remove(server.noSheet)
 
-          const baseData = require(`../docs/assets/templates/${raceSheet}.json`)
+          const baseData = require(`../docs/templates/${raceSheet}.json`)
 
           document.rp.stats.forca = baseData.rp.stats.forca
           document.rp.stats.destreza = baseData.rp.stats.destreza

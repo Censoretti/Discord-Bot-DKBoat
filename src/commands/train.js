@@ -77,6 +77,15 @@ module.exports = {
         return
       }
 
+      const total = sheet.rp.stats.total
+      const base = sheet.rp.stats.race
+      const test = total - base
+
+      if((test % 30) == 0) {
+        sheet.rp.level++
+        console.log(`${sheet.rp.name} upou para o lv ${sheet.rp.level}`)
+      }
+
       if(truth) {
         sheet.rp.training.daily += 1
         const data = JSON.stringify(sheet)

@@ -130,9 +130,10 @@ client.on('message', message => {
 			return message.channel.send('Sem permissão irmão')
 		}
 
-		if (command.role.includes('manager') &&
-    message.member.roles.cache.has(roles.server.manager)) {
-			return message.channel.send('Como?')
+		if (command.role.includes('manager') && (
+      message.member.roles.cache.has(roles.server.manager)
+      || message.member.roles.cache.has(roles.server.owners))) {
+			return message.channel.send('<:Popcorn:633624350490361857>')
 		}
 	}
 

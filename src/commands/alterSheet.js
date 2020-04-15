@@ -1,8 +1,9 @@
 const fs = require('fs').promises
 
 module.exports = {
-	name: 'reset',
-  description: 'reset training of a person',
+  name: 'alter',
+  aliases: ['alterar', 'mudar'],
+  description: 'reset something from the sheet',
   role: 'manager',
 	execute: async (message, args) => {
     const document = require(`../docs/sheets/${args[0]}`)
@@ -28,6 +29,8 @@ module.exports = {
         document[arr[1]][arr[2]][arr[3]][arr[4]] = arr[5]
         reply = arr[1] + ' ' + arr[2] + ' ' + arr[3] + ' ' + arr[4]
         break
+      default:
+        return message.channel.send('Something got wrong')
     }
 
     const data = JSON.stringify(document)

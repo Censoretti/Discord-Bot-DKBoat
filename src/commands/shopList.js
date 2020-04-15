@@ -3,7 +3,7 @@ const Discord = require('discord.js')
 
 module.exports = {
 	name: 'shop',
-  description: 'reset training of a person',
+  description: 'list the shop itens',
 	execute: async (message) => {
 
     const embed = new Discord.MessageEmbed()

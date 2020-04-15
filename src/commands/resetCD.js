@@ -1,5 +1,5 @@
 module.exports = {
-	name: 'reload',
+	name: 'reset',
   description: 'reset the cd of a command',
   role: 'manager',
 	guildOnly: true,

@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'refresh',
+  name: 'reload',
   role: 'manager',
 	description: 'Reloads a command',
 	args: true,

@@ -62,7 +62,7 @@ async function start(message) {
   const embed = new Discord.MessageEmbed()
   .setColor('00ff00')
   .setTitle('Será que é hoje que conheceremos o proximo rei dos piratas?')
-  .setDescription('Precisamos conhecer nosso novo nakama nesse servidor\nE nesse mundo que criaremos juntos\nSe prepare para se apresentar, e começar sua aventura\nCada parte vai ter 10s para você escolher\nEscolheu? Espera até aparecer a próxima parte\nErrou? Não seleciona mais nada e espera\nSiga todos os passos corretamente e terá sua ficha :3')
+  .setDescription('Precisamos conhecer nosso novo nakama nesse servidor\nE nesse mundo que criaremos juntos\nSe prepare para se apresentar, e começar sua aventura\nCada parte vai ter 60s para você escolher\nEscolheu? Espera até aparecer a próxima parte\nErrou? Não seleciona mais nada e espera\nSiga todos os passos corretamente e terá sua ficha :3')
 
   await message.author.send(embed)
 
@@ -78,7 +78,7 @@ async function nameF(message, author) {
   const mNameF = await message.author.send(embed)
 
   try {
-    const mName = await mNameF.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 10000 })
+    const mName = await mNameF.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
     if(mName.first().content != undefined) {
     name = mName.first().content
     } else {
@@ -105,7 +105,7 @@ async function genderF(message, author) {
   const mGenderF = await message.author.send(embed)
 
   try {
-    const mGender = await mGenderF.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 10000 })
+    const mGender = await mGenderF.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
     if(mGender.first().content != undefined) {
       gender = mGender.first().content
       } else {
@@ -132,7 +132,7 @@ async function appearanceF(message, author) {
   const mAppearanceF = await message.author.send(embed)
 
   try {
-    const mAppearance = await mAppearanceF.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 10000 })
+    const mAppearance = await mAppearanceF.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
     if(mAppearance.first().content != undefined) {
       appearance = mAppearance.first().content
       } else {
@@ -165,7 +165,7 @@ async function rumo(message, author) {
     const reactions = await mRumo.awaitReactions(reaction =>
       reaction.emoji.name === one
       || reaction.emoji.name === two
-      || reaction.emoji.name === three, { max: 2, min: 2, time: 10000 })
+      || reaction.emoji.name === three, { max: 2, time: 60000 })
     for (const reacts of reactionName) {
       if (reactions.get(reacts) != undefined) {
         if(reactions.get(reacts).count == 2) {
@@ -248,7 +248,7 @@ async function raca(message, author) {
       || reaction.emoji.name === ten
       || reaction.emoji.name === poop
       || reaction.emoji.name === snake
-      || reaction.emoji.name === wolf, { max: 2, min: 2, time: 10000 })
+      || reaction.emoji.name === wolf, { max: 2, time: 60000 })
     for (const reacts of reactionName) {
       if (reactions.get(reacts) != undefined) {
         if(reactions.get(reacts).count == 2) {
@@ -382,7 +382,7 @@ async function oficio(message, author) {
       || reaction.emoji.name === four
       || reaction.emoji.name === five
       || reaction.emoji.name === six
-      || reaction.emoji.name === seven, { max: 2, min: 2, time: 10000 })
+      || reaction.emoji.name === seven, { max: 2, time: 60000 })
     for (const reacts of reactionName) {
       if (reactions.get(reacts) != undefined) {
         if(reactions.get(reacts).count == 2) {
@@ -503,7 +503,7 @@ async function recordCreation(message, author) {
   try{
     const reactions = await mRecord.awaitReactions(reaction =>
       reaction.emoji.name === check
-      || reaction.emoji.name === cross, { max: 2, min: 2, time: 10000 })
+      || reaction.emoji.name === cross, { max: 2, time: 60000 })
       if(reactions.get(check) != undefined) {
         if(reactions.get(check).count == 2) {
           await message.guild.channels.cache.get('630296008018100224') // fichas aprovadas
@@ -552,15 +552,24 @@ async function creation(message, author) {
   try {
     await start(message, author)
     await wait(20000)
+    console.log(`start for ${message.author.username}`)
     await nameF(message, author)
+    console.log(`nameF for ${message.author.username}`)
     await genderF(message, author)
+    console.log(`genderF for ${message.author.username}`)
     await appearanceF(message, author)
+    console.log(`appearanceF for ${message.author.username}`)
     await rumo(message, author)
+    console.log(`rumo for ${message.author.username}`)
     await raca(message, author)
+    console.log(`raca for ${message.author.username}`)
     await oficio(message, author)
+    console.log(`oficio for ${message.author.username}`)
     await checks(message, author)
     await wait(1000)
+    console.log(`checks for ${message.author.username}`)
     await recordCreation(message, author)
+    console.log(`recordCreation for ${message.author.username}`)
   } catch(err) {
     console.log(err)
   }
@@ -571,7 +580,7 @@ module.exports = {
 	description: 'criação de ficha',
 	guildOnly: true,
 	usage: '',
-	aliases: '',
+	aliases: ['criar'],
 	execute(message) {
     if(!message.member.roles.cache.has(server.noSheet)) {
       console.log('has a role')

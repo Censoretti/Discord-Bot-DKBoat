@@ -1,8 +1,8 @@
 const fs = require('fs').promises
 
 module.exports = {
-  name: 'alter',
-  aliases: ['alterar', 'mudar'],
+  name: 'editar',
+  aliases: ['alterar', 'mudar', 'edit'],
   description: 'reset something from the sheet',
   role: 'manager',
 	execute: async (message, args) => {

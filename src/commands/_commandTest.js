@@ -3,7 +3,7 @@ const two = '2️⃣'
 const three = '3️⃣'
 
 module.exports = {
-	name: 'pish',
+	name: 'execution',
   role: 'manager',
 	execute: async (message) => {
 

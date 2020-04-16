@@ -18,6 +18,7 @@ module.exports = {
     if (docs.get(autorId)) {
 
       document = docs.get(autorId)
+      document.server.messages.xp++
       document.server.messages.amount++
 
     } else {
@@ -26,6 +27,7 @@ module.exports = {
         document.server.id = autorId
         document.server.username = message.author.username
         document.server.discriminator = message.author.discriminator
+        document.server.messages.xp = 1
         document.server.messages.amount = 1
       } catch (err) {
           console.log(err)
@@ -33,9 +35,9 @@ module.exports = {
     }
     const level = document.server.messages.level
     const need = (level * (15 + level))
-    if(document.server.messages.amount >= need) {
+    if(document.server.messages.xp >= need) {
       document.server.messages.level++
-      document.server.messages.amount = 0
+      document.server.messages.xp = 0
 
       try {
         message.guild.channels.cache.get('698941586377277453')

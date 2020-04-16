@@ -8,7 +8,7 @@ module.exports = {
     execute(message) {
         const exampleEmbed = new Discord.MessageEmbed()
             .setColor('#00ff00')
-            .setAuthor('DKBoat', 'https://media.discordapp.net/attachments/630288097740980224/698993062533398587/Popcorn.png', 'https://discord.js.org')
+            .setAuthor('DKBoat', 'https://media.discordapp.net/attachments/630288097740980224/698993062533398587/Popcorn.png', '(https://github.com/dagashy/discordbot')
             .setTitle('Sobre o bot')
             .setURL('https://discord.js.org/')
             .setDescription('[GitHub](https://github.com/dagashy "optional hovertext")')

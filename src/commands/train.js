@@ -17,13 +17,17 @@ module.exports = {
   guildOnly: true,
   args: true,
   usage: 'força',
-	execute: async (message, args) => {
+	execute: async (message, args, cooldowns, timestamps) => {
+    // console.log()
+    // return
+    // eslint-disable-next-line no-unreachable
     if(message.member.roles.cache.has(role.server.noSheet)) return
     let whatis = ''
     const argh = args[0].toLowerCase()
     const sheet = require(`../docs/sheets/${message.author.id}.json`)
     let truth = true
-    console.log(args)
+    let limit = false
+    if(sheet.rp.race == 'giant') limit = true
     if(sheet.rp.training.daily < 3) {
       if(argh == 'forca'
       || argh == 'força'
@@ -43,11 +47,19 @@ module.exports = {
       || argh == 'des'
       || argh == 'd') {
         whatis = 'destreza'
-        sheet.rp.stats.destreza += 10
-        sheet.rp.stats.total += 10
-        await message.member.roles.add(role.rp.train)
-        wait(10000)
-        await message.member.roles.remove(role.rp.train)
+        if(limit && (sheet.rp.stats.destreza < (sheet.rp.stats.resistencia / 2))) {
+          sheet.rp.stats.destreza += 10
+          sheet.rp.stats.total += 10
+          await message.member.roles.add(role.rp.train)
+          wait(10000)
+          await message.member.roles.remove(role.rp.train)
+        } else {
+          timestamps = cooldowns.get('treino')
+          if (timestamps.has(sheet.server.id)) {
+            timestamps.delete(sheet.server.id)
+          }
+          return message.channel.send(`Você como gigante é INCAPAZ de melhorar a ${whatis} agora`)
+        }
       } else if(argh == 'resistencia'
       || argh == 'res'
       || argh == 'resistence'
@@ -66,11 +78,19 @@ module.exports = {
       || argh == 'v'
       || argh == 's') {
         whatis = 'velocidade'
-        sheet.rp.stats.velocidade += 10
-        sheet.rp.stats.total += 10
-        await message.member.roles.add(role.rp.train)
-        wait(10000)
-        await message.member.roles.remove(role.rp.train)
+        if(limit && (sheet.rp.stats.destreza < (sheet.rp.stats.resistencia / 2))) {
+          sheet.rp.stats.velocidade += 10
+          sheet.rp.stats.total += 10
+          await message.member.roles.add(role.rp.train)
+          wait(10000)
+          await message.member.roles.remove(role.rp.train)
+          timestamps = cooldowns.get('treino')
+          if (timestamps.has(sheet.server.id)) {
+            timestamps.delete(sheet.server.id)
+          }
+        } else {
+          return message.channel.send(`Você como gigante é INCAPAZ de melhorar a ${whatis} agora`)
+        }
       } else {
         message.channel.send('Argumento inválido')
         truth = false

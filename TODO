@@ -1,9 +1,9 @@
 
 Todo:
-  ☐ message level/xp
+  ✔ message level/xp @done(20-04-16 14:54)
     -> falta fazer o level
     -> caso precise de roles, criar as roles e colocar as roles
-  ☐ inventary
+  ✔ inventary @done(20-04-16 14:55)
     -> sistema de inventario para os itens comprados na economia
   ☐ rank message
     -> desnecessário no momento
@@ -35,7 +35,7 @@ Todo:
   ☐ skill
     -> criação de skills, para colocar na ficha
     -> somente adm+ pode usar o comando
-  ☐ Stats
+  ✔ Stats @done(20-04-16 14:22)
     -> mostar os stats das pessoas
     -> rules para classes
       -> gigante: limite de destreza a metade da resistencia / limite de velocidade a metade da força
@@ -47,7 +47,7 @@ Todo:
       -> wotan: dex valida metade, 15+ vel agua, 1/2+ for
   ✔ Channels @done(20-04-16 13:25)
     -> pegar todos os ids
-  ☐ Sheet things
+  ✔ Sheet things @done(20-04-16 14:22)
     -> alteração pra adm+
     -> deletar ficha completa, deletando roles também
     -> mostar ficha

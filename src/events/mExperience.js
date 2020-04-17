@@ -6,7 +6,7 @@ module.exports = {
   description: 'get experience by message',
   usage: 'send message and gain experience',
   execute: async (message) => {
-
+    const rankRP = require('../docs/ranks/rankRP.json')
     const docsFiles = await fs.readdir('src/docs/sheets')
     for (const file of docsFiles) {
         const document2 = require(`../docs/sheets/${file}`);
@@ -29,6 +29,16 @@ module.exports = {
         document.server.discriminator = message.author.discriminator
         document.server.messages.xp = 1
         document.server.messages.amount = 1
+        rankRP.users[autorId] = {}
+        rankRP.users[autorId].level = 1
+        rankRP.users[autorId].name = document.server.username
+        rankRP.users.total++
+        rankRP.users[autorId].rank = rankRP.users.total
+
+        const data = JSON.stringify(rankRP)
+        await fs.writeFile('src/docs/ranks/rankRP.json', data)
+            .then(console.log(`rank of ${message.author.username} gotcha`))
+            .catch(err => console.log(err))
       } catch (err) {
           console.log(err)
       }

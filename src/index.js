@@ -84,7 +84,7 @@ const cooldowns = new Discord.Collection();
 
 		for (const file of eventFiles) {
 			const event = require(`./events/${file}`)
-			console.log(`Loading event ${file} file`)
+			console.log(`Loading event ${file} file as ${event.name}`)
 			client.events.set(event.name, event);
 		}
 	} catch(err) {
@@ -92,6 +92,12 @@ const cooldowns = new Discord.Collection();
 	}
 }
 requires()
+
+const task2 = cron.schedule('30 * * * *', async () => {
+  const event = client.events.get('rankRP')
+	event.execute()
+})
+task2.start()
 
 
 client.on('message', message => {

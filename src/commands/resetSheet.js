@@ -1,5 +1,14 @@
 const fs = require('fs').promises
 
+const { rp } = require('../docs/assets/roles.json')
+const rolesF = [
+  rp.course.marine.marine, rp.course.marine.apprentice, rp.course.pirate, rp.course.punisher,
+  rp.race.giant, rp.race.human, rp.race.longLimb, rp.race.mink,
+  rp.race.mermaid, rp.race.skypeans, rp.race.eyes, rp.race.tonttata,
+  rp.race.arm, rp.race.leg, rp.race.snake, rp.race.fishMan,
+  rp.race.wotan, rp.clas.capitan, rp.clas.navigator, rp.clas.arch,
+  rp.clas.chef, rp.clas.engineer, rp.clas.doctor, rp.clas.musician]
+
 module.exports = {
   name: 'delete',
   aliases: ['deletar'],
@@ -71,6 +80,10 @@ module.exports = {
     sheet.rp.training.daily = 0
     sheet.rp.training.frota = 0
     sheet.rp.inventory = {}
+
+    for (const roles of rolesF) {
+      await message.guild.members.cache.get(args[0]).roles.remove(roles)
+    }
 
     const data = JSON.stringify(sheet)
     await fs.writeFile(`src/docs/sheets/${args[0]}.json`, data)

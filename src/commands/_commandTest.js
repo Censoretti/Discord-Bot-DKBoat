@@ -1,27 +1,16 @@
-const one = '1️⃣'
-const two = '2️⃣'
-const three = '3️⃣'
-
 module.exports = {
 	name: 'execution',
   role: 'manager',
-	execute: async (message) => {
+  aliases: ['exec'],
+	execute: async (message, args) => {
 
-    const embed = 'puta que me pariu'
+    // message.member.get(args[0]).roles.remove('695671528217509989')
+    message.guild.members.cache.get(args[0]).roles.add('695671528217509989')
 
-    const mRumo = await message.channel.send(embed)
-    await mRumo.react(one)
-    await mRumo.react(two)
-    await mRumo.react(three)
+    // const member = message.mentions.members.first()
+    // const member = args[0]
+    // member.roles.add('695671528217509989');
+    // console.log(member)
 
-    const reactions = await mRumo.awaitReactions(reaction =>
-      reaction.emoji.name === one
-      || reaction.emoji.name === two
-      || reaction.emoji.name === three, { max: 2, time: 60000, errors: ['time'] })
-      .catch(collected => {
-        console.log(`After a minute, only ${collected.size} out of 4 reacted.`);
-      });
-    console.log(reactions)
-    message.channel.send('porra')
 	},
 };

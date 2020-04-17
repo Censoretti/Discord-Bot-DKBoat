@@ -1,12 +1,16 @@
 console.clear()
 console.log('--------------- INDEX FILE IGNITE ---------------')
 
-const fs = require('fs').promises;
-const Discord = require('discord.js');
+const fs = require('fs').promises
+const Discord = require('discord.js')
 const roles = require('./docs/assets/roles.json')
+const cron = require('node-cron')
+const client = new Discord.Client()
+client.commands = new Discord.Collection()
+client.events = new Discord.Collection()
+const cooldowns = new Discord.Collection()
 require('dotenv').config()
 
-const cron = require('node-cron');
 const task = cron.schedule('0 0 * * *', async () => {
 	try {
 		const docsFiles = await fs.readdir('src/docs/sheets')
@@ -62,14 +66,8 @@ const task = cron.schedule('0 0 * * *', async () => {
 		console.log(err)
 	}
 });
-task.start()
 
-const client = new Discord.Client({ forceFetchUsers: true });
-client.commands = new Discord.Collection();
-client.events = new Discord.Collection();
-const cooldowns = new Discord.Collection();
-
-	async function requires() {
+async function requires() {
 	try{
 		const commandFiles = await fs.readdir('src/commands')
 			.catch(err => console.log('[#commandFiles]', err))
@@ -91,14 +89,15 @@ const cooldowns = new Discord.Collection();
 		console.log(err)
 	}
 }
-requires()
 
 const task2 = cron.schedule('30 * * * *', async () => {
   const event = client.events.get('rankRP')
 	event.execute()
 })
-task2.start()
 
+requires()
+task.start()
+task2.start()
 
 client.on('message', message => {
   if (message.author.bot) return

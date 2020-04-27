@@ -126,13 +126,6 @@ client.on('message', message => {
 		return message.reply('Sem tempo irmão')
 	}
 
-	if(command.role.includes('manager') && 
-		message.member.roles.cache.has(roles.server.manager)
-		|| message.member.roles.cache.has(roles.server.owner)) {
-		console.log('tem sim a porra da role, caralho')
-	} else {
-		console.log('deu no else')
-	}
 
 	if(command.role) {
 		console.log('command has role test')
@@ -228,15 +221,43 @@ client.on('guildMemberAdd', async member => {
 	guildInvites.set(member.guild.id, newInvites);
 	try {
 		const usedInvite = newInvites.find(inv => cachedInvites.get(inv.code).uses < inv.uses);
+		const invitedOf = require(`./docs/sheets/${usedInvite.inviter.id}.json`)
 		const embed = new Discord.MessageEmbed()
 			.setColor('#00ff00')
 			.setTitle(`👋Bem-vindo(a)! ${member.user.username}`)
-			.setAuthor('DKBoat', 'https://media.discordapp.net/attachments/630288097740980224/698993062533398587/Popcorn.png', 'https://github.com/dagashy/discordbot')
-		// .setDescription(`${member.user.tag} is the ${member.guild.memberCount} to join.\nJoined using ${usedInvite.inviter.tag}\nNumber of uses: ${usedInvite.uses}`)
-			.setDescription('Temos um novo tripulante, SKOL!')
-			.setImage('https://imgur.com/FrjGrQN')
+			.setAuthor(`${member.user.tag}`, member.user.displayAvatarURL({ dynamic: true }))
+			.setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
+			.setDescription(`Temos um novo tripulante, SKOL!\nFoi chamado pelo ${usedInvite.inviter.username}`)
+			.setImage('https://i.imgur.com/FrjGrQN.gif')
 			.setTimestamp()
 			.setFooter('[Bot feito por Censoretti]', 'https://media.discordapp.net/attachments/630288097740980224/698993062533398587/Popcorn.png')
+
+		invitedOf.server.invites.uses++
+		invitedOf.server.invites.total++
+		const data = JSON.stringify(invitedOf)
+		await fs.writeFile(`src/docs/sheets/${usedInvite.inviter.id}.json`, data)
+			.then(console.log(`Used invite to ${usedInvite.inviter.username}`))
+			.catch(err => console.log(err))
+
+		const rankRP = require('./docs/ranks/rankRP.json')
+		const newSheet = require('./docs/sheets/_template.json')
+		newSheet.server.invites.invited = usedInvite.inviter.id
+		newSheet.server.id = member.user.id
+		newSheet.server.username = member.user.username
+		newSheet.server.discriminator = member.user.discriminator
+		rankRP.users[member.user.id] = {}
+		rankRP.users[member.user.id].level = 1
+		rankRP.users[member.user.id].name = newSheet.server.username
+		rankRP.users.total++
+		rankRP.users[member.user.id].rank = rankRP.users.total
+		const data2 = JSON.stringify(newSheet)
+		await fs.writeFile(`src/docs/sheets/${member.user.id}.json`, data2)
+			.then(console.log(`New sheet created to ${member.user.username}`))
+			.catch(err => console.log(err))
+		const data3 = JSON.stringify(rankRP)
+		await fs.writeFile('src/docs/ranks/rankRP.json', data3)
+			.then(console.log(`rank of  ${member.user.username} gotcha`))
+			.catch(err => console.log(err))
 
 		const welcomeChannel = member.guild.channels.cache.find(channel => channel.id === '630345302808985630');
 		if(welcomeChannel) {
@@ -245,6 +266,32 @@ client.on('guildMemberAdd', async member => {
 	}
 	catch(err) {
 		console.log(err);
+	}
+});
+
+client.on('guildMemberRemove', async member => {
+	const embed = new Discord.MessageEmbed()
+		.setColor('#00ff00')
+		.setTitle(`⚰️ ${member.user.username}...`)
+		.setAuthor(`${member.user.tag}`, member.user.displayAvatarURL({ dynamic: true }))
+		.setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
+		.setDescription('E mais um não aguentou a força do nosso haki')
+		.setImage('https://i.imgur.com/BLYVOw4.gif')
+		.setTimestamp()
+		.setFooter('[Bot feito por Censoretti]', 'https://media.discordapp.net/attachments/630288097740980224/698993062533398587/Popcorn.png')
+
+	const removedMember = require(`./docs/sheets/${member.user.id}.json`)
+	const inviterMember = require(`./docs/sheets/${removedMember.server.invites.invited}.json`)
+
+	inviterMember.server.invites.uses--
+	const data = JSON.stringify(inviterMember)
+	await fs.writeFile(`src/docs/sheets/${inviterMember.server.id}.json`, data)
+		.then(console.log(`Less one invite uses for: ${inviterMember.server.username}`))
+		.catch(err => console.log(err))
+
+	const goodByeChannel = member.guild.channels.cache.find(channel => channel.id === '630345370131628072');
+	if(goodByeChannel) {
+		goodByeChannel.send(embed).catch(err => console.log(err));
 	}
 });
 

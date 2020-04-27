@@ -9,58 +9,59 @@ const client = new Discord.Client()
 client.commands = new Discord.Collection()
 client.events = new Discord.Collection()
 const cooldowns = new Discord.Collection()
+const guildInvites = new Map();
 require('dotenv').config()
 
 const task = cron.schedule('0 0 * * *', async () => {
 	try {
 		const docsFiles = await fs.readdir('src/docs/sheets')
 		for (const file of docsFiles) {
-				const document = require(`./docs/sheets/${file}`);
-        document.rp.training.daily = 0
-        if(document.rp.course == 'marinha') {
-          switch(document.rp.course) {
-            case('apprentice'):
-              document.rp.money += 10
-              break
-            case('chief'):
-              document.rp.money += 1000
-              break
-            case('lieutenant'):
-              document.rp.money += 2000
-              break
-            case('lieutenantBoss'):
-              document.rp.money += 3000
-              break
-            case('comander'):
-              document.rp.money += 5000
-              break
-            case('capitain'):
-              document.rp.money += 8000
-              break
-            case('comodore'):
-              document.rp.money += 16000
-              break
-            case('notAdmiral'):
-              document.rp.money += 38000
-              break
-            case('almostAdmiral'):
-              document.rp.money += 50000
-              break
-            case('admiral'):
-              document.rp.money += 83000
-              break
-            case('fullAdmiral'):
-              document.rp.money += 166000
-              break
-            default:
-              return
-          }
-        }
-				const data = JSON.stringify(document)
+			const document = require(`./docs/sheets/${file}`);
+			document.rp.training.daily = 0
+			if(document.rp.course == 'marinha') {
+				switch(document.rp.course) {
+				case('apprentice'):
+					document.rp.money += 10
+					break
+				case('chief'):
+					document.rp.money += 1000
+					break
+				case('lieutenant'):
+					document.rp.money += 2000
+					break
+				case('lieutenantBoss'):
+					document.rp.money += 3000
+					break
+				case('comander'):
+					document.rp.money += 5000
+					break
+				case('capitain'):
+					document.rp.money += 8000
+					break
+				case('comodore'):
+					document.rp.money += 16000
+					break
+				case('notAdmiral'):
+					document.rp.money += 38000
+					break
+				case('almostAdmiral'):
+					document.rp.money += 50000
+					break
+				case('admiral'):
+					document.rp.money += 83000
+					break
+				case('fullAdmiral'):
+					document.rp.money += 166000
+					break
+				default:
+					return
+				}
+			}
+			const data = JSON.stringify(document)
 
-				await fs.writeFile(`src/docs/sheets/${file}`, data)
-					.then(console.log(`reseted daily training to: ${document.server.username}`))
-					.catch(err => console.log(err))
+			await fs.writeFile(`src/docs/sheets/${file}`, data)
+				.then(console.log(`reseted daily training to: ${document.server.username}`))
+				.catch(err => console.log(err))
 		}
 	} catch(err) {
 		console.log(err)
@@ -91,7 +92,7 @@ async function requires() {
 }
 
 const task2 = cron.schedule('30 * * * *', async () => {
-  const event = client.events.get('rankRP')
+	const event = client.events.get('rankRP')
 	event.execute()
 })
 
@@ -100,7 +101,7 @@ task.start()
 task2.start()
 
 client.on('message', message => {
-  if (message.author.bot) return
+	if (message.author.bot) return
 
 	try {
 		const event = client.events.get('mExperience')
@@ -125,19 +126,30 @@ client.on('message', message => {
 		return message.reply('Sem tempo irmão')
 	}
 
+	if(command.role.includes('manager') && 
+		message.member.roles.cache.has(roles.server.manager)
+		|| message.member.roles.cache.has(roles.server.owner)) {
+		console.log('tem sim a porra da role, caralho')
+	} else {
+		console.log('deu no else')
+	}
+
 	if(command.role) {
-		if (command.role.includes('adm') && (
-		message.member.roles.cache.has(roles.server.recruit)
-		|| message.member.roles.cache.has(roles.server.moderator)
-		|| message.member.roles.cache.has(roles.server.administrator)
-		|| message.member.roles.cache.has(roles.server.owners)
-		|| message.member.roles.cache.has(roles.server.manager))) {
+		console.log('command has role test')
+		if ((command.role.includes('adm')) && (
+			!message.member.roles.cache.has(roles.server.recruit)
+		|| !message.member.roles.cache.has(roles.server.moderator)
+		|| !message.member.roles.cache.has(roles.server.administrator)
+		|| !message.member.roles.cache.has(roles.server.owner)
+		|| !message.member.roles.cache.has(roles.server.manager))) {
+			console.log('test for adm')
 			return message.channel.send('Sem permissão irmão')
 		}
 
 		if (command.role.includes('manager') && (
-      message.member.roles.cache.has(roles.server.manager)
-      || message.member.roles.cache.has(roles.server.owners))) {
+			!message.member.roles.cache.has(roles.server.manager)
+		|| !message.member.roles.cache.has(roles.server.owner))) {
+			console.log('test for manager')
 			return message.channel.send('<:Popcorn:633624350490361857>')
 		}
 	}
@@ -196,6 +208,44 @@ client.on('ready', () => {
 	console.log('< ONLIIIIIIIINEEEEEEEEEEEEEEEEEEEEEEEEEEE >')
 	console.log(`Bot has started, with ${client.users.cache.size} users, in ${client.channels.cache.size} channels of ${client.guilds.cache.size} guilds.`);
 	client.user.setActivity(`Serving ${client.guilds.cache.size} servers`);
+	console.log(`${client.user.tag} has logged in.`);
+	client.guilds.cache.forEach(guild => {
+		guild.fetchInvites()
+			.then(invites => guildInvites.set(guild.id, invites))
+			.catch(err => console.log(err));
+	});
+
+	// console.log(client.guilds.cache.get('628028186709458945').channels.cache.get('630288097740980224'))
+  
+});
+
+
+client.on('inviteCreate', async invite => guildInvites.set(invite.guild.id, await invite.guild.fetchInvites()));
+
+client.on('guildMemberAdd', async member => {
+	const cachedInvites = guildInvites.get(member.guild.id);
+	const newInvites = await member.guild.fetchInvites();
+	guildInvites.set(member.guild.id, newInvites);
+	try {
+		const usedInvite = newInvites.find(inv => cachedInvites.get(inv.code).uses < inv.uses);
+		const embed = new Discord.MessageEmbed()
+			.setColor('#00ff00')
+			.setTitle(`👋Bem-vindo(a)! ${member.user.username}`)
+			.setAuthor('DKBoat', 'https://media.discordapp.net/attachments/630288097740980224/698993062533398587/Popcorn.png', 'https://github.com/dagashy/discordbot')
+		// .setDescription(`${member.user.tag} is the ${member.guild.memberCount} to join.\nJoined using ${usedInvite.inviter.tag}\nNumber of uses: ${usedInvite.uses}`)
+			.setDescription('Temos um novo tripulante, SKOL!')
+			.setImage('https://imgur.com/FrjGrQN')
+			.setTimestamp()
+			.setFooter('[Bot feito por Censoretti]', 'https://media.discordapp.net/attachments/630288097740980224/698993062533398587/Popcorn.png')
+
+		const welcomeChannel = member.guild.channels.cache.find(channel => channel.id === '630345302808985630');
+		if(welcomeChannel) {
+			welcomeChannel.send(embed).catch(err => console.log(err));
+		}
+	}
+	catch(err) {
+		console.log(err);
+	}
 });
 
 client.login(process.env.AUTH_TOKEN);

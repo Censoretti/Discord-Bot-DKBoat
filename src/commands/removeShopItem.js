@@ -1,5 +1,6 @@
 const shop = require('../docs/economy/shop.json')
 const fs = require('fs').promises
+let exist = false
 
 module.exports = {
   name: 'remove',
@@ -13,9 +14,16 @@ module.exports = {
       if (shop.hasOwnProperty(key)) {
         if(key == args[0]) {
           delete shop[args[0]]
+          message.channel.send('Item deletado')
+          exist = true
         }
       }
     }
+
+    if (exist == false){
+      return message.channel.send('Item não existe')
+    }
+    
     const data = JSON.stringify(shop)
     await fs.writeFile('src/docs/economy/shop.json', data)
       .then(console.log(`removed ${args[0]}`))

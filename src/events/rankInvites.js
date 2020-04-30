@@ -12,7 +12,7 @@ module.exports = {
 		let compare
 		for (const file of docsFiles) {
 			user = require(`../docs/sheets/${file}`)
-			rankInvites.user[user.server.id].level = user.server.invites.uses
+			rankInvites.users[user.server.id].level = user.server.invites.uses
 		}
 		for (const file of docsFiles) {
 			user = require(`../docs/sheets/${file}`);

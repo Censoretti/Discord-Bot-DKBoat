@@ -21,11 +21,39 @@ module.exports = {
 				description = 'Invites feitos'
 				test = false
 			}
+			if(args[0] == 'forca' 
+			|| args[0] == 'força') {
+				rankOf = 'Str'
+				rankTittle = 'Força'
+				description = 'stat de Força'
+				test = false
+			}
+			if(args[0] == 'resistencia' 
+			|| args[0] == 'resistência') {
+				rankOf = 'Res'
+				rankTittle = 'Resistência'
+				description = 'stat de Resistência'
+				test = false
+			}
+			if(args[0] == 'velocidade' 
+			|| args[0] == 'vel') {
+				rankOf = 'Spd'
+				rankTittle = 'Velocidade'
+				description = 'stat de Velocidade'
+				test = false
+			}
+			if(args[0] == 'destreza' 
+			|| args[0] == 'dex') {
+				rankOf = 'Dex'
+				rankTittle = 'Destreza'
+				description = 'stat de Destreza'
+				test = false
+			}
 			if(args[0] == 'level' 
 			|| args[0] == 'rp') {
-				rankOf = 'invites'
-				rankTittle = 'Invites'
-				description = 'Invites feitos'
+				rankOf = 'rp'
+				rankTittle = 'Level'
+				description = 'level'
 				test = false
 			}
 			if(message.mentions.users.size) {
@@ -36,12 +64,20 @@ module.exports = {
 				
 				const rankRP = require('../docs/ranks/rankRP.json')
 				const rankInvites = require('../docs/ranks/rankInvites.json')
+				const rankStr = require('../docs/ranks/rankStr.json')
+				const rankRes = require('../docs/ranks/rankRes.json')
+				const rankSpd = require('../docs/ranks/rankSpd.json')
+				const rankDex = require('../docs/ranks/rankDex.json')
 				const embedMention = new Discord.MessageEmbed()
 				.setColor('#00ff00')
 				.setThumbnail(avatar)
 				.setTitle(`Rank de ${rankRP.users[mention].name}`)
 				.setDescription(`Rank de level: ${rankRP.users[mention].rank}º com o level; ${rankRP.users[mention].level}
-												Rank de invites: ${rankInvites.users[mention].rank}º quantidade de usos: ${rankInvites.users[mention].level}`)
+												Rank de invites: ${rankInvites.users[mention].rank}º quantidade de usos: ${rankInvites.users[mention].level}
+												Rank de força: ${rankStr.users[mention].rank}º com o stat de: ${rankStr.users[mention].level}
+												Rank de resistência: ${rankRes.users[mention].rank}º com o stat de: ${rankRes.users[mention].level}
+												Rank de velocidade: ${rankSpd.users[mention].rank}º com o stat de: ${rankSpd.users[mention].level}
+												Rank de destreza: ${rankDex.users[mention].rank}º com o stat de: ${rankDex.users[mention].level}`)
 				.setTimestamp()
 				.setFooter('[Bot feito por Censoretti]', 'https://cdn.discordapp.com/attachments/613477001071951915/703825043066585168/Screenshot_5.png')
 
@@ -52,12 +88,20 @@ module.exports = {
 				
 				const rankRP = require('../docs/ranks/rankRP.json')
 				const rankInvites = require('../docs/ranks/rankInvites.json')
+				const rankStr = require('../docs/ranks/rankStr.json')
+				const rankRes = require('../docs/ranks/rankRes.json')
+				const rankSpd = require('../docs/ranks/rankSpd.json')
+				const rankDex = require('../docs/ranks/rankDex.json')
 				const embedMe = new Discord.MessageEmbed()
 				.setColor('#00ff00')
 				.setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
 				.setTitle(`Rank de ${rankRP.users[me].name}`)
 				.setDescription(`Rank de level ${rankRP.users[me].rank}º com o level: ${rankRP.users[me].level}
-												Rank de invites ${rankInvites.users[me].rank}º quatidade de usos: ${rankInvites.users[me].level}`)
+												Rank de invites ${rankInvites.users[me].rank}º quatidade de usos: ${rankInvites.users[me].level}
+												Rank de força: ${rankStr.users[me].rank}º com o stat de: ${rankStr.users[me].level}
+												Rank de resistência: ${rankRes.users[me].rank}º com o stat de: ${rankRes.users[me].level}
+												Rank de velocidade: ${rankSpd.users[me].rank}º com o stat de: ${rankSpd.users[me].level}
+												Rank de destreza: ${rankDex.users[me].rank}º com o stat de: ${rankDex.users[me].level}`)
 				.setTimestamp()
 				.setFooter('[Bot feito por Censoretti]', 'https://cdn.discordapp.com/attachments/613477001071951915/703825043066585168/Screenshot_5.png')
 

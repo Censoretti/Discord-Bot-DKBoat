@@ -18,11 +18,12 @@ Todo:
     -> sistema de giveway integrado a toda a economia do bot
   ✔ rank invite @done(20-04-30 15:54)
     -> integrado ao sistema de invites
-  ☐ rank rp
+  ✔ rank rp @done(20-04-30 18:32)
     -> sistema de level
     -> de cada stat
-    -> de haki
-  ☐ log
+	☐ rank de haki
+		-> copiar os ranks e fazer um de hari
+	☐ log
     -> ficar a par das coisas q os outros fazem sem permissão, pra dar bronca
   ☐ treasure chest
     -> sistema de random para baus

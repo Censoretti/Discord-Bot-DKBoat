@@ -95,12 +95,6 @@ const marineMoney = cron.schedule('0 0 * * *', async () => {
 });
 
 
-const ranksUpdates = cron.schedule('30 * * * *', async () => {
-	require('./events/rankRP').execute()
-	require('./events/rankInvites').execute()
-	client.guilds.cache.get('628028186709458945').channels.cache.get('705260341117976587').send(`<@&${roles.server.notifier.logs}> Os ranks foram atualizados`)
-})
-
 // const cronTest = cron.schedule('* * * * *', async () => {
 // 	try {
 // 		// start cronTest UNDER this line
@@ -119,7 +113,6 @@ const ranksUpdates = cron.schedule('30 * * * *', async () => {
 // cronTest.start()
 
 marineMoney.start()
-ranksUpdates.start()
 
 client.on('message', message => {
 	if (message.author.bot) return
@@ -298,6 +291,7 @@ client.on('guildMemberAdd', async member => {
 	catch(err) {
 		console.log(err);
 	}
+	require('./events/rankInvites').execute()
 });
 
 client.on('guildMemberRemove', async member => {
@@ -324,6 +318,7 @@ client.on('guildMemberRemove', async member => {
 	if(goodByeChannel) {
 		goodByeChannel.send(embed).catch(err => console.log(err));
 	}
+	require('./events/rankInvites').execute()
 });
 
 client.login(process.env.AUTH_TOKEN);

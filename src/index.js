@@ -12,7 +12,32 @@ const cooldowns = new Discord.Collection()
 const guildInvites = new Map();
 require('dotenv').config()
 
-const task = cron.schedule('0 0 * * *', async () => {
+async function requires() {
+	try{
+		const commandFiles = await fs.readdir('src/commands')
+			.catch(err => console.log('[#commandFiles]', err))
+		const eventFiles = await fs.readdir('src/events')
+			.catch(err => console.log('[#eventFiles]', err))
+
+		for (const file of commandFiles) {
+			const command = require(`./commands/${file}`)
+			client.commands.set(command.name, command);
+			console.log(`Loading comand from: ${file} as ${command.name}`)
+		}
+
+		for (const file of eventFiles) {
+			const event = require(`./events/${file}`)
+			console.log(`Loading event ${file} file as ${event.name}`)
+			client.events.set(event.name, event);
+		}
+	} catch(err) {
+		console.log(err)
+	}
+}
+requires()
+
+
+const marineMoney = cron.schedule('0 0 * * *', async () => {
 	try {
 		const docsFiles = await fs.readdir('src/docs/sheets')
 		for (const file of docsFiles) {
@@ -64,41 +89,36 @@ const task = cron.schedule('0 0 * * *', async () => {
 				.catch(err => console.log(err))
 		}
 	} catch(err) {
-		console.log(err)
+		return console.log(err)
 	}
+	client.guilds.cache.get('628028186709458945').channels.cache.get('630283915558518805').send(`<@&${roles.rp.course.marine.marine}> pagamento feito`)
 });
 
-async function requires() {
-	try{
-		const commandFiles = await fs.readdir('src/commands')
-			.catch(err => console.log('[#commandFiles]', err))
-		const eventFiles = await fs.readdir('src/events')
-			.catch(err => console.log('[#eventFiles]', err))
 
-		for (const file of commandFiles) {
-			const command = require(`./commands/${file}`)
-			client.commands.set(command.name, command);
-			console.log(`Loading comand from: ${file} as ${command.name}`)
-		}
-
-		for (const file of eventFiles) {
-			const event = require(`./events/${file}`)
-			console.log(`Loading event ${file} file as ${event.name}`)
-			client.events.set(event.name, event);
-		}
-	} catch(err) {
-		console.log(err)
-	}
-}
-
-const task2 = cron.schedule('30 * * * *', async () => {
-	const event = client.events.get('rankRP')
-	event.execute()
+const ranksUpdates = cron.schedule('30 * * * *', async () => {
+	require('./events/rankRP').execute()
+	client.guilds.cache.get('628028186709458945').channels.cache.get('705260341117976587').send(`<@&${roles.server.notifier.logs}> Os ranks foram atualizados`)
 })
 
-requires()
-task.start()
-task2.start()
+// const cronTest = cron.schedule('* * * * *', async () => {
+// 	try {
+// 		// start cronTest UNDER this line
+
+	
+// 		// client.guilds.cache.get('628028186709458945').channels.cache.get('630288097740980224').send('<@&632306094005288990>')
+// 		// require('./events/rankRP').execute()	
+	
+// 		// end cronTest ABOVE this line
+// 		console.log('cronTest work')
+// 	} catch(err) {
+// 		console.log('cronTest did\'nt work')
+// 		return console.log(err)
+// 	}
+// })
+// cronTest.start()
+
+marineMoney.start()
+ranksUpdates.start()
 
 client.on('message', message => {
 	if (message.author.bot) return

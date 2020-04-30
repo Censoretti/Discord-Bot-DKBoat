@@ -15,6 +15,7 @@ module.exports = {
 
 		const autorId = message.author.id
 		let document
+		let reply = `Message ammout ++ to ${message.author.username}`
 		if (docs.get(autorId)) {
 
 			document = docs.get(autorId)
@@ -55,11 +56,12 @@ module.exports = {
 			} catch(err) {
 				console.log(err)
 			}
+			reply = `Level message UP to ${message.author.username}`
 		}
 
 		const data = JSON.stringify(document)
 		await fs.writeFile(`src/docs/sheets/${autorId}.json`, data)
-			.then(console.log(`writed messege settings to ${message.author.username}`))
+			.then(console.log(reply))
 			.catch(err => console.log(err))
 
 	},

@@ -81,7 +81,7 @@ module.exports = {
 
 		const data = JSON.stringify(rankRes)
 		await fs.writeFile('src/docs/ranks/rankRes.json', data)
-			.then(console.log('rank got updated'))
+			.then(console.log('rank Res got updated'))
 			.catch(err => console.log(err))
 	},
 }

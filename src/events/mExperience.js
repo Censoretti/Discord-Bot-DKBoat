@@ -31,29 +31,7 @@ module.exports = {
 				document.server.discriminator = message.author.discriminator
 				document.server.messages.xp = 1
 				document.server.messages.amount = 1
-				if(!rankRP.users[autorId]) {
-					rankInvites.users.total++
-					rankRP.users.total++
-				}
-				rankRP.users[autorId] = {}
-				rankRP.users[autorId].level = 1
-				rankRP.users[autorId].name = document.server.username
-				rankRP.users[autorId].rank = rankRP.users.total
-				rankInvite.users[autorId] = {}
-				rankInvite.users[autorId].level = 1
-				rankInvite.users[autorId].name = document.server.username
-				rankInvite.users[autorId].rank = rankRP.users.total
-				
-
-				const data = JSON.stringify(rankRP)
-				await fs.writeFile('src/docs/ranks/rankRP.json', data)
-					.then(console.log(`rankRP of ${message.author.username} gotcha`))
-					.catch(err => console.log(err))
-
-				const data2 = JSON.stringify(rankInvite)
-				await fs.writeFile('src/docs/ranks/rankInvites.json', data2)
-					.then(console.log(`rankInvites of ${message.author.username} gotcha`))
-					.catch(err => console.log(err))
+				require('./getRank').execute(authorId, document)
 			} catch (err) {
 				console.log(err)
 			}

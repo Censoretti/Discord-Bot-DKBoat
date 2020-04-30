@@ -31,15 +31,17 @@ module.exports = {
 				document.server.discriminator = message.author.discriminator
 				document.server.messages.xp = 1
 				document.server.messages.amount = 1
+				if(!rankRP.users[autorId]) {
+					rankInvites.users.total++
+					rankRP.users.total++
+				}
 				rankRP.users[autorId] = {}
 				rankRP.users[autorId].level = 1
 				rankRP.users[autorId].name = document.server.username
-				rankRP.users.total++
 				rankRP.users[autorId].rank = rankRP.users.total
 				rankInvite.users[autorId] = {}
 				rankInvite.users[autorId].level = 1
 				rankInvite.users[autorId].name = document.server.username
-				rankInvite.users.total++
 				rankInvite.users[autorId].rank = rankRP.users.total
 				
 

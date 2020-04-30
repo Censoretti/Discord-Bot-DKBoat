@@ -260,15 +260,17 @@ client.on('guildMemberAdd', async member => {
 		newSheet.server.id = member.user.id
 		newSheet.server.username = member.user.username
 		newSheet.server.discriminator = member.user.discriminator
+		if(!rankRP.users[member.user.id]) {
+			rankRP.users.total++
+			rankInvites.users.total++
+		}
 		rankRP.users[member.user.id] = {}
 		rankRP.users[member.user.id].level = 1
 		rankRP.users[member.user.id].name = newSheet.server.username
-		rankRP.users.total++
 		rankRP.users[member.user.id].rank = rankRP.users.total
 		rankInvites.users[member.user.id] = {}
 		rankInvites.users[member.user.id].level = 1
 		rankInvites.users[member.user.id].name = newSheet.server.username
-		rankInvites.users.total++
 		rankInvites.users[member.user.id].rank = rankRP.users.total
 		const data2 = JSON.stringify(newSheet)
 		await fs.writeFile(`src/docs/sheets/${member.user.id}.json`, data2)

@@ -7,7 +7,7 @@ Todo:
     -> sistema de inventario para os itens comprados na economia
   ☐ rank message
     -> desnecessário no momento
-  ☐ invites
+  ✔ invites @done(20-04-30 15:54)
     -> contar invites para cada pessoa
     -> colocar no template.server os invites
     -> colocar no template.server.invites a quantidade e o ranking
@@ -16,7 +16,7 @@ Todo:
     -> pensar nos buffs para todos os oficios
   ☐ giveway
     -> sistema de giveway integrado a toda a economia do bot
-  ☐ rank invite
+  ✔ rank invite @done(20-04-30 15:54)
     -> integrado ao sistema de invites
   ☐ rank rp
     -> sistema de level

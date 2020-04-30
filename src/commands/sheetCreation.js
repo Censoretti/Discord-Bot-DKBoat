@@ -35,12 +35,12 @@ const check = '✔️'
 const cross = '❌'
 
 const rolesF = [
-	rp.course.marine.marine, rp.course.marine.apprentice, rp.course.pirate, rp.course.punisher,
-	rp.race.giant, rp.race.human, rp.race.longLimb, rp.race.mink,
-	rp.race.mermaid, rp.race.skypeans, rp.race.eyes, rp.race.tonttata,
-	rp.race.arm, rp.race.leg, rp.race.snake, rp.race.fishMan,
-	rp.race.wotan, rp.clas.capitan, rp.clas.navigator, rp.clas.arch,
-	rp.clas.chef, rp.clas.engineer, rp.clas.doctor, rp.clas.musician]
+	rp.course.marine.marine.id, rp.course.marine.apprentice.id, rp.course.pirate.id, rp.course.punisher.id,
+	rp.race.giant.id, rp.race.human.id, rp.race.longLimb.id, rp.race.mink.id,
+	rp.race.mermaid.id, rp.race.skypeans.id, rp.race.eyes.id, rp.race.tonttata.id,
+	rp.race.arm.id, rp.race.leg.id, rp.race.snake.id, rp.race.fishMan.id,
+	rp.race.wotan.id, rp.clas.capitan.id, rp.clas.navigator.id, rp.clas.arch.id,
+	rp.clas.chef.id, rp.clas.engineer.id, rp.clas.doctor.id, rp.clas.musician.id]
 
 // eslint-disable-next-line no-unused-vars
 async function nope(message, author) {

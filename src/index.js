@@ -97,6 +97,7 @@ const marineMoney = cron.schedule('0 0 * * *', async () => {
 
 const ranksUpdates = cron.schedule('30 * * * *', async () => {
 	require('./events/rankRP').execute()
+	require('./events/rankInvites').execute()
 	client.guilds.cache.get('628028186709458945').channels.cache.get('705260341117976587').send(`<@&${roles.server.notifier.logs}> Os ranks foram atualizados`)
 })
 
@@ -260,6 +261,7 @@ client.on('guildMemberAdd', async member => {
 			.catch(err => console.log(err))
 
 		const rankRP = require('./docs/ranks/rankRP.json')
+		const rankInvites = require('./docs/ranks/rankInvites.json')
 		const newSheet = require('./docs/sheets/_template.json')
 		newSheet.server.invites.invited = usedInvite.inviter.id
 		newSheet.server.id = member.user.id
@@ -270,13 +272,22 @@ client.on('guildMemberAdd', async member => {
 		rankRP.users[member.user.id].name = newSheet.server.username
 		rankRP.users.total++
 		rankRP.users[member.user.id].rank = rankRP.users.total
+		rankInvites.users[member.user.id] = {}
+		rankInvites.users[member.user.id].level = 1
+		rankInvites.users[member.user.id].name = newSheet.server.username
+		rankInvites.users.total++
+		rankInvites.users[member.user.id].rank = rankRP.users.total
 		const data2 = JSON.stringify(newSheet)
 		await fs.writeFile(`src/docs/sheets/${member.user.id}.json`, data2)
 			.then(console.log(`New sheet created to ${member.user.username}`))
 			.catch(err => console.log(err))
 		const data3 = JSON.stringify(rankRP)
 		await fs.writeFile('src/docs/ranks/rankRP.json', data3)
-			.then(console.log(`rank of  ${member.user.username} gotcha`))
+			.then(console.log(`rankRP of  ${member.user.username} gotcha`))
+			.catch(err => console.log(err))
+		const data4 = JSON.stringify(rankInvites)
+		await fs.writeFile('src/docs/ranks/rankInvites.json', data4)
+			.then(console.log(`rankInvites of ${member.user.username} gotcha`))
 			.catch(err => console.log(err))
 
 		const welcomeChannel = member.guild.channels.cache.find(channel => channel.id === '630345302808985630');

@@ -11,14 +11,18 @@ module.exports = {
 		let user
 		let compare
 		for (const file of docsFiles) {
+			user = require(`../docs/sheets/${file}`)
+			rankrp.users[user.server.id].level = user.rp.level
+		}
+		for (const file of docsFiles) {
 			user = require(`../docs/sheets/${file}`);
 			for (const files of docsFiles) {
 				compare = require(`../docs/sheets/${files}`)
 				if (user.server.id != compare.server.id) {
 					if (user.rp.level > compare.rp.level) {
-						if (rankrp.users[user.server.id]['rank'] > 1) {
-							rankrp.users[user.server.id]['rank']--
-							rankrp.users[compare.server.id]['rank']++
+						if (rankrp.users[user.server.id].rank > 1) {
+							rankrp.users[user.server.id].rank++
+							rankrp.users[compare.server.id].rank--
 						}
 					}
 				}
@@ -27,8 +31,8 @@ module.exports = {
 
 		for (const file of docsFiles) {
 			user = require(`../docs/sheets/${file}`);
-			if(rankrp.users[user.server.id]['rank'] <= 10) {
-				switch(rankrp.users[user.server.id]['rank']) {
+			if(rankrp.users[user.server.id].rank <= 10) {
+				switch(rankrp.users[user.server.id].rank) {
 				case 1:
 					rankrp.rank['1st'].name = user.rp.name
 					rankrp.rank['1st'].level = user.rp.level
@@ -74,7 +78,6 @@ module.exports = {
 				}
 			}
 		}
-
 		const data = JSON.stringify(rankrp)
 		await fs.writeFile('src/docs/ranks/rankRP.json', data)
 			.then(console.log('rank got updated'))

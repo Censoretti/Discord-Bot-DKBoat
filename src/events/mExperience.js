@@ -7,6 +7,7 @@ module.exports = {
 	usage: 'send message and gain experience',
 	execute: async (message) => {
 		const rankRP = require('../docs/ranks/rankRP.json')
+		const rankInvite = require('../docs/ranks/rankInvites.json')
 		const docsFiles = await fs.readdir('src/docs/sheets')
 		for (const file of docsFiles) {
 			const document2 = require(`../docs/sheets/${file}`);
@@ -35,10 +36,21 @@ module.exports = {
 				rankRP.users[autorId].name = document.server.username
 				rankRP.users.total++
 				rankRP.users[autorId].rank = rankRP.users.total
+				rankInvite.users[autorId] = {}
+				rankInvite.users[autorId].level = 1
+				rankInvite.users[autorId].name = document.server.username
+				rankInvite.users.total++
+				rankInvite.users[autorId].rank = rankRP.users.total
+				
 
 				const data = JSON.stringify(rankRP)
 				await fs.writeFile('src/docs/ranks/rankRP.json', data)
-					.then(console.log(`rank of ${message.author.username} gotcha`))
+					.then(console.log(`rankRP of ${message.author.username} gotcha`))
+					.catch(err => console.log(err))
+
+				const data2 = JSON.stringify(rankInvite)
+				await fs.writeFile('src/docs/ranks/rankInvites.json', data2)
+					.then(console.log(`rankInvites of ${message.author.username} gotcha`))
 					.catch(err => console.log(err))
 			} catch (err) {
 				console.log(err)

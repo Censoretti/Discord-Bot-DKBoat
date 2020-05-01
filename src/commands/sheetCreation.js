@@ -4,20 +4,6 @@ const { rp, server } = require('../docs/assets/roles.json')
 
 let truth = true
 
-const one = '1️⃣'
-const two = '2️⃣'
-const three = '3️⃣'
-const four = '4️⃣'
-const five = '5️⃣'
-const six = '6️⃣'
-const seven = '7️⃣'
-const eight = '8️⃣'
-const nine = '9️⃣'
-const ten = '🔟'
-const poop = '🔱'
-const snake = '🌊'
-const wolf = '🐍'
-const reactionName = [one, two, three, four, five, six, seven, eight, nine, ten, poop, snake, wolf]
 let counter = 0
 let whatis = ''
 let role = ''
@@ -34,6 +20,19 @@ let raceSheet = ''
 const check = '✔️'
 const cross = '❌'
 
+
+const reactionsCourse = [
+	rp.course.marine.marine.emoji, rp.course.pirate.emoji, rp.course.punisher.emoji]
+
+const reactionsRace = [
+	rp.race.giant.emoji, rp.race.human.emoji, rp.race.longLimb.emoji, rp.race.mink.emoji,
+	rp.race.mermaemoji.emoji, rp.race.skypeans.emoji, rp.race.eyes.emoji, rp.race.tonttata.emoji,
+	rp.race.arm.emoji, rp.race.leg.emoji, rp.race.snake.emoji, rp.race.fishMan.emoji, rp.race.wotan.emoji]
+
+const reactionsClas = [
+	rp.clas.capitan.emoji, rp.clas.navigator.emoji, rp.clas.arch.emoji,
+	rp.clas.chef.emoji, rp.clas.engineer.emoji, rp.clas.doctor.emoji, rp.clas.musician.emoji]
+
 const rolesF = [
 	rp.course.marine.marine.id, rp.course.marine.apprentice.id, rp.course.pirate.id, rp.course.punisher.id,
 	rp.race.giant.id, rp.race.human.id, rp.race.longLimb.id, rp.race.mink.id,
@@ -47,7 +46,7 @@ async function nope(message, author) {
 	const embed2 = new Discord.MessageEmbed()
 		.setColor('00ff00')
 		.setTitle('Ocorreu um erro')
-		.setDescription('Por algum motivo não conseguimos receber as informações\nReutilize o comando e tente novamente')
+		.setDescription('Por algum motivo não conseguimos receber as informações\nOu você recusous sua ficha e quer refazer\nReutilize o comando e tente novamente')
 
 	message.author.send(embed2)
 
@@ -154,19 +153,19 @@ async function rumo(message, author) {
 	const embed = new Discord.MessageEmbed()
 		.setColor('00ff00')
 		.setTitle('Escolha seu rumo')
-		.setDescription(`${one}: marinha\n${two}: pirata\n${three}: justiceiro`)
+		.setDescription(`${rp.course.marine.marine.emoji}: marinha\n${rp.course.pirate.emoji}: pirata\n${rp.course.punisher.emoji}: justiceiro`)
 
 	const mRumo = await message.author.send(embed)
-	await mRumo.react(one)
-	await mRumo.react(two)
-	await mRumo.react(three)
+	await mRumo.react(rp.course.marine.marine.emoji)
+	await mRumo.react(rp.course.pirate.emoji)
+	await mRumo.react(rp.course.punisher.emoji)
 
 	try{
 		const reactions = await mRumo.awaitReactions(reaction =>
-			reaction.emoji.name === one
-      || reaction.emoji.name === two
-      || reaction.emoji.name === three, { max: 2, time: 60000 })
-		for (const reacts of reactionName) {
+			reaction.emoji.name === rp.course.marine.marine.emoji
+      || reaction.emoji.name === rp.course.pirate.emoji
+      || reaction.emoji.name === rp.course.punisher.emoji, { max: 2, time: 60000 })
+		for (const reacts of reactionsCourse) {
 			if (reactions.get(reacts) != undefined) {
 				if(reactions.get(reacts).count == 2) {
 					console.log(reacts, ': ', reactions.get(reacts).count)
@@ -184,20 +183,20 @@ async function rumo(message, author) {
 
 	if (counter === 1) {
 		switch(whatis) {
-		case one:
-			role = rp.course.marine.marine // marinheiro
+		case rp.course.marine.marine.emoji:
+			role = rp.course.marine.marine.id // marinheiro
 			await message.member.roles.add(role)
 			role = rp.course.marine.apprentice // marinheiro aprendiz
 			await message.member.roles.add(role)
 			course = 'marinha'
 			break;
-		case two:
-			role = rp.course.pirate // pirata
+		case rp.course.pirate.emoji:
+			role = rp.course.pirate.id // pirata
 			await message.member.roles.add(role)
 			course = 'pirata'
 			break;
-		case three:
-			role = rp.course.punisher // justiceiro
+		case rp.course.punisher.emoji:
+			role = rp.course.punisher.id // justiceiro
 			await message.member.roles.add(role)
 			course = 'justiceiro'
 			break;
@@ -217,39 +216,42 @@ async function raca(message, author) {
 	const embed = new Discord.MessageEmbed()
 		.setColor('00ff00')
 		.setTitle('Escolha seu raça')
-		.setDescription(`${one}: gigante\n${two}: humano\n${three}: Longlimb Human\n${four}: mink\n${five}: sereia\n${six}: skypeans\n${seven}: three-eye\n${eight}: tonttata\n${nine}: long arm\n${ten}: long leg\n${poop}: snake neck\n${snake}: tritão\n${wolf}: wotan`)
+		.setDescription(`${rp.race.giant.emoji}: gigante\n${rp.race.human.emoji}: humano\n${rp.race.longLimb.emoji}: Longlimb Human\n
+		${rp.race.mink.emoji}: mink\n${rp.race.mermaid.emoji}: sereia\n${rp.race.skypeans.emoji}: skypeans\n${rp.race.eyes.emoji}: three-eye\n${rp.race.tonttata.emoji}: tonttata\n
+		${rp.race.arm.emoji}: long arm\n${rp.race.leg.emoji}: long leg\n
+		${rp.race.snake.emoji}: snake neck\n${rp.race.fishMan.emoji}: tritão\n${rp.race.wotan.emoji}: wotan`)
 
 	const mRaca = await message.author.send(embed)
-	await mRaca.react(one)
-	await mRaca.react(two)
-	await mRaca.react(three)
-	await mRaca.react(four)
-	await mRaca.react(five)
-	await mRaca.react(six)
-	await mRaca.react(seven)
-	await mRaca.react(eight)
-	await mRaca.react(nine)
-	await mRaca.react(ten)
-	await mRaca.react(poop)
-	await mRaca.react(snake)
-	await mRaca.react(wolf)
+	await mRaca.react(rp.race.giant.emoji)
+	await mRaca.react(rp.race.human.emoji)
+	await mRaca.react(rp.race.longLimb.emoji)
+	await mRaca.react(rp.race.mink.emoji)
+	await mRaca.react(rp.race.mermaid.emoji)
+	await mRaca.react(rp.race.skypeans.emoji)
+	await mRaca.react(rp.race.eyes.emoji)
+	await mRaca.react(rp.race.tonttata.emoji)
+	await mRaca.react(rp.race.arm.emoji)
+	await mRaca.react(rp.race.leg.emoji)
+	await mRaca.react(rp.race.snake.emoji)
+	await mRaca.react(rp.race.fishMan.emoji)
+	await mRaca.react(rp.race.wotan.emoji)
 
 	try{
 		const reactions = await mRaca.awaitReactions(reaction =>
-			reaction.emoji.name === one
-      || reaction.emoji.name === two
-      || reaction.emoji.name === three
-      || reaction.emoji.name === four
-      || reaction.emoji.name === five
-      || reaction.emoji.name === six
-      || reaction.emoji.name === seven
-      || reaction.emoji.name === eight
-      || reaction.emoji.name === nine
-      || reaction.emoji.name === ten
-      || reaction.emoji.name === poop
-      || reaction.emoji.name === snake
-      || reaction.emoji.name === wolf, { max: 2, time: 60000 })
-		for (const reacts of reactionName) {
+			reaction.emoji.name === rp.race.giant.emoji
+      || reaction.emoji.name === rp.race.human.emoji
+      || reaction.emoji.name === rp.race.longLimb.emoji
+      || reaction.emoji.name === rp.race.mink.emoji
+      || reaction.emoji.name === rp.race.mermaid.emoji
+      || reaction.emoji.name === rp.race.skypeans.emoji
+      || reaction.emoji.name === rp.race.eyes.emoji
+      || reaction.emoji.name === rp.race.tonttata.emoji
+      || reaction.emoji.name === rp.race.arm.emoji
+      || reaction.emoji.name === rp.race.leg.emoji
+      || reaction.emoji.name === rp.race.snake.emoji
+      || reaction.emoji.name === rp.race.fishMan.emoji
+      || reaction.emoji.name === rp.race.wotan.emoji, { max: 2, time: 60000 })
+		for (const reacts of reactionsRace) {
 			if (reactions.get(reacts) != undefined) {
 				if(reactions.get(reacts).count == 2) {
 					console.log(reacts, ': ', reactions.get(reacts).count)
@@ -267,82 +269,82 @@ async function raca(message, author) {
 
 	if (counter === 1) {
 		switch(whatis) {
-		case one:
-			role = rp.race.giant // gigante
+		case rp.race.giant.emoji:
+			role = rp.race.giant.id // gigante
 			await message.member.roles.add(role)
 			race = 'gigante'
 			raceSheet = 'giant'
 			break;
-		case two:
-			role = rp.race.human // humano
+		case rp.race.human.emoji:
+			role = rp.race.human.id // humano
 			await message.member.roles.add(role)
 			message.author.send('done')
 			race = 'humano'
 			raceSheet = 'human'
 			break;
-		case three:
-			role = rp.race.longLimb // longlimb human
+		case rp.race.longLimb.emoji:
+			role = rp.race.longLimb.id // longlimb human
 			await message.member.roles.add(role)
 			message.author.send('done')
 			race = 'longlimb human'
 			raceSheet = 'longLimb'
 			break;
-		case four:
-			role = rp.race.mink // mink
+		case rp.race.mink.emoji:
+			role = rp.race.mink.id // mink
 			await message.member.roles.add(role)
 			race = 'mink'
 			raceSheet = 'mink'
 			break;
-		case five:
-			role = rp.race.mermaid // sereia
+		case rp.race.mermaid.emoji:
+			role = rp.race.mermaid.id // sereia
 			await message.member.roles.add(role)
 			race = 'sereia'
 			raceSheet = 'mermaid'
 			break;
-		case six:
-			role = rp.race.sypeans // skypeans
+		case rp.race.skypeans.emoji:
+			role = rp.race.sypeans.id // skypeans
 			await message.member.roles.add(role)
 			race = 'skypean'
 			raceSheet = 'skypeans'
 			break;
-		case seven:
-			role = rp.race.eyes // three-eye
+		case rp.race.eyes.emoji:
+			role = rp.race.eyes.id // three-eye
 			await message.member.roles.add(role)
 			race = 'three-eye'
 			raceSheet = 'eyes'
 			break;
-		case eight:
+		case rp.race.tonttata.emoji:
 			role = rp.race.tonttata // tonttata
 			await message.member.roles.add(role)
 			race = 'tonttata'
 			raceSheet = 'tonttata'
 			break;
-		case nine:
-			role = rp.race.arm // long arm
+		case rp.race.arm.emoji:
+			role = rp.race.arm.id // long arm
 			await message.member.roles.add(role)
 			race = 'long arm'
 			raceSheet = 'arm'
 			break;
-		case ten:
-			role = rp.race.leg // long leg
+		case rp.race.leg.emoji:
+			role = rp.race.leg.id // long leg
 			await message.member.roles.add(role)
 			race = 'long leg'
 			raceSheet = 'leg'
 			break;
-		case poop:
-			role = rp.race.snake // snake neck
+		case rp.race.snake.emoji:
+			role = rp.race.snake.id // snake neck
 			await message.member.roles.add(role)
 			race = 'snake neck'
 			raceSheet = 'snake'
 			break;
-		case snake:
-			role = rp.race.fishMan // tritão
+		case rp.race.fishMan.emoji:
+			role = rp.race.fishMan.id // tritão
 			await message.member.roles.add(role)
 			race = 'tritão'
 			raceSheet = 'fishMan'
 			break;
-		case wolf:
-			role = rp.race.wotan // wotan
+		case rp.race.wotan.emoji:
+			role = rp.race.wotan.id // wotan
 			await message.member.roles.add(role)
 			race = 'wotan'
 			raceSheet = 'wotan'
@@ -363,27 +365,27 @@ async function oficio(message, author) {
 	const embed = new Discord.MessageEmbed()
 		.setColor('00ff00')
 		.setTitle('Escolha seu oficio')
-		.setDescription(`${one}: capitão\n${two}: navegador\n${three}: arqueólogo\n${four}: cozinheiro\n${five}: engenheiro\n${six}: médico\n${seven}: músico`)
+		.setDescription(`${rp.clas.capitan.emoji}: capitão\n${rp.clas.navigator.emoji}: navegador\n${rp.clas.arch.emoji}: arqueólogo\n${rp.clas.chef.emoji}: cozinheiro\n${rp.clas.engineer.emoji}: engenheiro\n${rp.clas.doctor.emoji}: médico\n${rp.clas.musician.emoji}: músico`)
 
 	const mOficio = await message.author.send(embed)
-	await mOficio.react(one)
-	await mOficio.react(two)
-	await mOficio.react(three)
-	await mOficio.react(four)
-	await mOficio.react(five)
-	await mOficio.react(six)
-	await mOficio.react(seven)
+	await mOficio.react(rp.clas.capitan)
+	await mOficio.react(rp.clas.navigator.emoji)
+	await mOficio.react(rp.clas.arch.emoji)
+	await mOficio.react(rp.clas.chef.emoji)
+	await mOficio.react(rp.clas.engineer.emoji)
+	await mOficio.react(rp.clas.doctor.emoji)
+	await mOficio.react(rp.clas.musician.emoji)
 
 	try{
 		const reactions = await mOficio.awaitReactions(reaction =>
-			reaction.emoji.name === one
-      || reaction.emoji.name === two
-      || reaction.emoji.name === three
-      || reaction.emoji.name === four
-      || reaction.emoji.name === five
-      || reaction.emoji.name === six
-      || reaction.emoji.name === seven, { max: 2, time: 60000 })
-		for (const reacts of reactionName) {
+			reaction.emoji.name === rp.clas.capitan
+      || reaction.emoji.name === rp.clas.navigator.emoji
+      || reaction.emoji.name === rp.clas.arch.emoji
+      || reaction.emoji.name === rp.clas.chef.emoji
+      || reaction.emoji.name === rp.clas.engineer.emoji
+      || reaction.emoji.name === rp.clas.doctor.emoji
+      || reaction.emoji.name === rp.clas.musician.emoji, { max: 2, time: 60000 })
+		for (const reacts of reactionsClas) {
 			if (reactions.get(reacts) != undefined) {
 				if(reactions.get(reacts).count == 2) {
 					console.log(reacts, ': ', reactions.get(reacts).count)
@@ -401,40 +403,40 @@ async function oficio(message, author) {
 
 	if (counter === 1) {
 		switch(whatis) {
-		case one:
-			role = rp.clas.capitan // capitão
+		case rp.clas.capitan:
+			role = rp.clas.capitan.id // capitão
 			await message.member.roles.add(role)
 			clas = 'capitão'
 			break;
-		case two:
-			role = rp.clas.navigator // navegador
+		case rp.clas.navigator.emoji:
+			role = rp.clas.navigator.id // navegador
 			await message.member.roles.add(role)
 			message.author.send('done')
 			clas = 'navegador'
 			break;
-		case three:
-			role = rp.clas.arch // arqueólogo
+		case rp.clas.arch.emoji:
+			role = rp.clas.arch.id // arqueólogo
 			await message.member.roles.add(role)
 			message.author.send('done')
 			clas = 'arquólogo'
 			break;
-		case four:
-			role = rp.clas.chef // cozinheiro
+		case rp.clas.chef.emoji:
+			role = rp.clas.chef.id // cozinheiro
 			await message.member.roles.add(role)
 			clas = 'cozinheiro'
 			break;
-		case five:
-			role = rp.clas.engineer // engenheiro
+		case rp.clas.engineer.emoji:
+			role = rp.clas.engineer.id // engenheiro
 			await message.member.roles.add(role)
 			clas = 'engenheiro'
 			break;
-		case six:
-			role = rp.clas.doctor // médico
+		case rp.clas.doctor.emoji:
+			role = rp.clas.doctor.id // médico
 			await message.member.roles.add(role)
 			clas = 'médico'
 			break;
-		case seven:
-			role = rp.clas.musician // musico
+		case rp.clas.musician.emoji:
+			role = rp.clas.musician.id // musico
 			await message.member.roles.add(role)
 			clas = 'musico'
 			break;

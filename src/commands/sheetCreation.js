@@ -581,7 +581,8 @@ module.exports = {
 	guildOnly: true,
 	usage: '',
 	aliases: ['criar'],
-	execute(message) {
+	// eslint-disable-next-line no-unused-vars
+	execute: async (message, args, cooldowns, timestamps, client) => {
 		if(!message.member.roles.cache.has(server.noSheet)) {
 			console.log('has a role')
 			message.channel.send('Você ja tem ficha feita')

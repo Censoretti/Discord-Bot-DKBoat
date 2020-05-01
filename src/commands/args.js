@@ -5,7 +5,8 @@ module.exports = {
 	role: 'manager',
 	usage: '<text>',
 	guildOnly: true,
-	execute(message, args) {
+	// eslint-disable-next-line no-unused-vars
+	execute: async (message, args, cooldowns, timestamps, client) => {
 		if (args[0] === 'foo') {
 			return message.channel.send('bar');
 		}

@@ -5,7 +5,8 @@ module.exports = {
 	aliases: ['alterar', 'mudar', 'edit'],
 	description: 'reset something from the sheet',
 	role: 'manager',
-	execute: async (message, args) => {
+	// eslint-disable-next-line no-unused-vars
+	execute: async (message, args, cooldowns, timestamps, client) => {
 		const document = require(`../docs/sheets/${args[0]}`)
 		const arr = []
 		let number = 0

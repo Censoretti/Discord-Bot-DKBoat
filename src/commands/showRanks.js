@@ -8,7 +8,8 @@ module.exports = {
 	// guildOnly: true,
 	// usage: '',
 	// role: 'adm',
-	execute: async (message, args) => {
+	// eslint-disable-next-line no-unused-vars
+	execute: async (message, args, cooldowns, timestamps, client) => {
 		let rankOf = 'me'
 		let rankTittle = 'Level'
 		let description = 'Level'
@@ -60,7 +61,7 @@ module.exports = {
 				let mention = ''
 				let avatar
 				message.mentions.users.map(user => { mention = user.id 
-				avatar = user.displayAvatarURL({ dynamic: true })})
+					avatar = user.displayAvatarURL({ dynamic: true })})
 				
 				const rankRP = require('../docs/ranks/rankRP.json')
 				const rankInvites = require('../docs/ranks/rankInvites.json')
@@ -69,17 +70,17 @@ module.exports = {
 				const rankSpd = require('../docs/ranks/rankSpd.json')
 				const rankDex = require('../docs/ranks/rankDex.json')
 				const embedMention = new Discord.MessageEmbed()
-				.setColor('#00ff00')
-				.setThumbnail(avatar)
-				.setTitle(`Rank de ${rankRP.users[mention].name}`)
-				.setDescription(`Rank de level: ${rankRP.users[mention].rank}º com o level; ${rankRP.users[mention].level}
+					.setColor('#00ff00')
+					.setThumbnail(avatar)
+					.setTitle(`Rank de ${rankRP.users[mention].name}`)
+					.setDescription(`Rank de level: ${rankRP.users[mention].rank}º com o level; ${rankRP.users[mention].level}
 												Rank de invites: ${rankInvites.users[mention].rank}º quantidade de usos: ${rankInvites.users[mention].level}
 												Rank de força: ${rankStr.users[mention].rank}º com o stat de: ${rankStr.users[mention].level}
 												Rank de resistência: ${rankRes.users[mention].rank}º com o stat de: ${rankRes.users[mention].level}
 												Rank de velocidade: ${rankSpd.users[mention].rank}º com o stat de: ${rankSpd.users[mention].level}
 												Rank de destreza: ${rankDex.users[mention].rank}º com o stat de: ${rankDex.users[mention].level}`)
-				.setTimestamp()
-				.setFooter('[Bot feito por Censoretti]', 'https://cdn.discordapp.com/attachments/613477001071951915/703825043066585168/Screenshot_5.png')
+					.setTimestamp()
+					.setFooter('[Bot feito por Censoretti]', 'https://cdn.discordapp.com/attachments/613477001071951915/703825043066585168/Screenshot_5.png')
 
 				return message.channel.send(embedMention)
 			}
@@ -93,17 +94,17 @@ module.exports = {
 				const rankSpd = require('../docs/ranks/rankSpd.json')
 				const rankDex = require('../docs/ranks/rankDex.json')
 				const embedMe = new Discord.MessageEmbed()
-				.setColor('#00ff00')
-				.setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
-				.setTitle(`Rank de ${rankRP.users[me].name}`)
-				.setDescription(`Rank de level ${rankRP.users[me].rank}º com o level: ${rankRP.users[me].level}
+					.setColor('#00ff00')
+					.setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
+					.setTitle(`Rank de ${rankRP.users[me].name}`)
+					.setDescription(`Rank de level ${rankRP.users[me].rank}º com o level: ${rankRP.users[me].level}
 												Rank de invites ${rankInvites.users[me].rank}º quatidade de usos: ${rankInvites.users[me].level}
 												Rank de força: ${rankStr.users[me].rank}º com o stat de: ${rankStr.users[me].level}
 												Rank de resistência: ${rankRes.users[me].rank}º com o stat de: ${rankRes.users[me].level}
 												Rank de velocidade: ${rankSpd.users[me].rank}º com o stat de: ${rankSpd.users[me].level}
 												Rank de destreza: ${rankDex.users[me].rank}º com o stat de: ${rankDex.users[me].level}`)
-				.setTimestamp()
-				.setFooter('[Bot feito por Censoretti]', 'https://cdn.discordapp.com/attachments/613477001071951915/703825043066585168/Screenshot_5.png')
+					.setTimestamp()
+					.setFooter('[Bot feito por Censoretti]', 'https://cdn.discordapp.com/attachments/613477001071951915/703825043066585168/Screenshot_5.png')
 
 				return message.channel.send(embedMe)
 			}

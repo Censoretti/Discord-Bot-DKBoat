@@ -4,7 +4,8 @@ const Discord = require('discord.js')
 module.exports = {
 	name: 'shop',
 	description: 'list the shop itens',
-	execute: async (message) => {
+	// eslint-disable-next-line no-unused-vars
+	execute: async (message, args, cooldowns, timestamps, client) => {
 
 		const embed = new Discord.MessageEmbed()
 			.setColor('#00ff00')

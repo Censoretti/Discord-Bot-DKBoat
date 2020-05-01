@@ -6,7 +6,8 @@ module.exports = {
 	aliases: ['buy'],
 	args: true,
 	description: 'buy a item from shop',
-	execute: async (message, args) => {
+	// eslint-disable-next-line no-unused-vars
+	execute: async (message, args, cooldowns, timestamps, client) => {
 		const document = require(`../docs/sheets/${message.author.id}.json`)
 
 		let money = document.rp.money

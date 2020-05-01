@@ -5,7 +5,8 @@ module.exports = {
 	role: 'manager',
 	aliases: ['embed', 'dev'],
 	description: 'embed some text',
-	execute(message) {
+	// eslint-disable-next-line no-unused-vars
+	execute: async (message, args, cooldowns, timestamps, client) => {
 		const exampleEmbed = new Discord.MessageEmbed()
 			.setColor('#00ff00')
 			.setAuthor('author', 'https://media.discordapp.net/attachments/630288097740980224/698993062533398587/Popcorn.png', 'https://github.com/dagashy/discordbot')

@@ -17,7 +17,8 @@ module.exports = {
 	guildOnly: true,
 	args: true,
 	usage: 'força',
-	execute: async (message, args, cooldowns, timestamps) => {
+	// eslint-disable-next-line no-unused-vars
+	execute: async (message, args, cooldowns, timestamps, client) => {
 		// console.log()
 		// return
 		// eslint-disable-next-line no-unreachable

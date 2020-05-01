@@ -15,7 +15,8 @@ module.exports = {
 	description: 'remove sheet from someone',
 	// usage: '',
 	role: 'adm',
-	execute: async (message, args) => {
+	// eslint-disable-next-line no-unused-vars
+	execute: async (message, args, cooldowns, timestamps, client) => {
 		const sheet = require(`../docs/sheets/${args[0]}.json`)
 
 		sheet.rp.name = 'none'

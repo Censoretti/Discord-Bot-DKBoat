@@ -7,7 +7,8 @@ module.exports = {
 	args: true,
 	role: 'adm',
 	description: 'add a item to shop',
-	execute: async (message, args) => {
+	// eslint-disable-next-line no-unused-vars
+	execute: async (message, args, cooldowns, timestamps, client) => {
 		for (const key in shop) {
 			// eslint-disable-next-line no-prototype-builtins
 			if (shop.hasOwnProperty(key)) {

@@ -3,7 +3,8 @@ module.exports = {
 	role: 'manager',
 	description: 'Reloads a command',
 	args: true,
-	execute(message, args) {
+	// eslint-disable-next-line no-unused-vars
+	execute: async (message, args, cooldowns, timestamps, client) => {
 		const commandName = args[0].toLowerCase();
 		const command = message.client.commands.get(commandName)
 			|| message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));

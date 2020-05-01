@@ -4,7 +4,8 @@ module.exports = {
 	aliases: ['commands', 'help'],
 	usage: '[command name]',
 	cooldown: 5,
-	execute(message, args) {
+	// eslint-disable-next-line no-unused-vars
+	execute: async (message, args, cooldowns, timestamps, client) => {
 		const data = [];
 		const { commands } = message.client;
 		const roles = require('../docs/assets/roles.json')

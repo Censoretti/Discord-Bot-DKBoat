@@ -9,6 +9,7 @@ module.exports = {
 	// guildOnly: true,
 	// usage: '',
 	role: 'manager',
+	// eslint-disable-next-line no-unused-vars
 	execute: async (message, args, cooldowns, timestamps, client) => {
 		const channels = require('../docs/assets/channels.json')
 		const guildId = message.guild.id

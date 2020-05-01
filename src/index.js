@@ -193,7 +193,7 @@ client.on('message', message => {
 
 	try {
 		console.log('[EXECUTANDO O COMANDO:', command.name.toUpperCase(), ' PARA ' + message.author.username + ' ]')
-		command.execute(message, args, cooldowns, timestamps)
+		command.execute(message, args, cooldowns, timestamps, client)
 	} catch (error) {
 		console.error(error);
 		message.reply('IIIIIIHHHH deu erro ai em alguma coisa :T')
@@ -253,8 +253,6 @@ client.on('guildMemberAdd', async member => {
 			.then(console.log(`Used invite to ${usedInvite.inviter.username}`))
 			.catch(err => console.log(err))
 
-		const rankRP = require('./docs/ranks/rankRP.json')
-		const rankInvites = require('./docs/ranks/rankInvites.json')
 		const newSheet = require('./docs/sheets/_template.json')
 		newSheet.server.invites.invited = usedInvite.inviter.id
 		newSheet.server.id = member.user.id

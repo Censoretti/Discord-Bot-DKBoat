@@ -26,7 +26,7 @@ const reactionsCourse = [
 
 const reactionsRace = [
 	rp.race.giant.emoji, rp.race.human.emoji, rp.race.longLimb.emoji, rp.race.mink.emoji,
-	rp.race.mermaemoji.emoji, rp.race.skypeans.emoji, rp.race.eyes.emoji, rp.race.tonttata.emoji,
+	rp.race.mermaid.emoji, rp.race.skypeans.emoji, rp.race.eyes.emoji, rp.race.tonttata.emoji,
 	rp.race.arm.emoji, rp.race.leg.emoji, rp.race.snake.emoji, rp.race.fishMan.emoji, rp.race.wotan.emoji]
 
 const reactionsClas = [

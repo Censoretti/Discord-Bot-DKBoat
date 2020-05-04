@@ -117,16 +117,6 @@ marineMoney.start()
 client.on('message', message => {
 	if (message.author.bot) return
 
-	// console.log(client.guilds.cache.get(message.guild.id).channels.cache)
-	// console.log(message.channel.rawPosition)
-	// console.log(message.guild.id)
-
-	// for(const caches of client.guilds.cache.get(message.guild.id).channels.cache) {
-	// 	const cache = caches[1]
-	// 	if(cache.rawPosition > 87) {
-	// 		cache.delete()
-	// 	}
-	// }
 	try {
 		const event = client.events.get('mExperience')
 		event.execute(message)
@@ -232,8 +222,6 @@ client.on('ready', () => {
 			.catch(err => console.log(err));
 	});
 
-	// console.log(client.guilds.cache.get('628028186709458945').channels.cache.get('630288097740980224'))
-  
 });
 
 
@@ -274,9 +262,12 @@ client.on('guildMemberAdd', async member => {
 			.catch(err => console.log(err))
 		
 		require('./events/getRank').execute(member.user.id, newSheet, member.guild.id)
+
+		const guildConfig = require('../docs/assets/guildConfig.json')
+		const guildId = member.guild.id
 		
-		const welcomeChannel = member.guild.channels.cache.find(channel => channel.id === '630345302808985630');
-		if(welcomeChannel) {
+		const welcomeChannel = member.guild.channels.cache.get(guildConfig[guildId].welcomeChat.id);
+		if(guildConfig[guildId].welcomeChat.situation) {
 			welcomeChannel.send(embed).catch(err => console.log(err));
 		}
 	}
@@ -306,9 +297,12 @@ client.on('guildMemberRemove', async member => {
 		.then(console.log(`Less one invite uses for: ${inviterMember.server.username}`))
 		.catch(err => console.log(err))
 
-	const goodByeChannel = member.guild.channels.cache.find(channel => channel.id === '630345370131628072');
-	if(goodByeChannel) {
-		goodByeChannel.send(embed).catch(err => console.log(err));
+	const guildConfig = require('../docs/assets/guildConfig.json')
+	const guildId = member.guild.id
+
+	const exitChat = member.guild.channels.cache.get(guildConfig[guildId].exitChat.id);
+	if(guildConfig[guildId].exitChat.situation) {
+		exitChat.send(embed).catch(err => console.log(err));
 	}
 	require('./events/rankUpdate').execute(member.guild.id)
 });

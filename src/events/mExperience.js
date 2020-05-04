@@ -6,6 +6,20 @@ module.exports = {
 	description: 'get experience by message',
 	usage: 'send message and gain experience',
 	execute: async (message) => {
+		const guildConfig = require('../docs/assets/guildConfig.json')
+		const guildIdBase = message.guild.id
+		let guildId = guildIdBase
+		if(guildConfig[guildIdBase].parentGuild.situation) {
+			guildId = guildConfig[guildIdBase].parentGuild.id
+		}
+		let levelUpChat
+
+		if(guildConfig[guildIdBase].levelUpChat.situation) {
+			levelUpChat = guildConfig[guildIdBase].levelUpChat.id
+		} else {
+			levelUpChat = guildConfig[guildId].levelUpChat.id
+		}
+		
 		const docsFiles = await fs.readdir('src/docs/sheets')
 		for (const file of docsFiles) {
 			const document2 = require(`../docs/sheets/${file}`);
@@ -41,8 +55,8 @@ module.exports = {
 			document.server.messages.xp = 0
 
 			try {
-				message.guild.channels.cache.get('698941586377277453')
-					.send(`<@${message.author.id}> novo level: ${level + 1}`)
+				message.guild.channels.cache.get(levelUpChat)
+					.send(`<@${message.author.id}> upou para: ${level + 1}`)
 			} catch(err) {
 				console.log(err)
 			}

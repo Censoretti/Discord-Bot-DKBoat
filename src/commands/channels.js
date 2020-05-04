@@ -13,7 +13,7 @@ module.exports = {
 	execute: async (message, args, cooldowns, timestamps, client) => {
 		if(!args[0]) {
 			console.log(args)
-			return message.channel.send(message.channel.rawPosition)
+			return message.channel.send(`Use de novo com o valod ${message.channel.rawPosition}\nAbaixo desse canal sera 'onRP'`)
 		}
 
 		if(args[0] == 'delete') {
@@ -22,10 +22,15 @@ module.exports = {
 			}
 			for(const caches of client.guilds.cache.get(message.guild.id).channels.cache) {
 				const cache = caches[1]
-				if(cache.rawPosition > args[1]) {
-					cache.delete()
+				if(args[2]) {
+					if(cache.rawPosition > args[1] && cache.rawPosition < args[2]) {
+						await cache.delete()
+					}
+				} else if(cache.rawPosition > args[1]) {
+					await cache.delete()
 				}
 			}
+			return
 		}
 		const channels = require('../docs/assets/channels.json')
 		const guildId = message.guild.id

@@ -1,6 +1,6 @@
 const fs = require('fs').promises
 
-const { rp } = require('../docs/assets/roles.json')
+const { rp } = require('../docs/assets/628028186709458945/roles.json')
 const rolesF = [
 	rp.course.marine.marine.id, rp.course.marine.apprentice.id, rp.course.pirate.id, rp.course.punisher.id,
 	rp.race.giant.id, rp.race.human.id, rp.race.longLimb.id, rp.race.mink.id,

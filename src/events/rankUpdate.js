@@ -35,13 +35,9 @@ module.exports = {
 					let valueUser = user
 			
 					while (testUser < rankToUpdate.config.where.position) {
-						console.log(`while ${testUser}`)
 						testUser++
 						testStringUser = parseInt(testUser)
-						console.log('testStringUser', testStringUser)
-						console.log('testando: ', rankToUpdate.config.where.keys[testStringUser])
 						keyTestUser = rankToUpdate.config.where.keys[testStringUser]
-						console.log('keyTestUser', keyTestUser)
 						valueUser = valueUser[keyTestUser]
 					}
 	

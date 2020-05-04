@@ -8,7 +8,7 @@ module.exports = {
 	execute: async (message, args, cooldowns, timestamps, client) => {
 		const data = [];
 		const { commands } = message.client;
-		const roles = require('../docs/assets/roles.json')
+		const roles = require('../docs/assets/628028186709458945/roles.json')
 
 		if (!args.length) {
 			data.push('Here\'s a list of all my commands:');

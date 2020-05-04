@@ -60,23 +60,41 @@ module.exports = {
 					console.log(message.guild.name)
 					return message.channel.send('Ja foi cadastrada')
 				}
-			} else {
-				config[guildId] = {}
-				config[guildId].parentGuild = {}
-				config[guildId].parentGuild.situation = false
-				config[guildId].parentGuild.id = '0'
-				config[guildId].welcomeChat = {}
-				config[guildId].welcomeChat.situation = false
-				config[guildId].welcomeChat.id = '0'
-				config[guildId].exitChat = {}
-				config[guildId].exitChat.situation = false
-				config[guildId].exitChat.id = '0'
-				config[guildId].levelUpChat = {}
-				config[guildId].levelUpChat.situation = false
-				config[guildId].levelUpChat.id = '0'
-				config[guildId].description = 'none' 
-				message.channel.send('Cadastrada')
+			} 
+		} else {
+			config[guildId] = {}
+			config[guildId].parentGuild = {}
+			config[guildId].parentGuild.situation = false
+			config[guildId].parentGuild.id = '0'
+			config[guildId].welcomeChat = {}
+			config[guildId].welcomeChat.situation = false
+			config[guildId].welcomeChat.id = '0'
+			config[guildId].exitChat = {}
+			config[guildId].exitChat.situation = false
+			config[guildId].exitChat.id = '0'
+			config[guildId].levelUpChat = {}
+			config[guildId].levelUpChat.situation = false
+			config[guildId].levelUpChat.id = '0'
+			config[guildId].description = 'none' 
+			config[guildId].commands = {}
+
+			const commandFiles = await fs.readdir('src/commands')
+				.catch(err => console.log('[#commandFiles]', err))
+
+			for (const file of commandFiles) {
+				const commandName = require(`./${file}`).name
+				config[guildId].commands[commandName] = true
 			}
+
+			const eventFiles = await fs.readdir('src/events')
+				.catch(err => console.log('[#eventFiles]', err))
+
+			for (const file of eventFiles) {
+				const eventName = require(`../events/${file}`).name
+				config[guildId].events[eventName] = true
+			}
+
+			message.channel.send('Cadastrada')
 		}
 
 		const data = JSON.stringify(config)

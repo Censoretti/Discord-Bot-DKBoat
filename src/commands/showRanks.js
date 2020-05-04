@@ -21,7 +21,9 @@ module.exports = {
 		}
 
 		let rankOf = 'me'
-		let test = false
+
+		let test = true
+
 		if(args[0]) {
 			argh = args[0].toLowerCase()
 
@@ -29,67 +31,40 @@ module.exports = {
 			|| argh == 'invites') {
 				rankOf = 'invites'
 				test = false
-			}
-			if(argh == 'forca' 
+			} else if(argh == 'forca' 
 			|| argh == 'força') {
-				rankOf = 'Str'
+				rankOf = 'str'
 				test = false
-			}
-			if(argh == 'resistencia' 
+			} else if(argh == 'resistencia' 
 			|| argh == 'resistência') {
-				rankOf = 'Res'
+				rankOf = 'res'
 				test = false
-			}
-			if(argh == 'velocidade' 
+			} else if(argh == 'velocidade' 
 			|| argh == 'vel') {
-				rankOf = 'Spd'
+				rankOf = 'spd'
 				test = false
-			}
-			if(argh == 'destreza' 
+			} else if(argh == 'destreza' 
 			|| argh == 'dex') {
-				rankOf = 'Dex'
+				rankOf = 'dex'
 				test = false
-			}
-			if(argh == 'level' 
+			} else if(argh == 'level' 
 			|| argh == 'rp') {
-				rankOf = 'rp'
+				rankOf = 'lv'
 				test = false
+			} else if(message.mentions.users.size) {
+				rankOf = 'mention'
+			} else {
+				test = true
 			}
 		}
-		if(message.mentions.users.size) {
-			let mention = ''
-			message.mentions.users.map(user => { mention = user.id})
-			
-
-			let descriptionReply = ''
-
-			const rankFiles = await fs.readdir(`src/docs/ranks/${guildId}`)
-				.catch(err => console.log('[#RANKFILES/RANKUPDATE]', err))
-
-			for(const files of rankFiles) {
-				const rankFile = require(`../docs/ranks/${guildId}/${files}`)
-				descriptionReply += `Rank de ${rankFile.config.nameDesciption}: ${rankFile.users[mention].rank}º ${rankFile.config.description}${rankFile.users[mention].value}\n`
-			}
-
-			const sheetName = require(`../docs/sheets/${mention}`).rp.name
-			const appearance = require(`../docs/sheets/${mention}`).rp.appearance
-
-			const embedMention = new Discord.MessageEmbed()
-				.setColor('#00ff00')
-				.setThumbnail(appearance)
-				.setTitle(`Rank de ${sheetName}`)
-				.setDescription(descriptionReply)
-				.setTimestamp()
-				.setFooter('[Bot feito por Censoretti]', 'https://cdn.discordapp.com/attachments/613477001071951915/703825043066585168/Screenshot_5.png')
-
-			return message.channel.send(embedMention)
-		}
-
+		
 		if(rankOf == 'me') {
 			const me = message.author.id
-
-			const sheetName = require(`../docs/sheets/${me}`).rp.name
 			const appearance = require(`../docs/sheets/${me}`).rp.appearance
+			if(appearance == 'none') {
+				return message.channel.send('Você não tem ficha não maluco')
+			}
+			const sheetName = require(`../docs/sheets/${me}`).rp.name
 
 			let descriptionReply = ''
 
@@ -110,6 +85,38 @@ module.exports = {
 				.setFooter('[Bot feito por Censoretti]', 'https://cdn.discordapp.com/attachments/613477001071951915/703825043066585168/Screenshot_5.png')
 
 			return message.channel.send(embedMe)
+		}
+
+
+		if(message.mentions.users.size) {
+			let mention = ''
+			message.mentions.users.map(user => { mention = user.id})
+			const appearanceM = require(`../docs/sheets/${mention}`).rp.appearance
+			if(appearanceM == 'none') {
+				return message.channel.send('Esse cara ai não tem ficha não mano')
+			}
+			
+			let descriptionReply = ''
+
+			const rankFiles = await fs.readdir(`src/docs/ranks/${guildId}`)
+				.catch(err => console.log('[#RANKFILES/RANKUPDATE]', err))
+
+			for(const files of rankFiles) {
+				const rankFile = require(`../docs/ranks/${guildId}/${files}`)
+				descriptionReply += `Rank de ${rankFile.config.nameDesciption}: ${rankFile.users[mention].rank}º ${rankFile.config.description}${rankFile.users[mention].value}\n`
+			}
+
+			const sheetName = require(`../docs/sheets/${mention}`).rp.name
+
+			const embedMention = new Discord.MessageEmbed()
+				.setColor('#00ff00')
+				.setThumbnail(appearanceM)
+				.setTitle(`Rank de ${sheetName}`)
+				.setDescription(descriptionReply)
+				.setTimestamp()
+				.setFooter('[Bot feito por Censoretti]', 'https://cdn.discordapp.com/attachments/613477001071951915/703825043066585168/Screenshot_5.png')
+
+			return message.channel.send(embedMention)
 		}
 
 		if(test) {

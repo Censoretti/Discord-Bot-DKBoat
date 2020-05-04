@@ -1,6 +1,27 @@
 const Discord = require('discord.js')
 const fs = require('fs').promises
-const { rp, server } = require('../docs/assets/roles.json')
+const { rp, server } = require('../docs/assets/628028186709458945/roles.json')
+
+module.exports = {
+	name: 'ficha',
+	description: 'criação de ficha',
+	guildOnly: true,
+	usage: '',
+	aliases: ['criar'],
+	// eslint-disable-next-line no-unused-vars
+	execute: async (message, args, cooldowns, timestamps, client) => {
+		if(!message.member.roles.cache.has(server.noSheet)) {
+			console.log('has a role')
+			message.channel.send('Você ja tem ficha feita')
+			return
+		}
+		const author = message.author.id
+		const guildId = message.guild.id
+		await creation(message, author, guildId)
+			.then(console.log('Sheet created'))
+			.catch(err => console.log(err))
+	},
+}
 
 let truth = true
 
@@ -587,25 +608,4 @@ async function creation(message, author, guildId) {
 	} catch(err) {
 		console.log(err)
 	}
-}
-
-module.exports = {
-	name: 'ficha',
-	description: 'criação de ficha',
-	guildOnly: true,
-	usage: '',
-	aliases: ['criar'],
-	// eslint-disable-next-line no-unused-vars
-	execute: async (message, args, cooldowns, timestamps, client) => {
-		if(!message.member.roles.cache.has(server.noSheet)) {
-			console.log('has a role')
-			message.channel.send('Você ja tem ficha feita')
-			return
-		}
-		const author = message.author.id
-		const guildId = message.guild.id
-		await creation(message, author, guildId)
-			.then(console.log('Sheet created'))
-			.catch(err => console.log(err))
-	},
 }

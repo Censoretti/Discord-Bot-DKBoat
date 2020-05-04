@@ -1,5 +1,5 @@
 const fs = require('fs').promises
-const role = require('../docs/assets/roles.json')
+const role = require('../docs/assets/628028186709458945/roles.json')
 
 function wait(ms) {
 	const time = new Date().getTime();

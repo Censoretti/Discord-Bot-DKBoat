@@ -9,17 +9,19 @@ module.exports = {
 		const guildConfig = require('../docs/assets/guildConfig.json')
 		const guildIdBase = message.guild.id
 		let guildId = guildIdBase
-		if(guildConfig[guildIdBase].parentGuild.situation) {
-			guildId = guildConfig[guildIdBase].parentGuild.id
+		if(guildConfig[guildId].parentGuild.situation) {
+			guildId = guildConfig[guildId].parentGuild.id
 		}
 		let levelUpChat
 
 		if(guildConfig[guildIdBase].levelUpChat.situation) {
 			levelUpChat = guildConfig[guildIdBase].levelUpChat.id
-		} else {
+		} else if(guildConfig[guildId].levelUpChat.situation) {
 			levelUpChat = guildConfig[guildId].levelUpChat.id
+		} else {
+			return
 		}
-		
+
 		const docsFiles = await fs.readdir('src/docs/sheets')
 		for (const file of docsFiles) {
 			const document2 = require(`../docs/sheets/${file}`);

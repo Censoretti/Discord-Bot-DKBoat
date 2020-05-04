@@ -3,8 +3,9 @@ console.log('--------------- INDEX FILE IGNITE ---------------')
 
 const fs = require('fs').promises
 const Discord = require('discord.js')
-const roles = require('./docs/assets/roles.json')
+const roles = require('./docs/assets/628028186709458945/roles.json')
 const cron = require('node-cron')
+const guildConfig = require('./docs/assets/guildConfig.json')
 const client = new Discord.Client()
 client.commands = new Discord.Collection()
 client.events = new Discord.Collection()
@@ -93,6 +94,7 @@ const marineMoney = cron.schedule('0 0 * * *', async () => {
 	}
 	client.guilds.cache.get('628028186709458945').channels.cache.get('630283915558518805').send(`<@&${roles.rp.course.marine.marine}> pagamento feito`)
 });
+marineMoney.start()
 
 
 // const cronTest = cron.schedule('* * * * *', async () => {
@@ -112,17 +114,20 @@ const marineMoney = cron.schedule('0 0 * * *', async () => {
 // })
 // cronTest.start()
 
-marineMoney.start()
 
 client.on('message', message => {
 	if (message.author.bot) return
 
-	try {
-		const event = client.events.get('mExperience')
-		event.execute(message)
-	} catch (error) {
-		console.log(error)
-		message.reply('supposed to say hi')
+	const guildId = message.guild.id
+
+	if(guildConfig[guildId]) {
+		try {
+			const event = client.events.get('mExperience')
+			event.execute(message)
+		} catch (error) {
+			console.log(error)
+			message.reply('supposed to say hi')
+		}
 	}
 
 	if (!message.content.startsWith(process.env.PREFIX)) return;
@@ -130,6 +135,10 @@ client.on('message', message => {
 	const args = message.content.slice(process.env.PREFIX.length).split(/ +/);
 
 	const commandName = args.shift().toLowerCase();
+
+	if(!guildConfig[guildId].commands[commandName]) {
+		return message.channel.send('Comando não habilitado, chame seus adms')
+	}
 
 	const command = client.commands.get(commandName)
 		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
@@ -263,7 +272,6 @@ client.on('guildMemberAdd', async member => {
 		
 		require('./events/getRank').execute(member.user.id, newSheet, member.guild.id)
 
-		const guildConfig = require('../docs/assets/guildConfig.json')
 		const guildId = member.guild.id
 		
 		const welcomeChannel = member.guild.channels.cache.get(guildConfig[guildId].welcomeChat.id);
@@ -297,7 +305,6 @@ client.on('guildMemberRemove', async member => {
 		.then(console.log(`Less one invite uses for: ${inviterMember.server.username}`))
 		.catch(err => console.log(err))
 
-	const guildConfig = require('../docs/assets/guildConfig.json')
 	const guildId = member.guild.id
 
 	const exitChat = member.guild.channels.cache.get(guildConfig[guildId].exitChat.id);

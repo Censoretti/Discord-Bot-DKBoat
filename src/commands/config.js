@@ -56,6 +56,14 @@ module.exports = {
 					}
 				} else if(args[0] == 'id') {
 					return message.channel.send(`O id desse canal é: ${message.channel.id}`)
+				} else if(args[0] == 'pass')	{
+					if(config[guildId].pass) {
+						config[guildId].pass = false
+						message.channel.send('Pegando as roles de comando da guilda linkada')
+					} else {
+						config[guildId].pass = true
+						message.channel.send('Pegando as roles de comando dessa guilda')
+					}
 				} else {
 					console.log(message.guild.name)
 					return message.channel.send('Ja foi cadastrada')
@@ -77,6 +85,7 @@ module.exports = {
 			config[guildId].levelUpChat.id = '0'
 			config[guildId].description = 'none' 
 			config[guildId].commands = {}
+			config[guildId].pass = false
 
 			const commandFiles = await fs.readdir('src/commands')
 				.catch(err => console.log('[#commandFiles]', err))

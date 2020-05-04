@@ -120,6 +120,9 @@ client.on('message', message => {
 	if (message.author.bot) return
 
 	const guildId = message.guild.id
+	const memberId = message.author.id
+
+	console.log(client.guilds.cache.get(guildLinkId).members.cache.get(memberId).roles.cache.has(roles.server.manager))
 
 	// eslint-disable-next-line no-unused-vars
 	let guildLinkId = guildId
@@ -157,20 +160,24 @@ client.on('message', message => {
 		return message.reply('Sem tempo irmão')
 	}
 
+	let guildIdPass = guildLinkId
+	if(guildConfig[guildId].pass) {
+		guildIdPass = guildId
+	}
 
 	if(command.role) {
 		let admPass = false
 		let managerPass = false
-		if(message.member.roles.cache.has(roles.server.recruit)
-		|| message.member.roles.cache.has(roles.server.moderator)
-		|| message.member.roles.cache.has(roles.server.administrator)
-		|| message.member.roles.cache.has(roles.server.owner)
-		|| message.member.roles.cache.has(roles.server.manager)) {
+		if(client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.recruit)
+		|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.moderator)
+		|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.administrator)
+		|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.owner)
+		|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.manager)) {
 			admPass = true
 		}
 
-		if (message.member.roles.cache.has(roles.server.owner)
-		|| message.member.roles.cache.has(roles.server.manager)) {
+		if (client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.owner)
+		|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.manager)) {
 			managerPass = true
 		}
 

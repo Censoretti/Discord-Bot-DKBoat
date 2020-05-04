@@ -6,6 +6,7 @@ module.exports = {
 	name: 'rank',
 	description: 'Show ranks',
 	aliases: ['ranks'],
+	// onRP: off,
 	// cooldown: 60,
 	// guildOnly: true,
 	// usage: '',

@@ -4,6 +4,7 @@ module.exports = {
 	aliases: ['commands', 'help'],
 	usage: '[command name]',
 	cooldown: 5,
+	// onRP: off,
 	// eslint-disable-next-line no-unused-vars
 	execute: async (message, args, cooldowns, timestamps, client) => {
 		const data = [];

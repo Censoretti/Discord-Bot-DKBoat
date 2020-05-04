@@ -5,6 +5,7 @@ module.exports = {
 	aliases: ['buy'],
 	args: true,
 	description: 'buy a item from shop',
+	// onRP: on,
 	// eslint-disable-next-line no-unused-vars
 	execute: async (message, args, cooldowns, timestamps, client) => {
 		const guildConfig = require('../docs/assets/guildConfig.json')

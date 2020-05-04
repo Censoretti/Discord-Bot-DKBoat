@@ -4,6 +4,7 @@ module.exports = {
 	name: 'mostrar',
 	description: 'Show the sheet of someone',
 	aliases: ['snipe', 'analisar', 'show'],
+	// onRP: off,
 	// cooldown: 60,
 	// guildOnly: true,
 	// usage: '',

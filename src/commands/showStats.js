@@ -6,6 +6,7 @@ module.exports = {
 	// aliases: ['show'],
 	// cooldown: 60,
 	guildOnly: true,
+	// onRP: 'off',
 	// usage: '',
 	// role: 'adm',
 	// eslint-disable-next-line no-unused-vars

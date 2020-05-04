@@ -1,6 +1,7 @@
 const Discord = require('discord.js')
 const fs = require('fs').promises
 const { rp, server } = require('../docs/assets/628028186709458945/roles.json')
+const guildConfig = require('../docs/assets/guildConfig.json')
 
 module.exports = {
 	name: 'ficha',
@@ -8,15 +9,21 @@ module.exports = {
 	guildOnly: true,
 	usage: '',
 	aliases: ['criar'],
+	// onRP: off,
 	// eslint-disable-next-line no-unused-vars
 	execute: async (message, args, cooldowns, timestamps, client) => {
+		const guildId = message.guild.id
+
+		if(guildConfig[guildId].parentGuild.situation) {
+			return message.channel.send('Não é aqui que vc tem q criar sua ficha, é no servidor principal')
+		}
+
 		if(!message.member.roles.cache.has(server.noSheet)) {
 			console.log('has a role')
 			message.channel.send('Você ja tem ficha feita')
 			return
 		}
 		const author = message.author.id
-		const guildId = message.guild.id
 		await creation(message, author, guildId)
 			.then(console.log('Sheet created'))
 			.catch(err => console.log(err))

@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'reload',
 	role: 'manager',
-	description: 'Reloads a command',
+	description: 'Reload command with changes',
 	args: true,
 	// eslint-disable-next-line no-unused-vars
 	execute: async (message, args, cooldowns, timestamps, client) => {

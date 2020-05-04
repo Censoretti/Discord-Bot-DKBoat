@@ -12,8 +12,7 @@ module.exports = {
 	// eslint-disable-next-line no-unused-vars
 	execute: async (message, args, cooldowns, timestamps, client) => {
 		if(!args[0]) {
-			console.log(args)
-			return message.channel.send(`Use de novo com o valod ${message.channel.rawPosition}\nAbaixo desse canal sera 'onRP'`)
+			return message.channel.send(`Use de novo com o valor ${message.channel.rawPosition}\nAbaixo desse canal sera 'onRP'`)
 		}
 
 		if(args[0] == 'delete') {
@@ -56,6 +55,8 @@ module.exports = {
 
 		if(!channels[guildId]) {
 			channels[guildId] = {}
+			channels[guildId].totalChannel = 0
+			channels[guildId].totalCategorys = 0
 			channels[guildId].name = guildName
 			guildCount++
 		}
@@ -103,11 +104,6 @@ module.exports = {
 					channels[guildId][cache.id].rawPosition = cache.rawPosition
 					categoryCount++
 
-					if(cache.rawPosition > onRPtest) {
-						channels[guildId][cache.id].onRP = true
-					} else {
-						channels[guildId][cache.id].onRP = false
-					}
 				}
 			}
 			categoryName = ''

@@ -3,8 +3,9 @@ console.log('--------------- INDEX FILE IGNITE ---------------')
 
 const fs = require('fs').promises
 const Discord = require('discord.js')
-const roles = require('./docs/assets/628028186709458945/roles.json')
 const cron = require('node-cron')
+const channels = require('./docs/assets/channels.json')
+const roles = require('./docs/assets/628028186709458945/roles.json')
 const guildConfig = require('./docs/assets/guildConfig.json')
 const client = new Discord.Client()
 client.commands = new Discord.Collection()
@@ -136,14 +137,15 @@ client.on('message', message => {
 
 	const commandName = args.shift().toLowerCase();
 
-	if(!guildConfig[guildId].commands[commandName]) {
-		return message.channel.send('Comando não habilitado, chame seus adms')
-	}
-
 	const command = client.commands.get(commandName)
 		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
 
 	if (!command) return;
+
+	if(!guildConfig[guildId].commands[command.name]) {
+		console.log(guildConfig[guildId].commands[command.name])
+		return message.channel.send('Comando não habilitado, chame seus adms')
+	}
 
 	if (command.guildOnly && message.channel.type !== 'text') {
 		return message.reply('Sem tempo irmão')
@@ -167,6 +169,47 @@ client.on('message', message => {
 		|| !message.member.roles.cache.has(roles.server.owner))) {
 			console.log('test for manager')
 			return message.channel.send('<:Popcorn:633624350490361857>')
+		}
+	}
+
+	const channelOriginalName = message.channel.name.match(/[A-Za-z0-9çáàãâéêíóõôú-]/g)
+	let newChar = ''	
+	let channelName = ''
+	for(const char of channelOriginalName) {
+
+		if(char == '-') {
+			newChar = ''
+		} else if(char == 'á' || char == 'à' || char == 'â' || char == 'ã') {
+			newChar = 'a'
+		} else if(char == 'ê' || char == 'é') {
+			newChar = 'e'
+		} else if(char == 'í') {
+			newChar = 'i'
+		} else if(char == 'ó' || char == 'õ' || char == 'ô') {
+			newChar = 'o'
+		} else if(char == 'ú') {
+			newChar = 'u'
+		} else if(char == 'ç') {
+			newChar = 'c'
+		} else {
+			newChar = char
+		}
+		channelName += newChar.toLocaleLowerCase()
+	}
+
+	console.log(channelName)
+	// console.log(message.channel)
+	console.log(channels[guildId][message.channel.parentID][channelName])
+
+	if(command.onRP) {
+		if(command.onRP == 'on') {
+			if(!channels[guildId][message.channel.parentID][channelName].onRP) {
+				return message.channel.send('Nesse canal não, amigão')
+			}
+		} else if (command.onRP == 'off') {
+			if(channels[guildId][message.channel.parentID].channelName.onRP) {
+				return message.channel.send('Nesse canal não, amigão')
+			}
 		}
 	}
 

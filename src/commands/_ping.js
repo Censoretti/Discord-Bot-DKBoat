@@ -7,6 +7,7 @@ module.exports = {
 	// guildOnly: true,
 	// usage: '',
 	// role: 'adm',
+	// onRP: on,
 	// eslint-disable-next-line no-unused-vars
 	execute: async (message, args, cooldowns, timestamps, client) => {
 		// const author = message.author.id

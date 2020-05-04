@@ -121,10 +121,6 @@ client.on('message', message => {
 
 	const guildId = message.guild.id
 	const memberId = message.author.id
-
-	console.log(client.guilds.cache.get(guildLinkId).members.cache.get(memberId).roles.cache.has(roles.server.manager))
-
-	// eslint-disable-next-line no-unused-vars
 	let guildLinkId = guildId
 
 	if(guildConfig[guildId].parentGuild.situation) {
@@ -225,7 +221,7 @@ client.on('message', message => {
 				return message.channel.send('Nesse canal não, amigão')
 			}
 		} else if (command.onRP == 'off') {
-			if(channels[guildId][message.channel.parentID].channelName.onRP) {
+			if(channels[guildId][message.channel.parentID][channelName].onRP) {
 				return message.channel.send('Nesse canal não, amigão')
 			}
 		}

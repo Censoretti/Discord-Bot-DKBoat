@@ -120,10 +120,6 @@ module.exports = {
 			message.channel.send('Você ja treinou o suficiente hoje, não acha?')
 		}
 
-		require('./events/rankRP').execute()
-		require('./events/rankDex').execute()
-		require('./events/rankStr').execute()
-		require('./events/rankSpd').execute()
-		require('./events/rankRes').execute()
+		require('../events/rankUpdate').execute(message.guild.id)
 	},
 };

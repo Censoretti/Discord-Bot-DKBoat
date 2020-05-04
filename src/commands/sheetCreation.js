@@ -462,7 +462,7 @@ async function checks(message, author) {
 	await message.author.send(embed3)
 }
 
-async function recordCreation(message, author) {
+async function recordCreation(message, idToGet, guildId) {
 	if(!truth) return
 	const docsFiles = await fs.readdir('src/docs/sheets')
 	for (const file of docsFiles) {
@@ -472,11 +472,11 @@ async function recordCreation(message, author) {
 
 	let document
 
-	if(docs.get(author)) {
-		document = docs.get(author)
+	if(docs.get(idToGet)) {
+		document = docs.get(idToGet)
 	} else {
 		document = docs.get('template')
-		document.server.id = author
+		document.server.id = idToGet
 	}
 	document.rp.name = name
 	document.rp.gender = gender
@@ -523,22 +523,43 @@ async function recordCreation(message, author) {
 				document.rp.stats.race = baseData.rp.stats.race
 
 				const data = JSON.stringify(document)
-				await fs.writeFile(`src/docs/sheets/${author}.json`, data)
+				await fs.writeFile(`src/docs/sheets/${idToGet}.json`, data)
 					.then(console.log(`Created record to ${message.author.username}`))
 					.catch(err => console.log(err))
+
+				const rankFiles = await fs.readdir(`src/docs/ranks/${guildId}`)
+					.catch(err => console.log('[#RANKFILES/RANKUPDATE]', err))
+		
+				for(const files of rankFiles) {
+					const rankToGet = require(`../docs/ranks/${guildId}/${files}`)
+		
+					if(!rankToGet.users[idToGet]) {
+						rankToGet.users.total++
+					}
+					rankToGet.users[idToGet] = {}
+					rankToGet.users[idToGet].value = 1
+					rankToGet.users[idToGet].name = document.server.username
+					rankToGet.users[idToGet].username = document.rp.name
+					rankToGet.users[idToGet].rank = rankToGet.users.total
+		
+					const data2 = JSON.stringify(rankToGet)
+					await fs.writeFile(`src/docs/ranks/${guildId}/${files}`, data2)
+						.then(console.log(`Get new person to rank ${rankToGet.name}`))
+						.catch(err => console.log(err))
+				}
 
 				console.log(`Create a new sheet to ${message.author.username} as ${document.rp.name}`)
 			}
 		} else if(reactions.get(cross) != undefined) {
 			if(reactions.get(cross).count == 2) {
-				nope(message, author)
+				nope(message, idToGet)
 			}
 		} else {
-			nope(message, author)
+			nope(message, idToGet)
 		}
 	} catch(err) {
 		console.log(err)
-		nope(message, author)
+		nope(message, idToGet)
 	}
 }
 
@@ -550,28 +571,19 @@ function wait(ms) {
 	}
 }
 
-async function creation(message, author) {
+async function creation(message, author, guildId) {
 	try {
 		await start(message, author)
 		await wait(20000)
-		console.log(`start for ${message.author.username}`)
 		await nameF(message, author)
-		console.log(`nameF for ${message.author.username}`)
 		await genderF(message, author)
-		console.log(`genderF for ${message.author.username}`)
 		await appearanceF(message, author)
-		console.log(`appearanceF for ${message.author.username}`)
 		await rumo(message, author)
-		console.log(`rumo for ${message.author.username}`)
 		await raca(message, author)
-		console.log(`raca for ${message.author.username}`)
 		await oficio(message, author)
-		console.log(`oficio for ${message.author.username}`)
 		await checks(message, author)
 		await wait(1000)
-		console.log(`checks for ${message.author.username}`)
-		await recordCreation(message, author)
-		console.log(`recordCreation for ${message.author.username}`)
+		await recordCreation(message, author, guildId)
 	} catch(err) {
 		console.log(err)
 	}
@@ -591,6 +603,9 @@ module.exports = {
 			return
 		}
 		const author = message.author.id
-		creation(message, author)
+		const guildId = message.guild.id
+		await creation(message, author, guildId)
+			.then(console.log('Sheet created'))
+			.catch(err => console.log(err))
 	},
 }

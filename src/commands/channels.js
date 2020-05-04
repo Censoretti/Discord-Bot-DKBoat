@@ -1,7 +1,7 @@
 const fs = require('fs').promises
 
 module.exports = {
-	name: 'get',
+	name: 'channel',
 	description: 'get channels and categorys',
 	// aliases: ['flush'],
 	// cooldown: 60,
@@ -11,10 +11,27 @@ module.exports = {
 	role: 'manager',
 	// eslint-disable-next-line no-unused-vars
 	execute: async (message, args, cooldowns, timestamps, client) => {
+		if(!args[0]) {
+			console.log(args)
+			return message.channel.send(message.channel.rawPosition)
+		}
+
+		if(args[0] == 'delete') {
+			if(!args[1]) {
+				message.channel.send('Faltou a posição')
+			}
+			for(const caches of client.guilds.cache.get(message.guild.id).channels.cache) {
+				const cache = caches[1]
+				if(cache.rawPosition > args[1]) {
+					cache.delete()
+				}
+			}
+		}
 		const channels = require('../docs/assets/channels.json')
 		const guildId = message.guild.id
 		const guildName = message.guild.name
 		const channelsCache = client.guilds.cache.get(guildId).channels.cache
+		const onRPtest = args[0]
 		let cache
 		
 		let categoryOriginalName = ''
@@ -78,7 +95,14 @@ module.exports = {
 				if(!channels[guildId][cache.id]) {
 					channels[guildId][cache.id] = {}
 					channels[guildId][cache.id].name = categoryName
+					channels[guildId][cache.id].rawPosition = cache.rawPosition
 					categoryCount++
+
+					if(cache.rawPosition > onRPtest) {
+						channels[guildId][cache.id].onRP = true
+					} else {
+						channels[guildId][cache.id].onRP = false
+					}
 				}
 			}
 			categoryName = ''
@@ -126,15 +150,29 @@ module.exports = {
 				}
 				if(!channels[guildId][cache.parentID][channelName]) {
 					
-					channels[guildId][cache.parentID][channelName] = cache.id
+					channels[guildId][cache.parentID][channelName] = {}
+					channels[guildId][cache.parentID][channelName].id = cache.id
+					channels[guildId][cache.parentID][channelName].rawPosition = cache.rawPosition
 					channelCount++
+					if(cache.rawPosition > onRPtest) {
+						channels[guildId][cache.parentID][channelName].onRP = true
+					} else {
+						channels[guildId][cache.parentID][channelName].onRP = false
+					}
 
 				} else if(channels[guildId][cache.parentID][channelName] != cache.id) {
 					const channelName2 = channelName + '2'
 					
 					if(!channels[guildId][cache.parentID][channelName2]) {
+						channels[guildId][cache.parentID][channelName2] = {}
+						channels[guildId][cache.parentID][channelName2].id = cache.id
+						channels[guildId][cache.parentID][channelName2].rawPosition = cache.rawPosition
 						channelCount++
-						channels[guildId][cache.parentID][channelName2] = cache.id
+						if(cache.rawPosition > onRPtest) {
+							channels[guildId][cache.parentID][channelName2].onRP = true
+						} else {
+							channels[guildId][cache.parentID][channelName2].onRP = false
+						}
 					
 					} else if (channels[guildId][cache.parentID][channelName2] != cache.id) {
 					
@@ -142,8 +180,14 @@ module.exports = {
 						
 						if(!channels[guildId][cache.parentID][channelName3]) {
 					
+							channels[guildId][cache.parentID][channelName3] = {}
+							channels[guildId][cache.parentID][channelName3].rawPosition = cache.rawPosition
 							channelCount++
-							channels[guildId][cache.parentID][channelName3] = cache.id
+							if(cache.rawPosition > onRPtest) {
+								channels[guildId][cache.parentID][channelName3].onRP = true
+							} else {
+								channels[guildId][cache.parentID][channelName3].onRP = false
+							}
 					
 						} else if (channels[guildId][cache.parentID][channelName3] != cache.id) {
 					
@@ -151,8 +195,14 @@ module.exports = {
 
 							if(!channels[guildId][cache.parentID][channelName4]) {
 					
+								channels[guildId][cache.parentID][channelName4] = {}
+								channels[guildId][cache.parentID][channelName4].rawPosition = cache.rawPosition
 								channelCount++
-								channels[guildId][cache.parentID][channelName4] = cache.id
+								if(cache.rawPosition > onRPtest) {
+									channels[guildId][cache.parentID][channelName4].onRP = true
+								} else {
+									channels[guildId][cache.parentID][channelName4].onRP = false
+								}
 					
 							}
 						}
@@ -208,6 +258,9 @@ module.exports = {
 			voiceName = ''
 		}
 
+		channels[guildId].totalChannel += channelCount
+		channels[guildId].totalCategorys += categoryCount
+		channels[guildId].totalChannel += voiceCount
 		channels.totalGuilds += guildCount
 		channels.totalCategorys += categoryCount
 		channels.totalChannels += channelCount

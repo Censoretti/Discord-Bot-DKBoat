@@ -1,4 +1,3 @@
-const shop = require('../docs/economy/shop.json')
 const fs = require('fs').promises
 
 module.exports = {
@@ -8,6 +7,13 @@ module.exports = {
 	description: 'buy a item from shop',
 	// eslint-disable-next-line no-unused-vars
 	execute: async (message, args, cooldowns, timestamps, client) => {
+		const guildConfig = require('../docs/assets/guildConfig.json')
+		const guildIdBase = message.guild.id
+		let guildId = guildIdBase
+		if(guildConfig[guildIdBase].parentGuild.situation) {
+			guildId = guildConfig[guildIdBase].parentGuild.id
+		}
+		const shop = require(`../docs/economy/${guildId}/shop.json`)
 		const document = require(`../docs/sheets/${message.author.id}.json`)
 
 		let money = document.rp.money

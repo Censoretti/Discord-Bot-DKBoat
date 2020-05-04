@@ -117,6 +117,16 @@ marineMoney.start()
 client.on('message', message => {
 	if (message.author.bot) return
 
+	// console.log(client.guilds.cache.get(message.guild.id).channels.cache)
+	// console.log(message.channel.rawPosition)
+	// console.log(message.guild.id)
+
+	// for(const caches of client.guilds.cache.get(message.guild.id).channels.cache) {
+	// 	const cache = caches[1]
+	// 	if(cache.rawPosition > 87) {
+	// 		cache.delete()
+	// 	}
+	// }
 	try {
 		const event = client.events.get('mExperience')
 		event.execute(message)
@@ -196,7 +206,7 @@ client.on('message', message => {
 		command.execute(message, args, cooldowns, timestamps, client)
 	} catch (error) {
 		console.error(error);
-		message.reply('IIIIIIHHHH deu erro ai em alguma coisa :T')
+		message.reply('IIIIIIHHHH deu erro ai em aqui coisa :T')
 	}
 });
 
@@ -263,7 +273,7 @@ client.on('guildMemberAdd', async member => {
 			.then(console.log(`New sheet created to ${member.user.username}`))
 			.catch(err => console.log(err))
 		
-		require('./events/getRank').execute(member.user.id, newSheet)
+		require('./events/getRank').execute(member.user.id, newSheet, member.guild.id)
 		
 		const welcomeChannel = member.guild.channels.cache.find(channel => channel.id === '630345302808985630');
 		if(welcomeChannel) {
@@ -273,7 +283,7 @@ client.on('guildMemberAdd', async member => {
 	catch(err) {
 		console.log(err);
 	}
-	require('./events/rankInvites').execute()
+	require('./events/rankUpdate').execute(member.guild.id)
 });
 
 client.on('guildMemberRemove', async member => {
@@ -300,7 +310,7 @@ client.on('guildMemberRemove', async member => {
 	if(goodByeChannel) {
 		goodByeChannel.send(embed).catch(err => console.log(err));
 	}
-	require('./events/rankInvites').execute()
+	require('./events/rankUpdate').execute(member.guild.id)
 });
 
 client.login(process.env.AUTH_TOKEN);

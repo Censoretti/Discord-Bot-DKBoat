@@ -1,4 +1,3 @@
-const shop = require('../docs/economy/shop.json')
 const Discord = require('discord.js')
 
 module.exports = {
@@ -6,7 +5,13 @@ module.exports = {
 	description: 'list the shop itens',
 	// eslint-disable-next-line no-unused-vars
 	execute: async (message, args, cooldowns, timestamps, client) => {
-
+		const guildConfig = require('../docs/assets/guildConfig.json')
+		const guildIdBase = message.guild.id
+		let guildId = guildIdBase
+		if(guildConfig[guildIdBase].parentGuild.situation) {
+			guildId = guildConfig[guildIdBase].parentGuild.id
+		}
+		const shop = require(`../docs/economy/${guildId}/shop.json`)
 		const embed = new Discord.MessageEmbed()
 			.setColor('#00ff00')
 			.setDescription('`comprar <item> <quantidade>` para comprar item')

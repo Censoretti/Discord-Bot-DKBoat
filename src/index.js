@@ -217,12 +217,18 @@ client.on('message', message => {
 
 	if(command.onRP) {
 		if(command.onRP == 'on') {
-			if(!channels[guildId][message.channel.parentID][channelName].onRP) {
-				return message.channel.send('Nesse canal não, amigão')
-			}
-		} else if (command.onRP == 'off') {
-			if(channels[guildId][message.channel.parentID][channelName].onRP) {
-				return message.channel.send('Nesse canal não, amigão')
+			if(channels[guildId]) {
+				if(channels[guildId][message.channel.parentID]) {
+					if(channels[guildId][message.channel.parentID][channelName]) {
+						if(!channels[guildId][message.channel.parentID][channelName].onRP) {
+							return message.channel.send('Nesse canal não, amigão')
+						}
+					} else if (command.onRP == 'off') {
+						if(channels[guildId][message.channel.parentID][channelName].onRP) {
+							return message.channel.send('Nesse canal não, amigão')
+						}
+					}
+				}
 			}
 		}
 	}

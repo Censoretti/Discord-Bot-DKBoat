@@ -121,6 +121,13 @@ client.on('message', message => {
 
 	const guildId = message.guild.id
 
+	// eslint-disable-next-line no-unused-vars
+	let guildLinkId = guildId
+
+	if(guildConfig[guildId].parentGuild.situation) {
+		guildLinkId = guildConfig[guildId].parentID.id
+	}
+
 	if(guildConfig[guildId]) {
 		try {
 			const event = client.events.get('mExperience')
@@ -143,7 +150,6 @@ client.on('message', message => {
 	if (!command) return;
 
 	if(!guildConfig[guildId].commands[command.name]) {
-		console.log(guildConfig[guildId].commands[command.name])
 		return message.channel.send('Comando não habilitado, chame seus adms')
 	}
 
@@ -153,22 +159,31 @@ client.on('message', message => {
 
 
 	if(command.role) {
-		console.log('command has role test')
-		if ((command.role.includes('adm')) && (
-			!message.member.roles.cache.has(roles.server.recruit)
-		|| !message.member.roles.cache.has(roles.server.moderator)
-		|| !message.member.roles.cache.has(roles.server.administrator)
-		|| !message.member.roles.cache.has(roles.server.owner)
-		|| !message.member.roles.cache.has(roles.server.manager))) {
-			console.log('test for adm')
-			return message.channel.send('Sem permissão irmão')
+		let admPass = false
+		let managerPass = false
+		if(message.member.roles.cache.has(roles.server.recruit)
+		|| message.member.roles.cache.has(roles.server.moderator)
+		|| message.member.roles.cache.has(roles.server.administrator)
+		|| message.member.roles.cache.has(roles.server.owner)
+		|| message.member.roles.cache.has(roles.server.manager)) {
+			admPass = true
 		}
 
-		if (command.role.includes('manager') && (
-			!message.member.roles.cache.has(roles.server.manager)
-		|| !message.member.roles.cache.has(roles.server.owner))) {
-			console.log('test for manager')
-			return message.channel.send('<:Popcorn:633624350490361857>')
+		if (message.member.roles.cache.has(roles.server.owner)
+		|| message.member.roles.cache.has(roles.server.manager)) {
+			managerPass = true
+		}
+
+		if (command.role.includes('adm')) {
+			if(!admPass) {
+				return message.channel.send('Sem permissão irmão')
+			}
+		}
+
+		if (command.role.includes('manager')) {
+			if(!managerPass) {
+				return message.channel.send('<:Popcorn:633624350490361857>')
+			}
 		}
 	}
 
@@ -196,10 +211,6 @@ client.on('message', message => {
 		}
 		channelName += newChar.toLocaleLowerCase()
 	}
-
-	console.log(channelName)
-	// console.log(message.channel)
-	console.log(channels[guildId][message.channel.parentID][channelName])
 
 	if(command.onRP) {
 		if(command.onRP == 'on') {

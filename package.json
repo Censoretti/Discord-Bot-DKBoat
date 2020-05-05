@@ -1,9 +1,9 @@
 {
-  "name": "discord_bot",
+  "name": "dkboat",
   "version": "0.0.1",
   "main": "index.js",
   "author": "Censoretti",
-  "license": "MIT",
+  "license": "GPL3",
   "scripts": {
     "start": "nodemon src/index.js"
   },

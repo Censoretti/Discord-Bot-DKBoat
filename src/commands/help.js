@@ -1,66 +1,102 @@
+const fs = require('fs').promises
+const Discord = require('discord.js')
+const commandsMap = new Discord.Collection()
+
 module.exports = {
 	name: 'ajuda',
 	description: 'List all of my commands or info about a specific command.',
 	aliases: ['commands', 'help'],
 	usage: '[command name]',
 	cooldown: 5,
-	// onRP: off,
+	guildOnly: true,
+	onRP: 'off',
 	// eslint-disable-next-line no-unused-vars
 	execute: async (message, args, cooldowns, timestamps, client) => {
-		const data = [];
-		const { commands } = message.client;
 		const roles = require('../docs/assets/628028186709458945/roles.json')
+		const guildConfig = require('../docs/assets/guildConfig.json')
 
-		if (!args.length) {
-			data.push('Here\'s a list of all my commands:');
-			data.push(commands.map(command => command.name).join('\n'));
-			console.log(commands.map(command => {
+		const memberId = message.author.id
+		const guildId = message.guild.id
+		let guildLinkId = guildId
+		if(guildConfig[guildId].parentGuild.situation) {
+			guildLinkId = guildConfig[guildId].parentID.id
+		}
+
+		let guildIdPass = guildLinkId
+		if(guildConfig[guildId].pass) {
+			guildIdPass = guildId
+		}
+
+		const commandFiles = await fs.readdir('src/commands')
+			.catch(err => console.log('[#commandFiles]', err))
+		
+		for(const files of commandFiles) {
+			const commands = require(`./${files}`)
+			commandsMap.set(commands.name, commands);
+		}
+		
+		let title = 'Todos os comandos:\nUse: `_ajuda <comando>` para maiores informações'
+		let description = ''
+		for(const commandsFor of commandsMap) {
+			const theCommand = commandsFor[0]
+			const command = commandsMap.get(theCommand) || commandsMap.find(cmd => cmd.aliases && cmd.aliases.includes(theCommand))
+		
+			if(!args[0]) {
 				if(command.role) {
-					if (command.role.includes('adm') && (
-						message.member.roles.cache.has(roles.server.recruit)
-                || message.member.roles.cache.has(roles.server.moderator)
-                || message.member.roles.cache.has(roles.server.administrator)
-                || message.member.roles.cache.has(roles.server.owners)
-                || message.member.roles.cache.has(roles.server.manager))) {
-						return command.name
+					let admPass = false
+					let managerPass = false
+					if(client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.recruit)
+					|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.moderator)
+					|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.administrator)
+					|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.owner)
+					|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.manager)) {
+						admPass = true
 					}
-					if (command.role.includes('manager') &&
-                message.member.roles.cache.has(roles.server.manager)) {
-						return command.name
+			
+					if (client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.owner)
+					|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.manager)) {
+						managerPass = true
+					}
+			
+					if (command.role.includes('adm')) {
+						if(admPass) {
+							description += `${command.name}\n`
+						}
+					}
+			
+					if (command.role.includes('manager')) {
+						if(managerPass) {
+							description += `${command.name}\n`
+						}
 					}
 				} else {
-					return command.name
+					description += `${command.name}\n`
 				}
-			}).join('\n'))
-
-			data.push(`\nYou can send \`${process.env.PREFIX}help [command name]\` to get info on a specific command!`);
-
-			return message.author.send(data, { split: true })
-				.then(() => {
-					if (message.channel.type === 'dm') return;
-					message.reply('I\'ve sent you a DM with all my commands!');
-				})
-				.catch(error => {
-					console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-					message.reply('it seems like I can\'t DM you! Do you have DMs disabled?');
-				});
-		} else {
-			const name = args[0].toLowerCase();
-			const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
-
-			if (!command) {
-				return message.reply('that\'s not a valid command!');
+			} else {
+				const argh = args[0].toLowerCase()
+				if(argh == command.name) {
+					title = `Informações sobre: ${argh}`
+					description = `${command.name}\n`
+					if(command.alises) description += `${command.aliases}\n`
+					if(command.description) description += `${command.description}\n`
+					if(command.usage) description += `${command.usage}\n`
+					description += `${command.cooldown || 3}`
+					break
+				} else {
+					title = 'EROOOU'
+					description = `Nenhum comando chamado ${argh} mané`
+				}
 			}
-
-			data.push(`**Name:** ${command.name}`);
-
-			if (command.aliases) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
-			if (command.description) data.push(`**Description:** ${command.description}`);
-			if (command.usage) data.push(`**Usage:** ${process.env.PREFIX}${command.name} ${command.usage}`);
-
-			data.push(`**Cooldown:** ${command.cooldown || 3} second(s)`);
-
-			message.channel.send(data, { split: true });
 		}
+
+		const embed = new Discord.MessageEmbed()
+			.setColor('#00ff00')
+			.setTitle(title)
+			.setDescription(description)
+			.setThumbnail('https://cdn.discordapp.com/attachments/613477001071951915/703825043066585168/Screenshot_5.png')
+			.setTimestamp()
+			.setFooter('[Bot feito por Censoretti]', 'https://cdn.discordapp.com/attachments/613477001071951915/703825043066585168/Screenshot_5.png')
+
+		message.channel.send(embed)
 	},
 };

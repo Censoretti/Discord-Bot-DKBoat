@@ -85,6 +85,7 @@ module.exports = {
 			config[guildId].levelUpChat.id = '0'
 			config[guildId].description = 'none' 
 			config[guildId].commands = {}
+			config[guildId].events = {}
 			config[guildId].pass = false
 
 			const commandFiles = await fs.readdir('src/commands')

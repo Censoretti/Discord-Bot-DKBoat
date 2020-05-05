@@ -2,7 +2,7 @@ const fs = require('fs').promises
 const docs = new Map()
 
 module.exports = {
-	name: 'mExperience',
+	name: 'messageExperience',
 	description: 'get experience by message',
 	usage: 'send message and gain experience',
 	execute: async (message) => {

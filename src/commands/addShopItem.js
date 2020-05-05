@@ -4,7 +4,7 @@ module.exports = {
 	name: 'add',
 	aliases: ['adicionar'],
 	args: true,
-	role: 'adm',
+	role: 'manager',
 	description: 'add a item to shop',
 	// onRP: on,
 	// eslint-disable-next-line no-unused-vars
@@ -25,9 +25,11 @@ module.exports = {
 			}
 		}
 		if(args[1]) {
-			shop[args[0]] = args[1]
-		} else {
-			return message.channel.send('Vai ser de graça? Bota um valor ai mermão')
+			if(args[2]) {
+				shop[args[0]] = args[args.length - 1]
+			} else {
+				return message.channel.send('Vai ser de graça meu bom? Bota um valor ai mermão')
+			}
 		}
 		const data = JSON.stringify(shop)
 		await fs.writeFile(`src/docs/economy/${guildId}/shop.json`, data)

@@ -2,8 +2,8 @@ const fs = require('fs').promises
 const guildConfig = require('../docs/assets/guildConfig.json')
 
 module.exports = {
-	name: 'message level up',
-	description: 'get level by message',
+	name: 'getRank',
+	description: 'get all ranks at once',
 	usage: 'send message and gain level',
 	execute: async (idToGet, document, guildIdBase) => {
 		let guildId = guildIdBase

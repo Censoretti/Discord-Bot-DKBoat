@@ -119,28 +119,35 @@ marineMoney.start()
 client.on('message', message => {
 	if (message.author.bot) return
 
+	if (message.channel.type !== 'text') return message.reply('Sem tempo irmão')
+
+	let pass = true
 	const guildId = message.guild.id
 	const memberId = message.author.id
 	let guildLinkId = guildId
+	const commandNamePass = `${process.env.PREFIX}config`
 
-	if(guildConfig[guildId].parentGuild.situation) {
-		guildLinkId = guildConfig[guildId].parentID.id
+	if(message.content != commandNamePass) {
+		if(!guildConfig[guildId]) {
+			return message.channel.send('Primeiro o config mano')
+		} else if(guildConfig[guildId].parentGuild.situation) {
+			guildLinkId = guildConfig[guildId].parentGuild.id
+		}
+	} else {
+		pass = false
 	}
-
-	if(guildConfig[guildId]) {
+	if(pass) {
 		try {
-			const event = client.events.get('mExperience')
+			const event = client.events.get('messageExperience')
 			event.execute(message)
 		} catch (error) {
 			console.log(error)
 			message.reply('supposed to say hi')
 		}
 	}
-
 	if (!message.content.startsWith(process.env.PREFIX)) return;
 
 	const args = message.content.slice(process.env.PREFIX.length).split(/ +/);
-
 	const commandName = args.shift().toLowerCase();
 
 	const command = client.commands.get(commandName)
@@ -148,17 +155,16 @@ client.on('message', message => {
 
 	if (!command) return;
 
-	if(!guildConfig[guildId].commands[command.name]) {
-		return message.channel.send('Comando não habilitado, chame seus adms')
-	}
-
-	if (command.guildOnly && message.channel.type !== 'text') {
-		return message.reply('Sem tempo irmão')
-	}
-
-	let guildIdPass = guildLinkId
-	if(guildConfig[guildId].pass) {
-		guildIdPass = guildId
+	let guildIdPass = ''
+	if(pass) {	
+		guildIdPass = guildLinkId
+		if(!guildConfig[guildId].commands[command.name]) {
+			return message.channel.send('Comando não habilitado, chame seus adms')
+		}
+		
+		if(guildConfig[guildId].pass) {
+			guildIdPass = guildId
+		}
 	}
 
 	if(command.role) {
@@ -190,9 +196,9 @@ client.on('message', message => {
 		}
 	}
 
+	let channelName = ''
 	const channelOriginalName = message.channel.name.match(/[A-Za-z0-9çáàãâéêíóõôú-]/g)
 	let newChar = ''	
-	let channelName = ''
 	for(const char of channelOriginalName) {
 
 		if(char == '-') {

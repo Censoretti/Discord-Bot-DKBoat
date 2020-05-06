@@ -5,7 +5,7 @@ Todo:
     -> caso precise de roles, criar as roles e colocar as roles
   ✔ inventary @done(20-04-16 14:55)
     -> sistema de inventario para os itens comprados na economia
-  ☐ rank message
+  ✔ rank message @done(20-05-05 18:51)
     -> desnecessário no momento
   ✔ invites @done(20-04-30 15:54)
     -> contar invites para cada pessoa

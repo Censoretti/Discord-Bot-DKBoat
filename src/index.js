@@ -1,5 +1,5 @@
 console.clear()
-console.log('--------------- INDEX FILE IGNITE ---------------')
+console.log('=============== INDEX FILE IGNITE ===============')
 
 const fs = require('fs').promises
 const Discord = require('discord.js')
@@ -18,21 +18,32 @@ async function requires() {
 		const handlersFiles = await fs.readdir('src/handlers')
 			.catch(err => console.log('[#handlerFiles', err))
 
+		commandFiles.pop()
+		eventFiles.pop()
+		handlersFiles.pop()
+
 		for (const file of commandFiles) {
 			const command = require(`./commands/${file}`)
 			clientCommands.set(command.name, command);
-			console.log(`Loading comand from: ${file} as ${command.name}`)
+			console.log(`Loading comand: ${command.name}`)
 		}
+
+		console.log('=================================================')
 
 		for (const file of eventFiles) {
 			const event = require(`./events/${file}`)
-			console.log(`Loading event ${file} file as ${event.name}`)
+			console.log(`Loading event: ${file.split('.')[0]}`)
 			clientEvents.set(event.name, event);
 		}
 
+		console.log('=================================================')
+
 		for(const file of handlersFiles) {
 			require(`./handlers/${file}`).execute(client, Discord, clientCommands, clientEvents, guildInvites)
+			console.log(`Loading handler: ${file.split('.')[0]}`)
 		}
+
+		console.log('=================================================')
 	} catch(err) {
 		console.log(err)
 	}

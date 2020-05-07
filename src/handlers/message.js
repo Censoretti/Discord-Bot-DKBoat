@@ -162,7 +162,7 @@ module.exports = {
 			setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 		
 			try {
-				console.log('[EXECUTANDO O COMANDO:', command.name.toUpperCase(), ' PARA ' + message.author.username + ' ]')
+				console.log('[ EXECUTION OF:', command.name.toUpperCase(), ' TO ' + message.author.username + ' ]')
 				command.execute(message, args, cooldowns, timestamps, client)
 			} catch (error) {
 				console.error(error);

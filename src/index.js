@@ -1,6 +1,6 @@
 console.clear()
 console.log('=============== INDEX FILE IGNITE ===============')
-console.log('Loading |   Ttype    | Name');
+console.log('Loading>  |     type     |  <Name');
 
 const fs = require('fs').promises
 const Discord = require('discord.js')
@@ -22,28 +22,28 @@ async function requires() {
 		commandFiles.pop()
 		eventFiles.pop()
 		handlersFiles.pop()
-		
+
 		console.log('=================================================')
 
 		for (const file of commandFiles) {
 			const command = require(`./commands/${file}`)
 			clientCommands.set(command.name, command);
-			console.log(`Loading |   Comand   | ${command.name}`)
+			console.log(`Loading>  |   command>   |  <${command.name}`)
 		}
 
 		console.log('=================================================')
 
 		for (const file of eventFiles) {
 			const event = require(`./events/${file}`)
-			console.log(`Loading |   Events   | ${file.split('.')[0]}`)
 			clientEvents.set(event.name, event);
+			console.log(`Loading>  |    event>    |  <${event.name.split('.')[0]}`)
 		}
 
 		console.log('=================================================')
 
 		for(const file of handlersFiles) {
 			require(`./handlers/${file}`).execute(client, Discord, clientCommands, clientEvents, guildInvites)
-			console.log(`Loading |  Handlers  | ${file.split('.')[0]}`)
+			console.log(`Loading>  |   handler>   |  <${file.split('.')[0]}`)
 		}
 
 		console.log('=================================================')

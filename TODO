@@ -75,3 +75,31 @@ Todo:
 	☐ Comando de doar item para outro player
 		-> item
 		-> dinehiro
+	☐ Hakis
+		-> armamento e visão
+			-> 250 de cada stat
+			-> npc, em lugar random de uma ilha
+			-> 5 dias seguidos pra cada haki
+			-> batalha contra 5 random, gerados pelo bot
+			
+			-> buff de 50% dos stats
+			-> 30m 
+			-> cd de 2h
+			
+			-> level 2 45m
+			-> 3 1h de cd
+			-> 75% de buff
+		-> Rei
+			-> sorteio
+			-> 300 de todos os stats
+			-> 1 ativação por hora
+			-> 5 por dia
+			
+			-> ativação -> 
+			-> inconsciente: resistencia oponente metade da força do ativador
+			-> fraco: resistencia oponende > metade da força do ativador e < força do ativador
+			-> 1,5x um golpe
+			
+			-> lv 2: 1 ativação a cada meia hora
+			-> lv 3: 9 ativações por dia
+			-> lv 4: inconsciente 75% da força e 2x o golpe e 35% menos de resistencia

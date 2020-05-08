@@ -1,26 +1,10 @@
 
 Todo:
-  ✔ message level/xp @done(20-04-16 14:54)
-    -> falta fazer o level
-    -> caso precise de roles, criar as roles e colocar as roles
-  ✔ inventary @done(20-04-16 14:55)
-    -> sistema de inventario para os itens comprados na economia
-  ✔ rank message @done(20-05-05 18:51)
-    -> desnecessário no momento
-  ✔ invites @done(20-04-30 15:54)
-    -> contar invites para cada pessoa
-    -> colocar no template.server os invites
-    -> colocar no template.server.invites a quantidade e o ranking
   ☐ buffs
     -> oficios terão buffs
     -> pensar nos buffs para todos os oficios
-  ☐ giveway
-    -> sistema de giveway integrado a toda a economia do bot
-  ✔ rank invite @done(20-04-30 15:54)
-    -> integrado ao sistema de invites
-  ✔ rank rp @done(20-04-30 18:32)
-    -> sistema de level
-    -> de cada stat
+	☐ giveway
+		-> sistema de giveway integrado a toda a economia do bot
 	☐ rank de haki
 		-> copiar os ranks e fazer um de hari
 	☐ log
@@ -33,9 +17,115 @@ Todo:
     -> falar com o ziron para pegar os ranks das akumas
   ☐ timer
     -> só um contador de tempo, como um despertador
-  ☐ skill
+	☐ skill
     -> criação de skills, para colocar na ficha
-    -> somente adm+ pode usar o comando
+		-> somente adm+ pode usar o comando
+	☐ Economia
+		-> vender item pra npc
+			-> tipos de itens para diferentes tipos de npcs
+			-> ganha 1/3 do dinehiro de volta
+		-> doar item para outro player
+			-> pode ser tanto dinheiro como item
+	☐ Hakis
+		-> armamento
+			-> obter nivel 1
+				-> 250 de força
+				-> 250 de resistencia
+				-> encontrar o npc q vai estar cada dia em algum lugar de uma ilha randomicamente
+				-> ganhar uma batalha contra 5 npcs
+				-> ganhar 5 dias seguidos
+			-> treinamento
+				-> após a obtenção, um treinamento de 1h 2x ao dia, por 3 dias seguidos
+				-> a cada level aumenta 1 dia seguido
+			-> niveis
+				-> nivel 1
+					-> 50% de buff em força
+					-> 50% de buff em resistencia
+					-> 30 minutos de duração
+					-> cooldown de 2 horas
+				-> nivel 2
+					-> eleva o tempo de duração para 45 minutos
+				-> nivel 3
+					-> diminui o tempo de cooldown para 1h
+				-> nivel 4
+					-> eleva para 75% de buff em força
+					-> eleva para 75% de buff em resistencia 
+		-> visão
+			-> obter nivel 1
+				-> 250 de destreza
+				-> 250 de velocidade
+				-> encontrar o npc q vai estar cada dia em algum lugar de uma ilha randomicamente
+				-> ganhar uma batalha contra 5 npcs
+				-> ganhar 5 dias seguidos
+			-> treinamento
+				-> após a obtenção, um treinamento de 1h 2x ao dia, por 3 dias seguidos
+				-> a cada level aumenta 1 dia seguido
+			-> niveis
+				-> nivel 1
+					-> 50% de buff em destreza
+					-> 50% de buff em velocidade
+					-> 30 minutos de duração
+					-> cooldown de 2 horas
+				-> nivel 2
+					-> eleva o tempo de duração para 45 minutos
+				-> nivel 3
+					-> diminui o tempo de cooldown para 1h
+				-> nivel 4
+					-> eleva para 75% de buff em destreza
+					-> eleva para 75% de buff em velocidade 
+		-> Rei
+			-> obeter
+				-> sorteio
+			-> requisitos
+				-> 300 de todos os stats
+			-> uso
+				-> 1 ativação por hora
+				-> 5 por dia
+				-> ativação 
+					-> inconsciente: resistencia oponente metade da força do ativador
+					-> fraco: resistencia oponende > metade da força do ativador e < força do ativador
+					-> 1,5x um golpe
+			-> lv 2: 1 ativação a cada meia hora
+			-> lv 3: 9 ativações por dia
+			-> lv 4: inconsciente 75% da força e 2x o golpe e 35% menos de resistencia
+			-> treinamento
+				-> encontrar npc escondido entre 5 ilhas, muda aleatóriamente todo dia
+	☐ sistema de pesca
+		-> sistema de level para pesca
+			-> quanto mais level mais facil pegar coisas uteis
+		-> peixe
+			-> rank de peixe
+				-> branco
+					-> vende por 10 bellys
+				-> verde
+					-> vende por 20 bellys
+				-> azul
+					-> vende por 30 bellys
+				-> amarelo
+					-> vende por 40 bellys
+				-> dourado
+					-> vende por 50 bellys
+				-> roxo
+					-> cende por 60 bellys
+			-> tempo de duração do peixe
+		-> sistema de pesca afk
+		-> sistema de pesca ativo
+  ✔ message level/xp @done(20-04-16 14:54)
+    -> falta fazer o level
+    -> caso precise de roles, criar as roles e colocar as roles
+  ✔ inventary @done(20-04-16 14:55)
+    -> sistema de inventario para os itens comprados na economia
+  ✔ rank message @done(20-05-05 18:51)
+    -> desnecessário no momento
+  ✔ invites @done(20-04-30 15:54)
+    -> contar invites para cada pessoa
+    -> colocar no template.server os invites
+    -> colocar no template.server.invites a quantidade e o ranking
+  ✔ rank invite @done(20-04-30 15:54)
+    -> integrado ao sistema de invites
+  ✔ rank rp @done(20-04-30 18:32)
+    -> sistema de level
+    -> de cada stat
   ✔ Stats @done(20-04-16 14:22)
     -> mostar os stats das pessoas
     -> rules para classes
@@ -68,38 +158,3 @@ Todo:
     -> salario para os marines
   ✔ level @done(20-04-13 15:48)
 		-> sistema de level, dentro do sistema de treinamento
-	☐ Sistema de buff pra cada haki
-		-> são 3 hakis no total
-	☐ Comando de vender item
-		-> vender e ganhar uma quantia de volta
-	☐ Comando de doar item para outro player
-		-> item
-		-> dinehiro
-	☐ Hakis
-		-> armamento e visão
-			-> 250 de cada stat
-			-> npc, em lugar random de uma ilha
-			-> 5 dias seguidos pra cada haki
-			-> batalha contra 5 random, gerados pelo bot
-			
-			-> buff de 50% dos stats
-			-> 30m 
-			-> cd de 2h
-			
-			-> level 2 45m
-			-> 3 1h de cd
-			-> 75% de buff
-		-> Rei
-			-> sorteio
-			-> 300 de todos os stats
-			-> 1 ativação por hora
-			-> 5 por dia
-			
-			-> ativação -> 
-			-> inconsciente: resistencia oponente metade da força do ativador
-			-> fraco: resistencia oponende > metade da força do ativador e < força do ativador
-			-> 1,5x um golpe
-			
-			-> lv 2: 1 ativação a cada meia hora
-			-> lv 3: 9 ativações por dia
-			-> lv 4: inconsciente 75% da força e 2x o golpe e 35% menos de resistencia

@@ -10,7 +10,6 @@ module.exports = {
 
 		client.on('message', message => {
 			if (message.author.bot) return
-		
 			if (message.channel.type !== 'text') return message.reply('Sem tempo irmão')
 		
 			let pass = true
@@ -18,6 +17,7 @@ module.exports = {
 			const memberId = message.author.id
 			let guildLinkId = guildId
 			const commandNamePass = `${process.env.PREFIX}config`
+			let guildIdPass = ''
 		
 			if(message.content != commandNamePass) {
 				if(!guildConfig[guildId]) {
@@ -28,15 +28,19 @@ module.exports = {
 			} else {
 				pass = false
 			}
+
 			if(pass) {
-				try {
-					const event = clientEvents.get('messageExperience')
-					event.execute(message)
-				} catch (error) {
-					console.log(error)
-					message.reply('supposed to say hi')
+				require('../events/mExperience').execute(message)
+				
+				guildIdPass = guildLinkId
+				if(!guildConfig[guildId].commands[command.name]) {
+					return message.channel.send('Comando não habilitado, chame seus adms')
+				}
+				if(guildConfig[guildId].pass) {
+					guildIdPass = guildId
 				}
 			}
+
 			if (!message.content.startsWith(process.env.PREFIX)) return;
 		
 			const args = message.content.slice(process.env.PREFIX.length).split(/ +/);
@@ -46,18 +50,6 @@ module.exports = {
 				|| clientCommands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
 		
 			if (!command) return;
-		
-			let guildIdPass = ''
-			if(pass) {	
-				guildIdPass = guildLinkId
-				if(!guildConfig[guildId].commands[command.name]) {
-					return message.channel.send('Comando não habilitado, chame seus adms')
-				}
-				
-				if(guildConfig[guildId].pass) {
-					guildIdPass = guildId
-				}
-			}
 		
 			if(command.role) {
 				let admPass = false

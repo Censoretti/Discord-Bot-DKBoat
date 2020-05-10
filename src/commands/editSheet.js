@@ -6,29 +6,23 @@ module.exports = {
 	description: 'reset something from the sheet',
 	role: 'manager',
 	// eslint-disable-next-line no-unused-vars
-	execute: async (message, args, cooldowns, timestamps, client) => {
+	execute: async (message, args, cooldowns, timestamps, client, admPass, managerPass) => {
 		const document = require(`../docs/sheets/${args[0]}`)
-		const arr = []
-		let number = 0
-		for(const a of args) {
-			arr[number] = a.toLowerCase()
-			number++
-		}
 
-		number--
+		const number = args.length - 1
 		let reply = ''
 		switch(number) {
 		case 3:
-			document[arr[1]][arr[2]] = arr[3]
-			reply = arr[1] + ' ' + arr[2]
+			document[args[1]][args[2]] = args[3]
+			reply = args[1] + ' ' + args[2]
 			break
 		case 4:
-			document[arr[1]][arr[2]][arr[3]] = arr[4]
-			reply = arr[1] + ' ' + arr[2] + ' ' + arr[3]
+			document[args[1]][args[2]][args[3]] = args[4]
+			reply = args[1] + ' ' + args[2] + ' ' + args[3]
 			break
 		case 5:
-			document[arr[1]][arr[2]][arr[3]][arr[4]] = arr[5]
-			reply = arr[1] + ' ' + arr[2] + ' ' + arr[3] + ' ' + arr[4]
+			document[args[1]][args[2]][args[3]][args[4]] = args[5]
+			reply = args[1] + ' ' + args[2] + ' ' + args[3] + ' ' + args[4]
 			break
 		default:
 			return message.channel.send('Something got wrong')

@@ -4,7 +4,7 @@ module.exports = {
 	name: 'shop',
 	description: 'list the shop itens',
 	// eslint-disable-next-line no-unused-vars
-	execute: async (message, args, cooldowns, timestamps, client) => {
+	execute: async (message, args, cooldowns, timestamps, client, admPass, managerPass) => {
 		const guildConfig = require('../docs/assets/guildConfig.json')
 		const guildIdBase = message.guild.id
 		let guildId = guildIdBase

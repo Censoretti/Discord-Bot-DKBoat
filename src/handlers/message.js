@@ -33,6 +33,20 @@ module.exports = {
 				require('../events/mExperience').execute(message)
 				
 				guildIdPass = guildLinkId
+			}
+
+			if (!message.content.startsWith(process.env.PREFIX)) return;
+		
+			const args = message.content.toLowerCase().slice(process.env.PREFIX.length).split(/ +/);
+			
+			const commandName = args.shift()
+		
+			const command = clientCommands.get(commandName)
+				|| clientCommands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
+		
+			if (!command) return;
+
+			if(pass) {
 				if(!guildConfig[guildId].commands[command.name]) {
 					return message.channel.send('Comando não habilitado, chame seus adms')
 				}
@@ -40,33 +54,23 @@ module.exports = {
 					guildIdPass = guildId
 				}
 			}
-
-			if (!message.content.startsWith(process.env.PREFIX)) return;
 		
-			const args = message.content.slice(process.env.PREFIX.length).split(/ +/);
-			const commandName = args.shift().toLowerCase();
-		
-			const command = clientCommands.get(commandName)
-				|| clientCommands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
-		
-			if (!command) return;
-		
+			let admPass = false
+			let managerPass = false
+			if(client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.recruit)
+			|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.moderator)
+			|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.administrator)
+			|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.owner)
+			|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.manager)) {
+				admPass = true
+			}
+			
+			if (client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.owner)
+			|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.manager)) {
+				managerPass = true
+			}
+			
 			if(command.role) {
-				let admPass = false
-				let managerPass = false
-				if(client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.recruit)
-				|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.moderator)
-				|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.administrator)
-				|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.owner)
-				|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.manager)) {
-					admPass = true
-				}
-		
-				if (client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.owner)
-				|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.manager)) {
-					managerPass = true
-				}
-		
 				if (command.role.includes('adm')) {
 					if(!admPass) {
 						return message.channel.send('Sem permissão irmão')
@@ -152,10 +156,10 @@ module.exports = {
 		
 			timestamps.set(message.author.id, now);
 			setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-		
+
 			try {
 				console.log('[ EXECUTION OF:', command.name.toUpperCase(), ' TO ' + message.author.username + ' ]')
-				command.execute(message, args, cooldowns, timestamps, client)
+				command.execute(message, args, cooldowns, timestamps, client, admPass, managerPass)
 			} catch (error) {
 				console.error(error);
 				message.reply('IIIIIIHHHH deu erro ai em aqui coisa :T')

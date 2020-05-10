@@ -4,7 +4,7 @@ module.exports = {
 	aliases: ['icon', 'pfp'],
 	// onRP: off,
 	// eslint-disable-next-line no-unused-vars
-	execute: async (message, args, cooldowns, timestamps, client) => {
+	execute: async (message, args, cooldowns, timestamps, client, admPass, managerPass) => {
 		if (!message.mentions.users.size) {
 			return message.channel.send(`Your avatar: <${message.author.displayAvatarURL({ dynamic: true })}>`);
 		}

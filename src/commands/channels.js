@@ -10,7 +10,7 @@ module.exports = {
 	// usage: '',
 	role: 'manager',
 	// eslint-disable-next-line no-unused-vars
-	execute: async (message, args, cooldowns, timestamps, client) => {
+	execute: async (message, args, cooldowns, timestamps, client, admPass, managerPass) => {
 		if(!args[0]) {
 			return message.channel.send(`Use de novo com o valor ${message.channel.rawPosition}\nAbaixo desse canal sera 'onRP'`)
 		}

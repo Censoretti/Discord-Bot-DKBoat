@@ -4,7 +4,7 @@ module.exports = {
 	description: 'Delete 1~100 messages, with less than 2 weeks.',
 	args: true,
 	// eslint-disable-next-line no-unused-vars
-	execute: async (message, args, cooldowns, timestamps, client) => {
+	execute: async (message, args, cooldowns, timestamps, client, admPass, managerPass) => {
 		const amount = parseInt(args[0]) + 1;
 		if (isNaN(amount)) {
 			return message.reply('that doesn\'t seem to be a valid number.');

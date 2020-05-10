@@ -12,10 +12,9 @@ module.exports = {
 	// usage: '',
 	// role: 'adm',
 	// eslint-disable-next-line no-unused-vars
-	execute: async (message, args, cooldowns, timestamps, client) => {
+	execute: async (message, args, cooldowns, timestamps, client, admPass, managerPass) => {
 		const guildIdBase = message.guild.id
 		let guildId = guildIdBase
-		let argh
 		
 		if(guildConfig[guildIdBase].parentGuild.situation) {
 			guildId = guildConfig[guildIdBase].parentGuild.id
@@ -26,30 +25,28 @@ module.exports = {
 		let test = true
 
 		if(args[0]) {
-			argh = args[0].toLowerCase()
-
-			if(argh == 'invite' 
-			|| argh == 'invites') {
+			if(args[0] == 'invite' 
+			|| args[0] == 'invites') {
 				rankOf = 'invites'
 				test = false
-			} else if(argh == 'forca' 
-			|| argh == 'força') {
+			} else if(args[0] == 'forca' 
+			|| args[0] == 'força') {
 				rankOf = 'str'
 				test = false
-			} else if(argh == 'resistencia' 
-			|| argh == 'resistência') {
+			} else if(args[0] == 'resistencia' 
+			|| args[0] == 'resistência') {
 				rankOf = 'res'
 				test = false
-			} else if(argh == 'velocidade' 
-			|| argh == 'vel') {
+			} else if(args[0] == 'velocidade' 
+			|| args[0] == 'vel') {
 				rankOf = 'spd'
 				test = false
-			} else if(argh == 'destreza' 
-			|| argh == 'dex') {
+			} else if(args[0] == 'destreza' 
+			|| args[0] == 'dex') {
 				rankOf = 'dex'
 				test = false
-			} else if(argh == 'level' 
-			|| argh == 'rp') {
+			} else if(args[0] == 'level' 
+			|| args[0] == 'rp') {
 				rankOf = 'lv'
 				test = false
 			} else if(message.mentions.users.size) {
@@ -121,7 +118,7 @@ module.exports = {
 		}
 
 		if(test) {
-			return message.channel.send(`Nenhum rank configurado para ${argh}`)
+			return message.channel.send(`Nenhum rank configurado para ${args[0]}`)
 		}
 		
 		const data = require(`../docs/ranks/${guildId}/rank${rankOf}.json`)

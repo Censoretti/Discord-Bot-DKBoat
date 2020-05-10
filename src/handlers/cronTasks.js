@@ -1,6 +1,6 @@
 module.exports = {
-	name: 'guildCreate',
-	description: 'When guild add the bot executes this file',
+	name: 'cron Tasks',
+	description: 'execute tasks at some time',
 	// eslint-disable-next-line no-unused-vars
 	execute: async (client, Discord, clientCommands, clientEvents, guildInvites) => {
 		const fs = require('fs').promises
@@ -60,27 +60,9 @@ module.exports = {
 			} catch(err) {
 				return console.log(err)
 			}
-			client.guilds.cache.get('628028186709458945').channels.cache.get('630283915558518805').send(`<@&${roles.rp.course.marine.marine}> pagamento feito`)
+			client.guilds.cache.get('628028186709458945').channels.cache.get('630283915558518805').send(`<@&${roles.rp.course.marine.marine.id}> pagamento feito`)
 		});
 
-		// const cronTest = cron.schedule('* * * * *', async () => {
-		// 	try {
-		// 		// start cronTest UNDER this line
-
-			
-		// 		// client.guilds.cache.get('628028186709458945').channels.cache.get('630288097740980224').send('<@&632306094005288990>')
-		// 		// require('./events/rankRP').execute()	
-			
-		// 		// end cronTest ABOVE this line
-		// 		console.log('cronTest work')
-		// 	} catch(err) {
-		// 		console.log('cronTest did\'nt work')
-		// 		return console.log(err)
-		// 	}
-		// })
-		// cronTest.start()
-
 		marineMoney.start()
-
 	},
 }

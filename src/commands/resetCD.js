@@ -4,7 +4,7 @@ module.exports = {
 	role: 'manager',
 	guildOnly: true,
 	// eslint-disable-next-line no-unused-vars
-	execute(message, args, cooldowns, timestamps, client) {
+	execute(message, args, cooldowns, timestamps, client, admPass, managerPass) {
 		const helped = args[0]
 		const commandName = args[1]
 		if (!cooldowns.has(commandName)) {

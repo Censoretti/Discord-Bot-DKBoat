@@ -10,7 +10,7 @@ module.exports = {
 	// usage: '',
 	// role: 'adm',
 	// eslint-disable-next-line no-unused-vars
-	execute: async (message, args, cooldowns, timestamps, client) => {
+	execute: async (message, args, cooldowns, timestamps, client, admPass, managerPass) => {
 		let userId
 		let sheet
 

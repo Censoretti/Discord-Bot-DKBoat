@@ -11,22 +11,7 @@ module.exports = {
 	guildOnly: true,
 	onRP: 'off',
 	// eslint-disable-next-line no-unused-vars
-	execute: async (message, args, cooldowns, timestamps, client) => {
-		const roles = require('../docs/assets/628028186709458945/roles.json')
-		const guildConfig = require('../docs/assets/guildConfig.json')
-
-		const memberId = message.author.id
-		const guildId = message.guild.id
-		let guildLinkId = guildId
-		if(guildConfig[guildId].parentGuild.situation) {
-			guildLinkId = guildConfig[guildId].parentID.id
-		}
-
-		let guildIdPass = guildLinkId
-		if(guildConfig[guildId].pass) {
-			guildIdPass = guildId
-		}
-
+	execute: async (message, args, cooldowns, timestamps, client, admPass, managerPass) => {
 		const commandFiles = await fs.readdir('src/commands')
 			.catch(err => console.log('[#commandFiles]', err))
 		
@@ -41,41 +26,9 @@ module.exports = {
 			const theCommand = commandsFor[0]
 			const command = commandsMap.get(theCommand) || commandsMap.find(cmd => cmd.aliases && cmd.aliases.includes(theCommand))
 		
-			if(!args[0]) {
-				if(command.role) {
-					let admPass = false
-					let managerPass = false
-					if(client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.recruit)
-					|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.moderator)
-					|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.administrator)
-					|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.owner)
-					|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.manager)) {
-						admPass = true
-					}
-			
-					if (client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.owner)
-					|| client.guilds.cache.get(guildIdPass).members.cache.get(memberId).roles.cache.has(roles.server.manager)) {
-						managerPass = true
-					}
-			
-					if (command.role.includes('adm')) {
-						if(admPass) {
-							description += `${command.name}\n`
-						}
-					}
-			
-					if (command.role.includes('manager')) {
-						if(managerPass) {
-							description += `${command.name}\n`
-						}
-					}
-				} else {
-					description += `${command.name}\n`
-				}
-			} else {
-				const argh = args[0].toLowerCase()
-				if(argh == command.name) {
-					title = `Informações sobre: ${argh}`
+			if(args[0]) {
+				if(args[0] == command.name) {
+					title = `Informações sobre: ${args[0]}`
 					description = `${command.name}\n`
 					if(command.alises) description += `${command.aliases}\n`
 					if(command.description) description += `${command.description}\n`
@@ -84,8 +37,22 @@ module.exports = {
 					break
 				} else {
 					title = 'EROOOU'
-					description = `Nenhum comando chamado ${argh} mané`
+					description = `Nenhum comando chamado ${args[0]} mané`
 				}
+			} else if(command.role) {
+				if (command.role.includes('adm')) {
+					if(admPass) {
+						description += `${command.name}\n`
+					}
+				}
+		
+				if (command.role.includes('manager')) {
+					if(managerPass) {
+						description += `${command.name}\n`
+					}
+				}
+			} else {
+				description += `${command.name}\n`
 			}
 		}
 

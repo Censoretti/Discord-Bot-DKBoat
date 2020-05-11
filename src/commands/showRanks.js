@@ -123,19 +123,15 @@ module.exports = {
 		
 		const data = require(`../docs/ranks/${guildId}/rank${rankOf}.json`)
 
+		let description = ''
+		for(const ranks in data.rank) {
+			description += `Rank ${ranks}: ${data.rank[ranks].name} ${data.config.description}${data.rank[ranks].value}\n` 
+		}
+		
 		const embed = new Discord.MessageEmbed()
 			.setColor('#00ff00')
 			.setTitle(`Rank de ${data.config.nameDesciption}`)
-			.setDescription(`Rank 1 : ${data.rank['1st'].name} ${data.config.description} ${data.rank['1st'].value}
-											Rank 2 : ${data.rank['2nd'].name} ${data.config.description} ${data.rank['2nd'].value}
-											Rank 3 : ${data.rank['3rd'].name} ${data.config.description} ${data.rank['3rd'].value}
-											Rank 4 : ${data.rank['4th'].name} ${data.config.description} ${data.rank['4th'].value}
-											Rank 5 : ${data.rank['5th'].name} ${data.config.description} ${data.rank['5th'].value}
-											Rank 6 : ${data.rank['6th'].name} ${data.config.description} ${data.rank['6th'].value}
-											Rank 7 : ${data.rank['7th'].name} ${data.config.description} ${data.rank['7th'].value}
-											Rank 8 : ${data.rank['8th'].name} ${data.config.description} ${data.rank['8th'].value}
-											Rank 9 : ${data.rank['9th'].name} ${data.config.description} ${data.rank['9th'].value}
-											Rank 10 : ${data.rank['10th'].name} ${data.config.description} ${data.rank['10th'].value}`)
+			.setDescription(description)
 			.setTimestamp()
 			.setFooter('[Bot feito por Censoretti]', 'https://cdn.discordapp.com/attachments/613477001071951915/703825043066585168/Screenshot_5.png')
 

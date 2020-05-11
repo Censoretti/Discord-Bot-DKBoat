@@ -16,7 +16,7 @@ Todo:
     -> sistema de random pras akumas
 	☐ colocar akuma no mi na ficha
 		-> só colocar
-	☐ juntar tudo do shop em um file só
+	✔ juntar tudo do shop em um file só @done(20-05-11 15:59)
 		-> parecido com o de akuma
   ☐ timer
     -> só um contador de tempo, como um despertador

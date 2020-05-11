@@ -46,6 +46,7 @@ module.exports = {
 				document.server.messages.xp = 1
 				document.server.messages.amount = 1
 				require('./getRank').execute(autorId, document, message.guild.id)
+				reply = `Template get to ${message.author.username}`
 			} catch (err) {
 				console.log(err)
 			}

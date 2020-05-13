@@ -7,7 +7,7 @@ module.exports = {
 	usage: 'send message and gain experience',
 	execute: async (message) => {
 		const guildConfig = require('../docs/assets/guildConfig.json')
-		const guildIdBase = message.guild.id
+		const guildIdBase = '628028186709458945'
 		let guildId = guildIdBase
 		if(guildConfig[guildId].parentGuild.situation) {
 			guildId = guildConfig[guildId].parentGuild.id

@@ -9,11 +9,18 @@ module.exports = {
 		const cooldowns = new Discord.Collection()
 
 		client.on('message', message => {
+			let guildId = ''
 			if (message.author.bot) return
-			if (message.channel.type !== 'text') return message.reply('Sem tempo irmão')
-		
+			if (message.channel.type !== 'text') return
+			if (message.channel.type !== 'text') {
+				guildId = '628028186709458945'
+			} else {
+				guildId = message.guild.id
+			}
+			// return message.reply('Sem tempo irmão')
+			
 			let pass = true
-			const guildId = message.guild.id
+			
 			const memberId = message.author.id
 			let guildLinkId = guildId
 			const commandNamePass = `${process.env.PREFIX}config`
@@ -45,6 +52,7 @@ module.exports = {
 				|| clientCommands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
 		
 			if (!command) return;
+
 
 			if(pass) {
 				if(!guildConfig[guildId].commands[command.name]) {

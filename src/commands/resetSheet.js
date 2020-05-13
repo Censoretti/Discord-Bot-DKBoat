@@ -2,7 +2,7 @@ const fs = require('fs').promises
 
 const { rp } = require('../docs/assets/628028186709458945/roles.json')
 const rolesF = [
-	rp.course.marine.marine.id, rp.course.marine.apprentice.id, rp.course.pirate.id, rp.course.punisher.id,
+	rp.course.marine.id, rp.marineRank.apprentice.id, rp.course.pirate.id, rp.course.punisher.id,
 	rp.race.giant.id, rp.race.human.id, rp.race.longLimb.id, rp.race.mink.id,
 	rp.race.mermaid.id, rp.race.skypeans.id, rp.race.eyes.id, rp.race.tonttata.id,
 	rp.race.arm.id, rp.race.leg.id, rp.race.snake.id, rp.race.fishMan.id,

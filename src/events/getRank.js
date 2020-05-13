@@ -30,6 +30,8 @@ module.exports = {
 			await fs.writeFile(`src/docs/ranks/${guildId}/${files}`, data)
 				.then(console.log(`Get new person to rank ${rankToGet.name}`))
 				.catch(err => console.log(err))
+
+			require('./rankUpdate').execute(guildIdBase)
 		}
 	},
 }

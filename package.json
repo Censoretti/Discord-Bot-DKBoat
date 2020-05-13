@@ -9,20 +9,19 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "src/docs/",
-      "template ficha.json"
+      "src/docs/"
     ]
   },
   "dependencies": {
     "common-tags": "^1.8.0",
-    "discord.js": "^12.0.1",
+    "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
-    "eslint": "^6.8.0",
+    "eslint": "^7.0.0",
     "fs": "^0.0.1-security",
     "node-cron": "^2.0.3",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.3"
   },
   "devDependencies": {
-    "prettier": "2.0.4"
+    "prettier": "2.0.5"
   }
 }

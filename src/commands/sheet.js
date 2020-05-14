@@ -9,6 +9,7 @@ module.exports = {
 	usage: '',
 	aliases: ['sheet'],
 	args: true,
+	// role: 'manager',
 	// onRP: off,
 	// eslint-disable-next-line no-unused-vars
 	execute: async (message, args, cooldowns, timestamps, client, admPass, managerPass) => {
@@ -18,10 +19,7 @@ module.exports = {
 			return message.channel.send('Não é aqui que vc tem q criar sua ficha, é no servidor principal')
 		}
 
-		if(args[0] == 'show'
-		|| args[0] == 'snipe'
-		|| args[0] == 'show'
-		|| args[0] == 'analisar') {
+		if(args[0] == 'show' || args[0] == 'snipe' || args[0] == 'show' || args[0] == 'analisar') {
 			let userId
 			let sheet
 	
@@ -143,12 +141,12 @@ module.exports = {
 	
 			return message.channel.send(embed)
 
-		} else if(args[0] == 'create'
-		|| args[0] == 'criar') {
+		} else if(args[0] == 'create' || args[0] == 'criar') {
+			const roles = require('../docs/assets/628028186709458945/roles.json')
+			if(!message.member.roles.cache.has(roles.server.noSheet)) return message.channel.send('Tu ja tem ficha amigão')
 			try {
 				const { stripIndents } = require('common-tags');
 				const document = require(`../docs/sheets/${message.author.id}.json`)
-				const roles = require('../docs/assets/628028186709458945/roles.json')
 				let tittle = 'Será que é hoje que conheceremos o proximo rei dos piratas?'
 				let description = 
 			stripIndents`Precisamos conhecer nosso novo nakama nesse servidor
@@ -369,6 +367,7 @@ module.exports = {
 					const data = JSON.stringify(document)
 					await fs.writeFile(`src/docs/sheets/${message.author.id}.json`, data)
 						.then('Created sheet to some other random guy')
+						.then(message.member.roles.remove(roles.server.noSheet))
 						.catch(err => console.log(err))
 	
 					require('../events/getRank').execute(message.author.id, document, message.guild.id)
@@ -382,9 +381,81 @@ module.exports = {
 				removeRoles(message)
 				return console.log(err);
 			}
+		} else if(args[0] == 'edit' || args[0] == 'editar') {
+			try{
+				let sheet
+				if(admPass || managerPass) {
+					const verifyMessage = await message.channel.send('A ficha de quem você quer editar?\nPode ser por marcação ou id')
+					const responseMessage = await verifyMessage.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
+					let response = responseMessage.first().content
+					if(responseMessage.first().mentions.users.size) {
+						responseMessage.first().mentions.users.map(user => { 
+							response = user.id
+						});
+					}
+					try{
+						sheet = require(`../docs/sheets/${response}.json`)
+					} catch {
+						return message.channel.send('Nego não tem ficha ou você escreveu o id errado :(')
+					}
+				} else {
+					sheet = require(`../docs/sheets/${message.author.id}.json`)
+				}
+				let verifyMessage = await message.channel.send('O que você quer editar?\nAparência? Nome? Gênero?')
+				let responseMessage = await verifyMessage.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
+				let response = responseMessage.first().content.toLowerCase()
+				switch (response) {
+				case 'aparencia' || 'aparência':
+					verifyMessage = await message.channel.send('Qual vai ser sua nova aparência?')
+					responseMessage = await verifyMessage.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
+					response = responseMessage.first().content
+					sheet.rp.appearance = response
+					break
+				case 'nome':
+					verifyMessage = await message.channel.send('Qual vai ser seu novo nome?')
+					responseMessage = await verifyMessage.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
+					response = responseMessage.first().content
+					sheet.rp.name = response
+					break
+				case 'genero' || 'gênero':
+					verifyMessage = await message.channel.send('Qual vai ser o novo gênero?(feminino/masculino/outros/f/m/o)')
+					responseMessage = await verifyMessage.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
+					response = responseMessage.first().content
+					// eslint-disable-next-line no-case-declarations
+					let testResponse = true
+					while(testResponse) {
+						if(response == 'masculino'
+					|| response == 'm') {
+							response = 'masculino'
+							testResponse = false
+						} else if(response == 'feminino'
+					|| response == 'f') {
+							response = 'feminino'
+							testResponse = false
+						} else if(response == 'outros'
+					|| response == 'o') {
+							response = 'outros'
+							testResponse = false
+						} else {
+							verifyMessage = await message.author.send('Lembrando, somente: feminino/masculino/outros/f/m/o')
+							responseMessage = await verifyMessage.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
+							response = responseMessage.first().content.toLowerCase()
+						}
+					}
+					sheet.rp.gender = response
+					break
+				default:
+					return message.channel.send('Isso a gente não edita não')
+				}
+				const data = JSON.stringify(sheet)
+				await fs.writeFile(`src/docs/sheets/${sheet.server.id}.json`, data)
+					.then(console.log(`Sheet edited of ${sheet.server.username}`))
+					.catch(err => console.log(err))
+				return message.channel.send('Prontinho, alterado \'u\'')
+			} catch(err) {
+				console.log(err);
+			}
 		}
-
-
 	},
 }
 

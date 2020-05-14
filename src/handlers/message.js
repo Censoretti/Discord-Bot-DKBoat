@@ -9,15 +9,9 @@ module.exports = {
 		const cooldowns = new Discord.Collection()
 
 		client.on('message', message => {
-			let guildId = ''
 			if (message.author.bot) return
 			if (message.channel.type !== 'text') return
-			if (message.channel.type !== 'text') {
-				guildId = '628028186709458945'
-			} else {
-				guildId = message.guild.id
-			}
-			// return message.reply('Sem tempo irmão')
+			const guildId = message.guild.id
 			
 			let pass = true
 			

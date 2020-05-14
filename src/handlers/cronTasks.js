@@ -60,7 +60,7 @@ module.exports = {
 			} catch(err) {
 				return console.log(err)
 			}
-			client.guilds.cache.get('628028186709458945').channels.cache.get('630283915558518805').send(`<@&${roles.rp.course.marine.marine.id}> pagamento feito`)
+			client.guilds.cache.get('628028186709458945').channels.cache.get('630283915558518805').send(`<@&${roles.rp.course.marine.id}> pagamento feito`)
 		});
 
 		marineMoney.start()

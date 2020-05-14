@@ -4,6 +4,7 @@ module.exports = {
 	// eslint-disable-next-line no-unused-vars
 	execute: async (client, Discord, clientCommands, clientEvents, guildInvites) => {
 		client.on('guildMemberRemove', async member => {
+			if(member.user.bot) return
 			const fs = require('fs').promises
 			const guildConfig = require('../docs/assets/guildConfig.json')
 
@@ -32,6 +33,10 @@ module.exports = {
 			if(guildConfig[guildId].exitChat.situation) {
 				exitChat.send(embed).catch(err => console.log(err));
 			}
+
+			fs.unlink(`src/docs/sheets/${removedMember.server.id}.json`)
+				.then(console.log(`Deleted the sheet of ${removedMember.server.username}`))
+				.catch(err => console.log(err))
 			require('../events/rankUpdate').execute(member.guild.id)
 		});
 	},

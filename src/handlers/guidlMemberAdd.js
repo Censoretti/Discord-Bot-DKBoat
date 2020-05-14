@@ -7,6 +7,7 @@ module.exports = {
 		const guildConfig = require('../docs/assets/guildConfig.json')
 
 		client.on('guildMemberAdd', async member => {
+			if(member.user.bot) return
 			const cachedInvites = guildInvites.get(member.guild.id);
 			const newInvites = await member.guild.fetchInvites();
 			guildInvites.set(member.guild.id, newInvites);
@@ -27,7 +28,7 @@ module.exports = {
 				invitedOf.server.invites.total++
 				const data = JSON.stringify(invitedOf)
 				await fs.writeFile(`src/docs/sheets/${usedInvite.inviter.id}.json`, data)
-					.then(console.log(`Used invite to ${usedInvite.inviter.username}`))
+					.then(console.log(`${member.user.username} used invite of ${usedInvite.inviter.username}`))
 					.catch(err => console.log(err))
 		
 				const newSheet = require('../docs/sheets/_template.json')
@@ -52,7 +53,6 @@ module.exports = {
 			catch(err) {
 				console.log(err);
 			}
-			require('../events/rankUpdate').execute(member.guild.id)
 		});
 	},
 }

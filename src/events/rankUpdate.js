@@ -125,9 +125,16 @@ module.exports = {
 
 			const data = JSON.stringify(rankToUpdate)
 			await fs.writeFile(`src/docs/ranks/${guildId}/${files}`, data)
-				.then(console.log(`rank ${rankToUpdate.config.name} got updated`))
 				.catch(err => console.log(err))
+		
+			for(const users in rankToUpdate.users) {
+				try {
+					require(`../docs/sheets/${users}`)
+				} catch {
+					delete rankToUpdate.users[users]
+				} 
+			}
 		}
-
+		console.log('All ranks updated for everyone on ranks');
 	},
 }

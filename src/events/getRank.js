@@ -28,10 +28,10 @@ module.exports = {
 
 			const data = JSON.stringify(rankToGet)
 			await fs.writeFile(`src/docs/ranks/${guildId}/${files}`, data)
-				.then(console.log(`Get new person to rank ${rankToGet.name}`))
 				.catch(err => console.log(err))
 
-			require('./rankUpdate').execute(guildIdBase)
 		}
+		require('./rankUpdate').execute(guildIdBase)
+		console.log(`Get all ranks to: ${document.server.username}`);
 	},
 }

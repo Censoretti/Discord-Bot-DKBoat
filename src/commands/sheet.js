@@ -147,7 +147,7 @@ module.exports = {
 		|| args[0] == 'criar') {
 			try {
 				const { stripIndents } = require('common-tags');
-				const document = require('../docs/sheets/_template.json')
+				const document = require(`../docs/sheets/${message.author.id}.json`)
 				const roles = require('../docs/assets/628028186709458945/roles.json')
 				let tittle = 'Será que é hoje que conheceremos o proximo rei dos piratas?'
 				let description = 
@@ -333,10 +333,7 @@ module.exports = {
 					if(responseMessage.get(roles.rp.race[role].emoji)) {
 						response = roles.rp.race[role].name
 						const raceTemplate = require(`../docs/templates/${role}.json`)
-						document.rp.stats.forca = raceTemplate.rp.stats.forca
-						document.rp.stats.resistencia = raceTemplate.rp.stats.resistencia
-						document.rp.stats.velocidade = raceTemplate.rp.stats.velocidade
-						document.rp.stats.destreza = raceTemplate.rp.stats.destreza
+						document.rp.stats = raceTemplate.rp.stats
 						message.member.roles.add(roles.rp.race[role].id)
 						break
 					}

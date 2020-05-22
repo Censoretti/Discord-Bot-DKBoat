@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 module.exports = {
 	name: 'akuma',
 	description: 'template',
@@ -13,56 +14,89 @@ module.exports = {
 		const akuma = require('../docs/assets/628028186709458945/akumas.json')
 		const fs = require('fs').promises
 		const Discord = require('discord.js')
+		let returnTest = false
 
 		if(admPass) {
 			if(args[0]) {
 				if(args[0] == 'add'
 				|| args[0] == 'adicionar') {
 					try {
-						const verifyMessage = await message.channel.send('Qual akuma tu quer adicionar?')
-						const responseMessage = await verifyMessage.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
-						const response = responseMessage.first().content.charAt(0).toUpperCase() + responseMessage.first().content.toLowerCase().slice(1)
-						if(akuma.details[response]) {
-							return message.channel.send('Akuma ja existe cabeção')
-						}
-						const verifyMessage2 = await message.channel.send('Qual rank da akuma?')
-						const responseMessage2 = await verifyMessage2.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
-						const response2 = responseMessage2.first().content.toLowerCase()
-						let rankType = ''
-						if(response2 == 'rankb'
-						|| response2 == 'b'
-						|| response2 == 'rank b') {
-							akuma.rankB.push(response)
-							rankType = 'b'
-						} else if(response2 == 'ranka'
-						|| response2 == 'a'
-						|| response2 == 'rank a') {
-							akuma.rankA.push(response)
-							rankType = 'a'
-						} else if(response2 == 'ranks'
-						|| response2 == 's'
-						|| response2 == 'rank s') {
-							akuma.rankS.push(response)
-							rankType = 's'
-						} else if(response2 == 'rankss'
-						|| response2 == 'ss'
-						|| response2 == 'rank ss') {
-							akuma.rankSS.push(response)
-							rankType = 'ss'
-						} else {
-							return message.channel.send('Q?')
-						}
+						let newAkumaName = ''
+						message.reply('Qual akuma tu quer adicionar?\nEscreva \'sair\' para sair')
+						await message.channel.awaitMessages(msg => msg.author.id === message.author.id, { max: 1, time: 10000 })
+							.then(collected => {
+								const response = collected.first().content.charAt(0).toUpperCase() + collected.first().content.toLowerCase().slice(1)
+								if(response === 'Exit' || response === 'Sair') return returnTest = true
+								if(akuma.details[response]) {
+									returnTest = true
+									return message.channel.send('Ja existe essa ai, cabeça')
+								} else {
+									newAkumaName = response
+								}
+							})
+							.catch(err => {
+								returnTest = true
+								message.channel.send('Huummm.... Lerdo d+....')
+							})
+						if(returnTest) return
 
-						akuma.details[response] = {
-							'name': response,
-							'rank': rankType,
-							'description': 'none',
-							'photo': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Icon_None.svg/768px-Icon_None.svg.png',
+						let newAkumaRank = 'rank'
+						let newAkumaRankDetail
+						message.channel.send(`Qual o rank da ${newAkumaName}?(b/a/s/ss)\n Escreva 'sair' para sair`)
+						await message.channel.awaitMessages(msg => msg.author.id === message.author.id, { max: 1, time: 10000 })
+							.then(collected => {
+								const response = collected.first().content.toLowerCase()
+								if(response === 'exit' || response === 'sair') return returnTest = true
+								if(response == 'b' || response == 'a' || response == 's' || response == 'ss') {
+									newAkumaRankDetail = response
+									return newAkumaRank += response.toUpperCase()
+								} else {
+									returnTest = true
+									return message.channel.send('Esse rank não existe...')
+								}
+							})
+							.catch(err => {
+								returnTest = true
+								message.channel.send('Huummm.... Lerdo d+....')
+							})
+						if(returnTest) return
+
+						let description = ''
+						message.channel.send(`Qual a descrição da ${newAkumaName}?`)
+						await message.channel.awaitMessages(msg => msg.author.id === message.author.id, { max: 1, time: 10000 })
+							.then(collected => {
+								const response = collected.first().content.charAt(0).toUpperCase() + collected.first().content.toLowerCase().slice(1)
+								if(response == 'Sair' || response == 'Exit') return returnTest = true
+								description = response
+							})
+							.catch(err => {
+								returnTest = true
+								message.channel.send('Hummmm..... Lerdo d+....')
+							})
+						if(returnTest) return
+
+						let photo
+						message.channel.send(`Como é a ${newAkumaName}? (foto, link da imagem)`)
+						await message.channel.awaitMessages(msg => msg.author.id === message.author.id, { max: 1, time: 10000 })
+							.then(collected => {
+								const response = collected.first().content
+								if(response == 'sair' || response == 'exit') return returnTest = true
+								photo = response
+							})
+							.catch(err => {
+								returnTest = true
+								message.channel.send('Hummmm..... Lerdo d+....')
+							})
+
+						akuma[newAkumaRank].push(newAkumaName)
+						akuma.details[newAkumaName] = {
+							'name': newAkumaName,
+							'rank': newAkumaRankDetail,
+							'description': description,
+							'photo': photo,
 							'owner': 'none',
 						}
-
-						const data = JSON.stringify(akuma)
-						await fs.writeFile('src/docs/assets/628028186709458945/akumas.json', data)
+						await fs.writeFile('src/docs/assets/628028186709458945/akumas.json', JSON.stringify(akuma))
 							.then(console.log('akuma add'))
 							.catch(err => console.log(err))
 						
@@ -79,102 +113,93 @@ module.exports = {
 				if(args[0] == 'remove'
 				|| args[0] == 'remover'
 				|| args[0] == 'splice') {
-					try {
-						const verifyMessage = await message.channel.send('Qual akuma tu quer deletar?')
-						const responseMessage = await verifyMessage.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
-						const response = responseMessage.first().content.charAt(0).toUpperCase() + responseMessage.first().content.toLowerCase().slice(1)
-						if(akuma.details[response]) {
-							let rankType = ''
-							if(akuma.details[response].rank == 'b') {
-								akuma.rankB.push(response)
-								rankType = 'rankB'
-							} else if(akuma.details[response].rank == 'a') {
-								akuma.rankA.push(response)
-								rankType = 'rankA'
-							} else if(akuma.details[response].rank == 's') {
-								akuma.rankS.push(response)
-								rankType = 'rankS'
-							} else if(akuma.details[response].rank == 'ss') {
-								akuma.rankSS.push(response)
-								rankType = 'rankSS'
+					message.reply('Qual akuma tu quer deletar?')
+					await message.channel.awaitMessages(msg => msg.author.id === message.author.id, { max: 1, time: 10000 })
+						.then(async collected => {
+							const response = collected.first().content.charAt(0).toUpperCase() + collected.first().content.toLowerCase().slice(1)
+							if(akuma.details[response]) {
+								const rankToDelete = 'rank' + akuma.details[response].rank.toUpperCase()
+								akuma[rankToDelete].splice(akuma[rankToDelete].indexOf(response), 1)
+								delete akuma.details[response]
+								await fs.writeFile('src/docs/assets/628028186709458945/akumas.json', JSON.stringify(akuma))
+									.then(console.log(`Akuma ${response} removed`))
+									.catch(err => console.log(err))
+								returnTest = true
+								return message.channel.send(`Akuma ${response} deletada com sucesso`)
+							} else {
+								returnTest = true
+								return message.channel.send('Akuma não existe no nosso data base :)')
 							}
-
-							akuma[rankType].splice(akuma[rankType].indexOf(response), 1)
-							delete akuma.details[response]
-							const data = JSON.stringify(akuma)
-							await fs.writeFile('src/docs/assets/628028186709458945/akumas.json', data)
-								.then(console.log('akuma removed'))
-								.catch(err => console.log(err))
-							
-							return message.channel.send('akuma adicionada')
-						} else {
-							return message.channel.send('Akuma não existe cabeção')	
-						}
-					} catch(err) {
-						console.log(err)
-						return message.channel.send('TEMPO ESGOTADO')
-					}
+						})
+						.catch(err => {
+							returnTest = true
+							return message.channel.send('Tempo esgotado.....')
+						})
+					if(returnTest) return
 				} else if(args[0] == 'edit'
 				|| args[0] == 'editar') {
-					try {
-						const verifyMessage = await message.channel.send('Qual akuma tu quer editar?')
-						const responseMessage = await verifyMessage.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
-						const response = responseMessage.first().content.charAt(0).toUpperCase() + responseMessage.first().content.toLowerCase().slice(1)
-						if(!akuma.details[response]) return message.channel.send('Não existe, cabeça')
+					message.reply('Qual akuma tu quer editar?')
+					await message.channel.awaitMessages(msg => msg.author.id === message.author.id, { max: 1, time: 10000 })
+						.then(async collected => {
+							let response = collected.first().content.charAt(0).toUpperCase() + collected.first().content.toLowerCase().slice(1)
+							if(!akuma.details[response]) {
+								returnTest = true
+								return message.channel.send('Existe essa dai não :v')
+							} else {
+								const akumaFile = akuma.details[response]
+								const embed = new Discord.MessageEmbed()
+									.setColor('#00ff00')
+									.setTitle(`${akumaFile.name} rank ${akumaFile.rank}`)
+									.setDescription(`${akumaFile.description}\nPortador: ${akumaFile.owner}`)
+									.setThumbnail(akumaFile.photo)
+									.setTimestamp()
+									.setFooter('[Bot feito por Censoretti]', 'https://cdn.discordapp.com/attachments/613477001071951915/703825043066585168/Screenshot_5.png')
 
-						const akumaFile = akuma.details[response]
-						const embed = new Discord.MessageEmbed()
-							.setColor('#00ff00')
-							.setTitle(`${akumaFile.name} rank ${akumaFile.rank}`)
-							.setDescription(`${akumaFile.description}\nPossuidor: ${akumaFile.owner}`)
-							.setThumbnail(akumaFile.photo)
-							.setTimestamp()
-							.setFooter('[Bot feito por Censoretti]', 'https://cdn.discordapp.com/attachments/613477001071951915/703825043066585168/Screenshot_5.png')
+								message.channel.send('O que tu quer editar?')
+								await message.channel.awaitMessages(msg => msg.author.id === message.author.id, { max: 1, time: 10000 })
+									.then(async collected2 => {
+										let what = ''
+										response = collected2.first().content.toLowerCase
+										if(response == 'nome'
+										|| response == 'name') {
+											what = 'name'
+										} else if(response == 'descrição'
+										|| response == 'descricao'
+										|| response == 'description') {
+											what = 'description'
+										} else if(response == 'foto'
+										|| response == 'photo') {
+											what = 'photo'
+										} else if(response == 'portador'
+										|| response == 'dono'
+										|| response == 'owner') {
+											what = 'owner'
+										} else {
+											returnTest = true
+											return message.channel.send('Vê direito o que tu quer ai, isso não existe')
+										}
 
-						await message.channel.send(embed)
-
-						const verifyMessage2 = await message.channel.send('O que você quer editar?')
-						const responseMessage2 = await verifyMessage2.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
-						let response2 = responseMessage2.first().content.toLowerCase()
-						if(response2 == 'nome') {
-							response2 = 'name'
-						} else if(response2 == 'descrição'
-						|| response2 == 'descricao') {
-							response2 = 'description'
-						} else if(response2 == 'foto') {
-							response2 = 'photo'
-						} else if(response2 == 'possesor'
-						|| response2 == 'dono') {
-							response2 = 'owner'
-						} 
-						if(!akuma.details[response][response2]) return message.channel.send('Assim não da, existe isso não, corrige ai')
-
-						const verifyMessage3 = await message.channel.send('Como vc quer que fique?')
-						const responseMessage3 = await verifyMessage3.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
-						const response3 = responseMessage3.first().content
-						akuma.details[response][response2] = response3
-
-						const data = JSON.stringify(akuma)
-						await fs.writeFile('src/docs/assets/628028186709458945/akumas.json', data)
-							.then(console.log('akuma edited'))
-							.catch(err => console.log(err))
-
-						const akumaFile2 = akuma.details[response]
-						const embed2 = new Discord.MessageEmbed()
-							.setColor('#00ff00')
-							.setTitle(`${akumaFile2.name} rank ${akumaFile2.rank}`)
-							.setDescription(`${akumaFile2.description}\nPossuidor: ${akumaFile2.owner}`)
-							.setThumbnail(akumaFile2.photo)
-							.setTimestamp()
-							.setFooter('[Bot feito por Censoretti]', 'https://cdn.discordapp.com/attachments/613477001071951915/703825043066585168/Screenshot_5.png')
-
-						message.channel.send('Ficou assim:')
-						return message.channel.send(embed2)
-					} catch(err) {
-						console.log(err)
-						return message.channel.send('TEMPO ESGOTADO')
-					}
-
+										message.channel.send('E como você quer que fique?')
+										await message.channel.awaitMessages(msg => msg.author.id === message.author.id, { max: 1, time: 10000 })
+											.then(async collected3 => {
+												response = collected3.first().content
+												akumaFile[what] = response
+												await fs.writeFile('src/docs/assets/628028186709458945/akumas.json', JSON.stringify(akuma))
+													.then(console.log(`Akuma ${akumaFile.name} edited`))
+													.catch(err => console.log(err))
+												return message.channel.send(`Akuma ${akumaFile} editada com sucesso`)
+											})
+									})
+									.catch(err => {
+										return
+									})
+							}
+						})
+						.catch(err => {
+							returnTest = true
+							return message.channel.send('Lerdeza em pessoa, cansei de esperar....')
+						})
+					if(returnTest) return
 				}
 			}
 		}
@@ -182,92 +207,50 @@ module.exports = {
 			if(args[0] == 'view'
 			|| args[0] == 'ver'
 			|| args[0] == 'visualizar') {
-				try {
-					const verifyMessage = await message.channel.send('Qual akuma ou rank você quer verificar sobre?')
-					const responseMessage = await verifyMessage.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
-					const response = responseMessage.first().content.charAt(0).toUpperCase() + responseMessage.first().content.toLowerCase().slice(1)
-					if(akuma.details[response]) {
-						const akumaFile = akuma.details[response]
-						const embed = new Discord.MessageEmbed()
-							.setColor('#00ff00')
-							.setTitle(`${akumaFile.name} rank ${akumaFile.rank}`)
-							.setDescription(`${akumaFile.description}\nPossuidor: ${akumaFile.owner}`)
-							.setThumbnail(akumaFile.photo)
-							.setTimestamp()
-							.setFooter('[Bot feito por Censoretti]', 'https://cdn.discordapp.com/attachments/613477001071951915/703825043066585168/Screenshot_5.png')
+				message.reply('Qual akuma ou rank tu quer ver?(b/a/s/ss)\n\'Sair\' para sair')
+				await message.channel.awaitMessages(msg => msg.author.id == message.author.id, { max: 1, time: 10000 })
+					.then(collected => {
+						const response = collected.first().content.charAt(0).toUpperCase() + collected.first().content.toLowerCase().slice(1)
+						if(response == 'Exit' || response == 'Sair') return returnTest = true
+						if(akuma.details[response]) {
+							const akumaFile = akuma.details[response]
+							const embed = new Discord.MessageEmbed()	
+								.setColor('#00ff00')
+								.setTitle(`${akumaFile.name} rank ${akumaFile.rank}`)
+								.setDescription(`${akumaFile.description}\nPortador: ${akumaFile.owner}`)
+								.setThumbnail(akumaFile.photo)
+								.setTimestamp()
+								.setFooter('[Bot feito por Censoretti]', 'https://cdn.discordapp.com/attachments/613477001071951915/703825043066585168/Screenshot_5.png')
+							return message.channel.send(embed)
+						} else if(response == 'B' || response == 'A' || response == 'S' || response == 'Ss') {
+							let akumas = ''
+							const rankFile = akuma['rank' + response]
+							for(const akumaName of rankFile) {
+								if(akuma.details[akumaName].owner == 'none') {
+									akumas += `${akumaName}\n`
+								} else {
+									akumas += `${akumaName} (${akuma.details[akumaName].owner})\n`
+								}
+							}
+							const embed = new Discord.MessageEmbed()
+								.setColor('#00ff00')
+								.setTitle(`Akumas do rank${response}`)
+								.setDescription(akumas)
+								.setThumbnail()
+								.setTimestamp()
+								.setFooter('[Bot feito por Censoretti]', 'https://cdn.discordapp.com/attachments/613477001071951915/703825043066585168/Screenshot_5.png')
 
-						return message.channel.send(embed)
-					} else { 
-						let akumas = ''
-						let title = ''
-						if(response == 'b'
-						|| response == 'rankb'
-						|| response == 'rank b') {
-							title = 'rank B'
-							const rankFile = akuma.rankB
-							for(const akumaName of rankFile) {
-								if(akuma.details[akumaName].owner == 'none') {
-									akumas += `${akumaName}\n`
-								} else {
-									akumas += `${akumaName} (${akuma.details[akumaName].owner})\n`
-								}
-							}
-						} else if(response == 'a'
-						|| response == 'ranka'
-						|| response == 'rank a') {
-							title = 'rank A'
-							const rankFile = akuma.rankA
-							for(const akumaName of rankFile) {
-								if(akuma.details[akumaName].owner == 'none') {
-									akumas += `${akumaName}\n`
-								} else {
-									akumas += `${akumaName} (${akuma.details[akumaName].owner})\n`
-								}
-							}
-							
-						} else if(response == 's'
-						|| response == 'ranks'
-						|| response == 'rank s') {
-							title = 'rank S'
-							const rankFile = akuma.rankS
-							for(const akumaName of rankFile) {
-								if(akuma.details[akumaName].owner == 'none') {
-									akumas += `${akumaName}\n`
-								} else {
-									akumas += `${akumaName} (${akuma.details[akumaName].owner})\n`
-								}
-							}
-							
-						} else if(response == 'ss'
-						|| response == 'rankss'
-						|| response == 'rank ss') {
-							title = 'rank SS'
-							const rankFile = akuma.rankSS
-							for(const akumaName of rankFile) {
-								if(akuma.details[akumaName].owner == 'none') {
-									akumas += `${akumaName}\n`
-								} else {
-									akumas += `${akumaName} (${akuma.details[akumaName].owner})\n`
-								}
-							}
-							
+							return message.channel.send(embed)
 						} else {
-							return message.channel.send('Nenhuma akuma ou rank com esse nome')
+							returnTest = true
+							return message.channel.send('Rank ou akuma inexistente.')
 						}
-						const embed = new Discord.MessageEmbed()
-							.setColor('#00ff00')
-							.setTitle(`Akumas ${title}`)
-							.setDescription(akumas)
-							.setThumbnail()
-							.setTimestamp()
-							.setFooter('[Bot feito por Censoretti]', 'https://cdn.discordapp.com/attachments/613477001071951915/703825043066585168/Screenshot_5.png')
-
-						return message.channel.send(embed)
-					} 
-				} catch(err) {
-					console.log(err)
-					return message.channel.send('TEMPO ESGOTADO')
-				}
+					})
+					.catch(err => {
+						returnTest = true
+						return message.channel.send('Eeeee... Acabou o tempo....')
+					})
+				if(returnTest) return
 			} else if(args[0] == 'random'
 			|| args[0] == 'abrir'
 			|| args[0] == 'open'

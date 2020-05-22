@@ -21,6 +21,7 @@ module.exports = {
 			let guildIdPass = ''
 		
 			if(message.content != commandNamePass) {
+				if(!message.content.startsWith(process.env.PREFIX)) return
 				if(!guildConfig[guildId]) {
 					return message.channel.send('Primeiro o config mano')
 				} else if(guildConfig[guildId].parentGuild.situation) {

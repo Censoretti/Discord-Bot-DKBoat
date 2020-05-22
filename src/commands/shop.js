@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const Discord = require('discord.js')
 const fs = require('fs').promises
 
@@ -19,80 +20,71 @@ module.exports = {
 				if(args[0] == 'add'
 				|| args[0] == 'adicionar') {
 
-					const verifyMessage = await message.channel.send('Qual item tu quer adicionar?')
-					const responseMessage = await verifyMessage.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
-					const response = responseMessage.first().content.charAt(0).toUpperCase() + responseMessage.first().content.toLowerCase().slice(1)
-					if(shop[response]) {
-						return message.channel.send(`Item ja ta em venda com o valor de: <:Belly:633626593138442240>${shop[response]}`)
-					}
+					message.reply('Qual item tu quer adicionar?')
+					await message.channel.awaitMessages(msg => msg.author.id === message.author.id, { max: 1, time: 10000 })
+						.then(async collected => {
+							if(collected.first().content.toLowerCase() === 'exit') return
+							let response = collected.first().content.charAt(0).toUpperCase() + collected.first().content.toLowerCase().slice(1)
+							if(shop[response]) return message.channel.send(`Ja temos ${response} no nosso shop`)
+							const newItemName = response
+							message.channel.send(`Qual o valor do ${response}?`)
+							await message.channel.awaitMessages(msg => msg.author.id === message.author.id, { max: 1, time: 10000 })
+								.then(async collected2 => {
+									response = parseFloat(collected2.first().content)
+									shop[newItemName] = response
+									await fs.writeFile(`src/docs/economy/${guildId}/shop.json`, JSON.stringify(shop))
+										.then(console.log(`Add ${newItemName} costing ${response} to shop`))
+										.catch(err => console.log(err))
 
-					const verifyMessage2 = await message.channel.send(`Qual vai ser o valor do ${response}?\nSem o <:Belly:633626593138442240> por favor só o valor`)
-					const responseMessage2 = await verifyMessage2.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
-					const response2 = responseMessage2.first().content
-					shop[response] = response2
-					const data = JSON.stringify(shop)
-					await fs.writeFile(`src/docs/economy/${guildId}/shop.json`, data)
-						.then(console.log(`add ${response} to shop with ${response2} bellys`))
-						.catch(err => console.log(err))
-
-					return message.channel.send(`Adicionado ${response} no valor de: ${response2} bellys`)
+									return message.channel.send(`Adicionado ${newItemName} no valor de: ${response} bellys`)
+								})
+								.catch(err => {
+									return message.channel.send('Tempo esgotado...')
+								})
+						})
+						.catch(err => {
+							return message.channel.send('Lerdeza em pessoa...')
+						})
 				} 
 			} 
 			if(managerPass) {
 				if(args[0] == 'remove'
 				|| args[0] == 'remover') {
-					const verifyMessage = await message.channel.send('Qual item tu quer remover?')
-					const responseMessage = await verifyMessage.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
-					const response = responseMessage.first().content.charAt(0).toUpperCase() + responseMessage.first().content.toLowerCase().slice(1)
-					if(!shop[response]) {
-						return message.channel.send('Esse item não existe não')
-					}
-
-					delete shop[response]
-
-					const data = JSON.stringify(shop)
-					await fs.writeFile(`src/docs/economy/${guildId}/shop.json`, data)
-						.then(console.log(`${response} deleted from shop`))
-						.catch(err => console.log(err))
-						
+					message.reply('Qual item tu quer remover?')
+					await message.channel.awaitMessages(msg => msg.author.id === message.author.id, { max: 1, time: 10000 })
+						.then(async collected => {
+							const response = collected.first().content.charAt(0).toUpperCase() + collected.first().content.toLowerCase().slice(1)
+							if(!shop[response]) return message.channel.send('Existe esse item não')
+							delete shop[response]
+							await fs.writeFile(`src/docs/economy/${guildId}/shop.json`, JSON.stringify(shop))
+								.then(console.log(`${response} deleted from shop`))
+								.catch(err => console.log(err))
+							return message.channel.send(`${response} deletado com sucesso`)
+						})
+						.catch(err => { return message.channel.send('Esgotou o seu tempo :(') })
+				
 				} else if(args[0] == 'edit'
 				|| args[0] == 'editar') {
-					const verifyMessage = await message.channel.send('Qual item tu quer editar?')
-					const responseMessage = await verifyMessage.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
-					const response = responseMessage.first().content.charAt(0).toUpperCase() + responseMessage.first().content.toLowerCase().slice(1)
-					if(!shop[response]) {
-						return message.channel.send('Esse item não existe não')
-					}
-
-					message.channel.send(`O ${response} tem o valor de ${shop[response]}`)
-					const verifyMessage2 = await message.channel.send('O que tu quer editar?')
-					const responseMessage2 = await verifyMessage2.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
-					const response2 = responseMessage2.first().content
-					if(response2 == 'name'
-					|| response2 == 'nome') {
-						const verifyMessage3 = await message.channel.send('Qual o novo nome?')
-						const responseMessage3 = await verifyMessage3.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
-						const response3 = responseMessage3.first().content.charAt(0).toUpperCase() + responseMessage3.first().content.toLowerCase().slice(1)
-						if(shop[response3]) {
-							return message.channel.send('Ja existe')
-						}
-						shop[response3] = shop[response]
-						delete shop[response]
-						message.channel.send(`Agora temos o ${response3} com o valor de ${shop[response3]}`)
-					} else if(response2 == 'valor'
-					|| response2 == 'belly'
-					|| response2 == 'bellys') {
-						const verifyMessage3 = await message.channel.send('Qual o novo valor?\nSem o <:Belly:633626593138442240> por favor só o valor')
-						const responseMessage3 = await verifyMessage3.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
-						const response3 = responseMessage3.first().content
-						shop[response] = response3
-						message.channel.send(`Agora temos o ${response} com o valor de ${shop[response]}`)
-					}
-
-					const data = JSON.stringify(shop)
-					await fs.writeFile(`src/docs/economy/${guildId}/shop.json`, data)
-						.then(console.log(`${response} deleted from shop`))
-						.catch(err => console.log(err))
+					message.reply('Qual item tu quer editar?')
+					await message.channel.awaitMessages(msg => msg.author.id === message.author.send, { max: 1, time: 10000 })
+						.then(async collected => {
+							let response = collected.first().content.charAt(0).toUpperCase() + collected.first().content.toLowerCase().slice(1)
+							if(response == 'Exit' || response == 'Sair') return
+							const itemName = response
+							if(!shop[response]) return message.channel.send('Editar item que não existe como?')
+							message.channel.send(`O ${response} tem o valor de ${shop[response]}\n Qual o valor novo?`)
+							await message.channel.awaitMessages(msg => msg.author.id === message.author.id, { max: 1, time: 10000 })
+								.then(async collected2 => {
+									response = parseFloat(collected2.first().content)
+									shop[itemName] = response
+									await fs.writeFile(`src/docs/economy/${guildId}/shop.json`, JSON.stringify(shop))
+										.then(console.log(`${response} deleted from shop`))
+										.catch(err => console.log(err))
+									return message.channel.send(`Alterado o valor de ${itemName} com sucesso`)
+								})
+								.catch(err => { return message.channel.send('Sem tempo pra você irmão') })
+						})
+						.catch(err => { return message.channel.send('E acabou o seu tempo...') })
 				}
 			} else if(args[0] == 'buy'
 				|| args[0] == 'comprar') {

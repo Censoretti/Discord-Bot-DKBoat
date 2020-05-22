@@ -92,7 +92,7 @@ module.exports = {
 			}
 		} else {
 			const verifyMessage = await message.channel.send('Rank do que você quer?')
-			const responseMessage = await verifyMessage.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
+			const responseMessage = await verifyMessage.channel.awaitMessages(msg => msg.author.id === message.author.id, { max: 1, min: 1, time: 60000 })
 			const response = responseMessage.first().content.charAt(0).toUpperCase() + responseMessage.first().content.toLowerCase().slice(1)
 			rank = ranks.get(response)
 			|| ranks.find(cmd => cmd.config.aliases && cmd.config.aliases.includes(response))

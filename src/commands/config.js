@@ -37,23 +37,29 @@ module.exports = {
 				return message.channel.send('Talvez depois então \'u\'')
 			}
 		} else {
-			config[guildId] = {}
-			config[guildId].parentGuild = {}
-			config[guildId].parentGuild.situation = false
-			config[guildId].parentGuild.id = '0'
-			config[guildId].welcomeChat = {}
-			config[guildId].welcomeChat.situation = false
-			config[guildId].welcomeChat.id = '0'
-			config[guildId].exitChat = {}
-			config[guildId].exitChat.situation = false
-			config[guildId].exitChat.id = '0'
-			config[guildId].levelUpChat = {}
-			config[guildId].levelUpChat.situation = false
-			config[guildId].levelUpChat.id = '0'
-			config[guildId].description = 'none' 
-			config[guildId].commands = {}
-			config[guildId].events = {}
-			config[guildId].pass = false
+			message.channel.send('Seguinte, só uma pessoa mandando mensagem aqui, caso um bot ou outra pessoa mande mensagem, por gentileza, digite \'sair\' e começe novamente para não dar erro')
+			config[guildId] = {
+				'description': 'none',
+				'parentGuild': {
+					'situation': false,
+					'id': 0,
+				},
+				'welcomeChat': {
+					'situation': false,
+					'id': 0,
+				},
+				'exitChat': {
+					'situation': false,
+					'id': 0,
+				},
+				'levelUpChat': {
+					'situation': false,
+					'id': 0,
+				},
+				'commands': {},
+				'events': {},
+				'pass': false,
+			}
 
 			const commandFiles = await fs.readdir('src/commands')
 				.catch(err => console.log('[#commandFiles]', err))
@@ -89,8 +95,10 @@ module.exports = {
 						return message.channel.send('Configuraremos depois então :3')
 					}
 					if(config[response]) {
-						config[guildId].parentGuild.id = response
-						config[guildId].parentGuild.situation = true
+						config[guildId].parentGuild = {
+							'situation': true,
+							'id': response,
+						}
 						testConfig1 = false
 					} else {
 						verifyMessage = await message.channel.send('Id errado, tente novamente')
@@ -141,8 +149,10 @@ module.exports = {
 				verifyMessage = await message.channel.send('Qual canal da entrada?')
 				responseMessage = await verifyMessage.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
 				response = responseMessage.first().content.toLowerCase()
-				config[guildId].welcomeChat.id = response
-				config[guildId].welcomeChat.situation = true
+				config[guildId].welcomeChat = {
+					'situation': true,
+					'id': response,
+				}
 			} else if(response == 'não'
 			|| response == 'nao'
 			|| response == 'n'
@@ -162,8 +172,10 @@ module.exports = {
 				verifyMessage = await message.channel.send('Qual canal de saida?')
 				responseMessage = await verifyMessage.channel.awaitMessages(msg => msg.content, { max: 1, min: 1, time: 60000 })
 				response = responseMessage.first().content.toLowerCase()
-				config[guildId].exitChat.id = response
-				config[guildId].exitChat.situation = true
+				config[guildId].exitChat = {
+					'situation': true,
+					'id': response,
+				}
 			} else if(response == 'não'
 			|| response == 'nao'
 			|| response == 'n'
